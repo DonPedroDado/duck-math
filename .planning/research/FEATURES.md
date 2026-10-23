@@ -38,7 +38,7 @@ Missing any of these makes the product feel broken or amateur.
 | Minimal text per step (1-2 short sentences) | Project constraint | Low | Enforce via authoring limits/lint, not goodwill |
 | Concept index / category navigation (High School; University reserved) | Need to find things | Low | |
 | Shareable deep links (URL per concept, ideally per step) | Teachers share links; public site with no accounts | Low-Med | Step-in-URL is cheap and highly valued |
-| Language switcher + all strings externalized (EN + IT) | Project requirement | Med | Includes math-label text, aria text, step text; number formatting (decimal comma in Italian) |
+| Language switcher + all strings externalized (EN + DE) | Project requirement | Med | Includes math-label text, aria text, step text; number formatting (decimal comma in German) |
 | Fast load, works offline-ish/static hosting, no login | Public, no accounts | Low-Med | Avoid heavy bundles per concept; lazy-load modules |
 | Keyboard operability and aria labels for controls | Baseline accessibility | Med | Full a11y of a canvas visual is hard; do controls + text alternatives at minimum |
 | Angle units toggle (deg/rad) for trig | Explicit requirement | Low | Persist choice across the concept |
@@ -57,7 +57,7 @@ Where Duck Math can beat Desmos/GeoGebra (no narrative) and Brilliant/3B1B (no f
 | Linked multi-view panels (unit circle <-> sine graph <-> readouts moving in sync) | The essence of trig understanding | Med | One state, several renderers |
 | Authoring API for fast new concept modules (declarative steps, typed controls, i18n keys) | Long-term velocity priority | High | Not user-facing but the key differentiator for the project's growth |
 | Inline scrubbable numbers in step text (Nicky Case style) | Text becomes a control | Med | Keep optional; good for transformations (a, h, k) |
-| Translation-aware layout (text expands in Italian/German without breaking visuals) | Quality multilingual | Low-Med | |
+| Translation-aware layout (text expands in German without breaking visuals) | Quality multilingual | Low-Med | |
 | Per-step "try this" micro-prompts that move the visual to an interesting state | Guides exploration | Low | Cheap and high value |
 | Reduced-motion mode and pause-on-drag behavior | Polish, accessibility | Low | |
 | Presenter/classroom-friendly mode (large type, hide chrome) | Teachers will project it | Low-Med | Defer unless cheap |
@@ -172,7 +172,7 @@ Pitfalls: h can't be exactly 0 (clamp, show "h -> 0" gracefully with a numerical
 
 Prioritize:
 1. Shell: state-driven step player where every step is live and draggable (the core value); tween, scrub, reset.
-2. Color-bound math rendering, dark theme, touch-friendly drag, i18n EN+IT.
+2. Color-bound math rendering, dark theme, touch-friendly drag, i18n EN+DE.
 3. Transformations module first (simplest, exercises the whole shell) or trig first if wanting to prove the hardest case early; recommended order for the roadmap: Transformations (proves the shell cheaply) -> Trig (stress test linked views) -> Limits -> Derivatives.
 
 Defer:

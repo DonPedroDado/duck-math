@@ -98,7 +98,7 @@ src/
 │   │   │   ├── steps.ts      # step list (targets, layers, captionKey)
 │   │   │   └── locales/
 │   │   │       ├── en.json
-│   │   │       └── it.json
+│   │   │       └── de.json
 │   │   ├── functions-transformations/
 │   │   ├── limits/
 │   │   └── derivatives/
@@ -230,12 +230,12 @@ export function resolve<P>(steps: Step<P>[], t: number, base: P) {
 
 ### Pattern 6: Text and i18n pipeline
 
-**What:** Shell strings in a `shell` namespace; each concept owns a namespace (its `locales/*.json`), loaded lazily by `ConceptPage`. Steps reference `captionKey` only. Math in text: strings may contain inline TeX and `{{value}}` interpolations fed from `derive()`. Number formatting uses `Intl.NumberFormat(locale)` (decimal comma in Italian). Fallback: English; a dev-time script (or test) checks every concept has every key in every enabled language and warns about orphan keys.
+**What:** Shell strings in a `shell` namespace; each concept owns a namespace (its `locales/*.json`), loaded lazily by `ConceptPage`. Steps reference `captionKey` only. Math in text: strings may contain inline TeX and `{{value}}` interpolations fed from `derive()`. Number formatting uses `Intl.NumberFormat(locale)` (decimal comma in German). Fallback: English; a dev-time script (or test) checks every concept has every key in every enabled language and warns about orphan keys.
 **Trade-offs:** i18next brings plural/interpolation for free; a custom ~50 line loader is enough if only simple interpolation is needed. Recommend i18next (plus `react-i18next`) for maturity, with namespaces per concept. Keep TeX itself language-neutral and put only words in translations.
 
 ### Pattern 7: Routing and deep links
 
-**What:** Routes: `/` (catalog), `/:lang?/:category/:conceptId`, optional `?step=derive-3` or hash `#step-3` for sharing a specific step. Language either in path prefix (`/it/...`, better for SEO and sharing) or stored preference.
+**What:** Routes: `/` (catalog), `/:lang?/:category/:conceptId`, optional `?step=derive-3` or hash `#step-3` for sharing a specific step. Language either in path prefix (`/de/...`, better for SEO and sharing) or stored preference.
 **Static hosting concern:** SPA fallback required (`404.html` copy of `index.html` on GitHub Pages, `_redirects` on Netlify/Cloudflare). Hash routing avoids this at the cost of ugly URLs and no SEO. Recommend history routing plus fallback. If SEO matters later, prerender the catalog and concept shells (vite-ssg or similar); not needed for v1.
 
 ## Data Flow
@@ -287,7 +287,7 @@ State is per concept instance (created on mount, destroyed on unmount); there is
 
 1. **Scaffold and tooling:** Vite + TS + lint rules for the import boundary + Vitest + deploy pipeline to a public static URL on day one (proves static deployment early, and catches SPA fallback issues).
 2. **Contract + registry + routing + shell stub:** `defineConcept`, glob registry, catalog, a trivial "hello" concept to prove "add a concept without touching the shell".
-3. **i18n skeleton:** shell namespace and per-concept namespace loading, en + it, language switcher, the missing-key check. Done before real content so no text is ever hard-coded.
+3. **i18n skeleton:** shell namespace and per-concept namespace loading, en + de, language switcher, the missing-key check. Done before real content so no text is ever hard-coded.
 4. **Scene host + core primitives:** `SceneHost/Coords`, `Axes`, `Point`, `Segment`, `DraggablePoint` with constraint, `Label`, `TeX` with color tokens, palette and dark theme.
 5. **Param store + step resolver + player (the state model):** pure `resolve` with unit tests; ownership/override rules; transport UI (play/pause/step/scrub); keyboard shortcuts; reduced-motion handling.
 6. **First real concept: Trig / Unit Circle.** This forces `UnitCircle`, `AngleArc`, tan/sec segments, and the unrolling into a sine graph (`FunctionPlot`, `Trace`). Treat it as the contract's acceptance test; adjust the contract here, while there is only one consumer.

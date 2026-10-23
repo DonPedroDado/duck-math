@@ -60,7 +60,7 @@ Notes: set `trust` narrowly (a function that allows only `\htmlClass`/`\htmlData
 ### Internationalization
 | Technology | Version | Purpose | Why |
 |------------|---------|---------|-----|
-| **Paraglide JS (`@inlang/paraglide-js`)** | 2.29.x | Compile-time i18n, tree-shaken typed message functions, URL-based locale | Messages compile to typed functions (`m.trig_step3_title()`), so a missing key is a compile error. URL locale strategy (`/it/...`) is the right fit for static prerendering and SEO. Supports Vite plus SvelteKit. Peers `vite >=5`. (MEDIUM-HIGH: package is actively released, modified 2026-10-19; check the SvelteKit integration docs because the API changed between v1 and v2, and the old `@inlang/paraglide-sveltekit` package no longer resolves on npm) |
+| **Paraglide JS (`@inlang/paraglide-js`)** | 2.29.x | Compile-time i18n, tree-shaken typed message functions, URL-based locale | Messages compile to typed functions (`m.trig_step3_title()`), so a missing key is a compile error. URL locale strategy (`/de/...`) is the right fit for static prerendering and SEO. Supports Vite plus SvelteKit. Peers `vite >=5`. (MEDIUM-HIGH: package is actively released, modified 2026-10-19; check the SvelteKit integration docs because the API changed between v1 and v2, and the old `@inlang/paraglide-sveltekit` package no longer resolves on npm) |
 | Message convention | n/a | `concept.<id>.step.<n>.text` keys, one JSON file per locale per concept if the tooling allows, otherwise prefixed keys in a shared file | Concepts stay self-contained. Formulas contain no language, so they are shared. Only labels and step text are translated. |
 | svelte-i18n 4.0.1 | fallback | Runtime store-based i18n | Mature but untyped and runtime-loaded. Use it only if Paraglide blocks on the Kit 3 integration. |
 
@@ -69,7 +69,7 @@ Watch: numbers and decimal separators (`0,5` vs `0.5`) should go through `Intl.N
 ### Content Authoring / Concept Module API
 | Technology | Version | Purpose | Why |
 |------------|---------|---------|-----|
-| Convention: `src/concepts/<category>/<id>/` containing `index.ts` (manifest), `Scene.svelte`, `steps.ts`, `messages/{en,it}.json` | n/a | Shared module contract | Shell uses `import.meta.glob('/src/concepts/*/*/index.ts')` to build the catalog and routes. Adding a concept = adding a folder (no shell edits). Define the contract as a TS interface (`ConceptModule { id, category, title key, params schema, steps[], Scene }`). |
+| Convention: `src/concepts/<category>/<id>/` containing `index.ts` (manifest), `Scene.svelte`, `steps.ts`, `messages/{en,de}.json` | n/a | Shared module contract | Shell uses `import.meta.glob('/src/concepts/*/*/index.ts')` to build the catalog and routes. Adding a concept = adding a folder (no shell edits). Define the contract as a TS interface (`ConceptModule { id, category, title key, params schema, steps[], Scene }`). |
 | Zod (optional) | 4.x | Validate manifests at build | Optional safety net for contributors. |
 
 ### Infrastructure

@@ -23,7 +23,7 @@ A student opens a concept and, through guided animated steps they can also grab 
 - [ ] Minimal explanatory text alongside each step (not textbook-length)
 - [ ] Math rendered properly (formulas, colored terms that match the visual)
 - [ ] 3Blue1Brown-inspired look: dark background, smooth animation, color-coded math
-- [ ] Multilingual: all UI and concept text translatable (architecture supports multiple languages from day one; e.g. English + Italian)
+- [ ] Multilingual: all UI and concept text translatable (architecture supports multiple languages from day one; English + German)
 - [ ] Publicly deployed website, no accounts required
 
 **Concept: Trigonometry & the Unit Circle (High School)**
@@ -62,7 +62,8 @@ A student opens a concept and, through guided animated steps they can also grab 
 - **Interaction**: Visuals must render live in the browser and be manipulable at any step — rules out pre-rendered video as the primary medium.
 - **Tech stack**: Python preferred but not required — best tool for interactive visuals wins.
 - **Content**: Text minimal; the visual carries the explanation.
-- **i18n**: Text must be externalized from day one to support multiple languages.
+- **i18n**: English + German. Text externalized from day one; layouts must survive longer German strings.
+- **Look**: It must look beautiful — polished 3Blue1Brown-style visuals are part of the core value, not an afterthought. User will try it and give feedback on problems.
 
 ## Key Decisions
 
@@ -73,6 +74,10 @@ A student opens a concept and, through guided animated steps they can also grab 
 | Code-per-concept modules with shared API | User wants a stable architecture with concepts added constantly | — Pending |
 | v1 = 4 HS concepts (Trig, Functions, Limits, Derivatives) | Proves the modular design across several concepts | — Pending |
 | Multilingual from start | Retrofitting i18n is expensive | — Pending |
+| TypeScript + SvelteKit (static), own SVG primitives, KaTeX | Research: only JS/TS gives live 60fps drag on a static site; runes suit per-frame updates | — Pending |
+| Languages: English + German (German: sin/cos/tan, decimal comma) | User choice | — Pending |
+| Visual polish is a priority ("make it pretty") | User will test hands-on and report problems iteratively | — Pending |
+| Limits v1 includes infinite limits & limits at infinity, no ε-δ | User: no proofs/uni rigor yet | — Pending |
 
 ## Evolution
 

@@ -133,25 +133,25 @@ Framework phase (add the lint/budget) and enforced in every concept phase; check
 ### Pitfall 6: i18n retrofitted late; text baked into canvas/SVG/images/animation timing
 
 **What goes wrong:**
-Labels such as "sin θ", "undefined", "Drag me", angle names drawn directly in canvas or SVG strings in code; Italian text is ~15-30% longer and overflows; sentence concatenation (`"Angle is " + x`) breaks word order in other languages; decimal separators (`0.5` vs `0,5`), degree formatting and plural forms are hardcoded; LaTeX contains words (`\text{...}`) in English; RTL ignored (probably acceptable to defer, but layout should not forbid it). Animations are timed to the English reading speed.
+Labels such as "sin θ", "undefined", "Drag me", angle names drawn directly in canvas or SVG strings in code; German text is ~15-30% longer and overflows; sentence concatenation (`"Angle is " + x`) breaks word order in other languages; decimal separators (`0.5` vs `0,5`), degree formatting and plural forms are hardcoded; LaTeX contains words (`\text{...}`) in English; RTL ignored (probably acceptable to defer, but layout should not forbid it). Animations are timed to the English reading speed.
 
 **Why it happens:**
 "Math is language-neutral" thinking: formulas look universal so strings are inlined. Canvas text is hard to translate and lay out.
 
 **How to avoid:**
 - All user-visible strings via keys from day one, including aria-labels, button titles, tooltip text, document title, and in-diagram labels. ICU message format (or an equivalent) for placeholders/plurals; never concatenate fragments.
-- Number formatting through `Intl.NumberFormat` with the locale; math notation itself may stay locale-neutral but note regional differences (Italian uses `tg` for tangent traditionally, `sen` for sine in Italian school texts; and decimal comma). Make function-name display a localizable token. (MEDIUM confidence; confirm conventions with the Italian-speaking user, who is the best authority.)
+- Number formatting through `Intl.NumberFormat` with the locale; math notation itself may stay locale-neutral but note regional differences (German uses sin/cos/tan, `sen` for sine in German school texts; and decimal comma). Make function-name display a localizable token. (MEDIUM confidence; confirm conventions with the German-speaking user, who is the best authority.)
 - Prefer HTML/SVG text overlays over canvas text so layout, fonts and screen readers work; if canvas is used, route labels through a localized text layer.
 - Do not put words in LaTeX strings; keep `\text{}` out or wrap by key.
 - Provide a pseudo-localization mode (long strings with accents, e.g., +40% length) in dev, and require layout to survive it.
-- Locale files per concept namespace, lazily loaded; CI check for missing keys between en and it.
+- Locale files per concept namespace, lazily loaded; CI check for missing keys between en and de.
 - Don't tie step durations to caption length; keep captions user-paced (no auto-advance on timers).
 
 **Warning signs:**
-String literals in scene code; `${}` concatenation of phrases; missing-key fallbacks appearing in the UI; labels clipped in Italian; a "translations later" ticket.
+String literals in scene code; `${}` concatenation of phrases; missing-key fallbacks appearing in the UI; labels clipped in German; a "translations later" ticket.
 
 **Phase to address:**
-Phase 1 (shell + i18n scaffolding + lint); verified with Italian at every concept phase.
+Phase 1 (shell + i18n scaffolding + lint); verified with German at every concept phase.
 
 ---
 
@@ -393,7 +393,7 @@ Stack decision (before Phase 1 planning); reiterate in the roadmap constraints.
 |---------|------|------------|
 | KaTeX `trust: true` with translatable strings | HTML/URL injection via locale files or future community translations | Restricted trust function (allow only specific commands); review locale PRs; no user-supplied TeX |
 | `innerHTML` for captions with markup | XSS if translations ever come from outside | Render rich text via a safe mini-markup or component placeholders |
-| Third-party scripts/CDN fonts | Supply chain, privacy for minors, GDPR (Italian/EU audience) | Self-host assets; pin dependency versions; no trackers by default |
+| Third-party scripts/CDN fonts | Supply chain, privacy for minors, GDPR (German/EU audience) | Self-host assets; pin dependency versions; no trackers by default |
 | Public deploy without CSP | Weak defense in depth | Set a strict CSP on static host (verify host capability) |
 
 Risk level overall: LOW (static public site, no accounts), so keep this cheap but do the above.
@@ -420,7 +420,7 @@ Risk level overall: LOW (static public site, no accounts), so keep this cheap bu
 - [ ] **Units:** verify degrees/radians toggle never changes the underlying geometry; labels agree; angles beyond 360 and negative.
 - [ ] **Limits:** verify hole, jump, and infinite cases; value at a is not used for the limit; one-sided approach is distinguishable.
 - [ ] **Derivative:** verify h -> 0 animation has no NaN and no noise; derivative graph matches analytic.
-- [ ] **i18n:** verify Italian layout with +40% pseudo-localization, number formatting, aria-labels, page title, no English leftovers in diagram labels.
+- [ ] **i18n:** verify German layout with +40% pseudo-localization, number formatting, aria-labels, page title, no English leftovers in diagram labels.
 - [ ] **Keyboard:** verify the whole concept completes without a mouse; focus visible on dark background.
 - [ ] **Reduced motion:** verify with OS setting on; no autoplay, steps still understandable.
 - [ ] **Color-blindness:** verify in a CVD simulator; each color has a non-color cue.
@@ -456,7 +456,7 @@ Suggested phase names assume roadmap: P1 Shell + core primitives + Trig vertical
 | 3 Over-engineered framework | P1 scope control; P2 extraction | Concept #1 ships before API is generalized; framework LOC < concept LOC |
 | 4 Math edge cases | P1 math core; P-Trig, P3, P4 per-concept | Unit tests on asymptotes, wraparound, holes, h->0; visual checklist |
 | 5 Text creep | P1 (lint) enforced in all | Caption budget lint passes |
-| 6 i18n retrofit | P1 | en/it key parity in CI; pseudo-localization screenshot |
+| 6 i18n retrofit | P1 | en/de key parity in CI; pseudo-localization screenshot |
 | 7 Mobile/touch | P1 primitives; every concept | Real-device checklist |
 | 8 Performance | P1 spike + budget; P-Trig heavy scenes; P4 | Frame-time budget measured on mid Android |
 | 9 LaTeX cost/color-linking | P1 formula component + tokens; P-Trig | No hex outside tokens; profile shows no per-frame typesetting |
@@ -479,7 +479,7 @@ Suggested phase names assume roadmap: P1 Shell + core primitives + Trig vertical
 - KaTeX docs (`trust`, `\htmlClass`, MathML output) -- to be re-verified via Context7/official docs when the stack is chosen.
 - Project context: /home/duck_ruler28/Documents/opt/Duck_Math/.planning/PROJECT.md
 
-Items needing validation later (LOW/MEDIUM): exact KaTeX trust/htmlClass API and bundle sizes; Pyodide download size; Italian trig notation conventions (sen/tg) -- ask the user; concrete frame-time budget numbers; CSP support on the chosen host.
+Items needing validation later (LOW/MEDIUM): exact KaTeX trust/htmlClass API and bundle sizes; Pyodide download size; German notation: sin/cos/tan (decided); concrete frame-time budget numbers; CSP support on the chosen host.
 
 ---
 *Pitfalls research for: interactive animated math-visualization web app*

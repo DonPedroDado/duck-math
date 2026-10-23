@@ -18,7 +18,7 @@ Top risks (all engine-level, expensive to retrofit): two writers to one value (a
 
 1. **Framework → SvelteKit 3 + Svelte 5 (runes)**, not React. ARCHITECTURE's React code was illustrative; fine-grained reactivity (runes) fits per-frame param updates; Mafs (React-only) is plot-centric and stale (last release Mar 2025). Translation: Scene → `Scene.svelte`; store → `$state` params with `$derived` for `derive()`; router → SvelteKit file routing + prerender (removes SPA-fallback issue); i18next → Paraglide JS 2. Runner-up: React + Vite + Mafs.
 2. **First concept → Trig first** (user's stated first concept, and the hardest case — validates the contract while it has one consumer). Split: Phase 1 ships a thin playable trig slice; Phase 2 completes the heavy moments. Transformations follows and drives contract extraction.
-3. **Smaller:** Paraglide compiles messages — keep per-concept folder convention + en/it parity check (fallback: prefixed keys or `svelte-i18n`). GSAP (or ~150-line own tweener) is only a *time source*; pure `resolve()` produces params. Start contract minimal `{ meta, params, steps, Scene, messages }`; add `derive`/`layers`/`draggable` when two concepts need them.
+3. **Smaller:** Paraglide compiles messages — keep per-concept folder convention + en/de parity check (fallback: prefixed keys or `svelte-i18n`). GSAP (or ~150-line own tweener) is only a *time source*; pure `resolve()` produces params. Start contract minimal `{ meta, params, steps, Scene, messages }`; add `derive`/`layers`/`draggable` when two concepts need them.
 
 ## Key Findings
 
@@ -27,7 +27,7 @@ TypeScript ~6.0 (Kit 3 peers `^6`; don't use 7.x yet) · Svelte 5.57 · SvelteKi
 **Avoid:** Manim, Pyodide, Streamlit/NiceGUI/Reflex, Motion Canvas, Remotion, MathJax for live formulas, TS 7.
 
 ### Features (FEATURES.md)
-- **Table stakes:** instant touch-friendly drag; step player (play/pause/step/scrub/reset); live visuals at every step; color-matched KaTeX + live numeric readouts; global semantic palette; deg/rad toggle; deep links with stable step IDs; EN + IT; baseline accessibility.
+- **Table stakes:** instant touch-friendly drag; step player (play/pause/step/scrub/reset); live visuals at every step; color-matched KaTeX + live numeric readouts; global semantic palette; deg/rad toggle; deep links with stable step IDs; EN + DE; baseline accessibility.
 - **Differentiators:** blended guided+live mode (the core); formula↔geometry hover linking; ungraded "predict, then reveal"; trace trails; linked multi-view panels; scrubbable derivation moments (unroll, secant→tangent); authoring ergonomics.
 - **Defer:** ε-δ window, limits at infinity, presenter mode, inline scrubbable prose, persistence beyond language & deg/rad, University category, 3D.
 - **Never:** quizzes/scoring, accounts, long prose, video, voiceover, general calculator, gamification, ads.
@@ -45,14 +45,14 @@ Dependency flow `shell → core`; `concepts → primitives, core, math`; nothing
 
 ## Implications for Roadmap
 
-1. **Foundation + Trig vertical slice** — scaffold, lint boundaries, tests, public deploy day one; shell (catalog, routing, EN/IT URL locale, step deep links); engine (param store, resolver, transport); primitives + tokens; math core (`Angle`, number format, sampler); trig slice (drag point, angle arc, deg/rad, sin/cos projections, readouts, radian "wrap the radius").
+1. **Foundation + Trig vertical slice** — scaffold, lint boundaries, tests, public deploy day one; shell (catalog, routing, EN/DE URL locale, step deep links); engine (param store, resolver, transport); primitives + tokens; math core (`Angle`, number format, sampler); trig slice (drag point, angle arc, deg/rad, sin/cos projections, readouts, radian "wrap the radius").
 2. **Trig completion** — tan via similar triangles (undefined at 90°), sec/csc/cot one at a time, scrubbable unroll into sine graph with linked panels, cos as shifted sine, Pythagorean identity squares, symmetries via ghost points, special-angle snapping with exact values, free-explore step.
 3. **Functions & Transformations + contract extraction** — asymmetric base curve with landmarks; shifts (f(x+h) "input must be earlier"), stretches, reflections as sliders through 0, combined; param→term color binding; freeze `ConceptModule` contract; `create-concept` template + authoring docs.
 4. **Limits** — two-color left/right approach; hole (open vs filled dot), jump, DNE; optional infinite/oscillating; zoom; scenarios as data; dedicated edge-case checklist.
 5. **Derivatives** — local-linearity zoom; secant with rise/run triangle; secant→tangent as h→0 (switch to analytic tangent below threshold); live derivative graph; slope-sign color; small function selector. Reuses Limits' approach visual.
-6. **Polish / a11y audit / launch** — axe/Lighthouse CI, keyboard + screen-reader passes, color-blindness check, real-device touch, +40% pseudo-locale, Italian terminology review, bundle budget, per-locale SEO, CSP.
+6. **Polish / a11y audit / launch** — axe/Lighthouse CI, keyboard + screen-reader passes, color-blindness check, real-device touch, +40% pseudo-locale, German terminology review, bundle budget, per-locale SEO, CSP.
 
-**Research flags:** Phase 1 (Paraglide + Kit 3, KaTeX 0.19 `trust`/`\htmlClass`, GSAP license vs own tweener, SVG drag perf spike), Phase 2 (unroll/linked panel design, Italian trig notation), Phase 5 (local-linearity zoom). Phases 3, 4, 6: standard patterns.
+**Research flags:** Phase 1 (Paraglide + Kit 3, KaTeX 0.19 `trust`/`\htmlClass`, GSAP license vs own tweener, SVG drag perf spike), Phase 2 (unroll/linked panel design), Phase 5 (local-linearity zoom). Phases 3, 4, 6: standard patterns.
 
 ## Confidence
 
@@ -68,7 +68,7 @@ Dependency flow `shell → core`; `concepts → primitives, core, math`; nothing
 - Confirm Svelte choice with user (fallback React + Vite + Mafs).
 - Read actual GSAP license terms (own tweener as fallback).
 - Verify KaTeX restricted `trust` API and Paraglide + SvelteKit 3 integration.
-- Italian conventions (`sen`/`tg` vs `sin`/`tan`, decimal comma) — make function names localizable tokens.
+- Languages are English + German (German: sin/cos/tan, decimal comma, ~30% longer strings).
 - Set real perf/bundle budgets from Phase 1 spike (8 ms/frame, 200 KB gz are placeholders).
 - Playtest "keep dragged value" vs "re-stage at next step" (default: re-stage, per-step opt-out).
 - Confirm host (Cloudflare Pages / Netlify); prerender makes per-locale URLs + SEO nearly free.
@@ -78,4 +78,4 @@ Dependency flow `shell → core`; `concepts → primitives, core, math`; nothing
 
 - Primary: npm registry checks 2026-10-24 (svelte 5.57.2, @sveltejs/kit 3.1.0, vite 8.3.5, katex 0.19.1, gsap 3.15.0, @inlang/paraglide-js 2.29.1, d3 7.9.0, vitest 4.0.0, playwright 1.64.1, mafs 0.21.0, jsxgraph 1.14.1, manim-web 0.40.0); `.planning/PROJECT.md`.
 - Secondary: STACK.md, FEATURES.md, ARCHITECTURE.md, PITFALLS.md in this folder; WCAG 2.x, ARIA slider pattern, Pointer Events, IEEE-754.
-- Needs validation: GSAP license, Pyodide size, manim-web fit, KaTeX 0.19 `trust`, Paraglide + Kit, Italian notation.
+- Needs validation: GSAP license, Pyodide size, manim-web fit, KaTeX 0.19 `trust`, Paraglide + Kit.
