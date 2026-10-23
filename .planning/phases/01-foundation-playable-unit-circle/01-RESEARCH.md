@@ -459,14 +459,19 @@ Not applicable (greenfield, no rename/migration).
 | A6 | KaTeX re-render per frame is cheap enough to avoid splitting number spans | Code Examples | Low: split fallback described |
 | A7 | Nothing in Safari/iOS breaks pointer-capture drag with `touch-action:none` on SVG | Pitfall 8 | Medium: cannot test iOS here; flag for user device check |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Intro/angle point teleport.** UI-SPEC: `intro` rests at 60°; `angle` "sweeps from 0 to 60° if not moved". That teleports 60->0 at the step boundary and when scrubbing.
    - Recommendation: drop the point sweep. In `angle`, only the arc draws on 0->θ and the label fades in; the point never moves from timeline. Then θ has zero timeline writers and PLAY-05 is trivially safe. Needs a quick user/planner OK because it deviates from UI-SPEC step table.
+   - RESOLVED: user plan-time decision PD-1 — step `angle` does not sweep the point; only the arc and θ label draw on 0->θ; the timeline never writes θ (`view()` has no θ field). Implemented in 01-04 (view.ts, tested) and 01-05 (Scene).
 2. **What does Reset do?** UI-SPEC: "step 1 at t=0, staged". With staged = end of step (Pitfall 7), `t=0` shows an empty scene (before axes fade in). Recommend Reset = `t = e_0` (intro staged) so it matches the initial/deep-link state; scrubbing to t=0 still shows the empty start.
+   - RESOLVED: user plan-time decision PD-2 — Reset = intro staged (`t = stepEnd(0)`), paused. Implemented in the 01-04 player reducer (tested) and the 01-05 Reset button.
 3. **Staged definition for tick click/prev** (see Pitfall 7). Recommend staged = `e_i`.
+   - RESOLVED: user plan-time decision PD-2 — staged = step end (`t = stepEnd(i)`) for deep links, tick clicks, Prev and initial load. Implemented in 01-04 (`goto`/`prev`/`initialState`).
 4. **`radian` step when θ is small or the user dragged to ~0.** Copy count `floor(theta)` is 0 at θ<1 rad. Recommend the radian animation always plays a full 1 rad copy + continuation up to π independent of θ (a scene-intrinsic demonstration), and the fading copies in `radians` are cosmetic; this avoids the animation depending on user state. Confirm with the planner.
+   - RESOLVED: user plan-time decision PD-3 — the radian animation always lays copies up to π (3 full + 0.14 remainder), independent of θ; `radianCopies` takes no θ. Implemented in 01-09.
 5. **Safari/iOS testing** is not possible on this machine; user feedback loop is expected.
+   - RESOLVED: covered by the manual checkpoint in 01-10 Task 3 (step 7: drag on a real iPhone in Safari) and listed under Manual-Only Verifications in 01-VALIDATION.md; automated touch coverage uses CDP touch events in Chromium (01-10 Task 1).
 
 ## Environment Availability
 

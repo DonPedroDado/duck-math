@@ -27,7 +27,30 @@ Duck Math ships as a static, public SvelteKit site where every phase ends with s
   4. Dragging during playback pauses it cleanly with no jumps; moving to another step re-stages the scene predictably.
   5. Visitor can switch between English and German via /en/ and /de/ URLs, numbers use a decimal comma in German, a link to a specific step opens at that step, and the build fails if a text key is missing in either language.
   6. On a phone or tablet, student can drag the point, use the player controls, and the layout fits the small screen without overflow (EN and DE).
-**Plans**: TBD
+**Plans**: 10 plans (6 waves)
+
+Plans:
+**Wave 1**
+- [ ] 01-01-PLAN.md — Walking skeleton: Kit 3 + Paraglide scaffold, tokens theme, registry catalog, concept page with draggable point and live locale readout
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 01-02-PLAN.md — Deploy to GitHub Pages at dm.ducksoft.ai (workflow, CNAME, checklist, user setup checkpoint)
+- [ ] 01-03-PLAN.md — i18n guardrails: build-failing key/placeholder check, static root language redirect, EN/DE URL e2e
+- [ ] 01-04-PLAN.md — Player engine (TDD): pure timeline, player reducer with keep/restage, rAF clock, unit-circle view schedule, arc geometry
+- [ ] 01-06-PLAN.md — Catalog visual cards (live + soon + University) and localized 404
+
+**Wave 3** *(blocked on Wave 2 completion)*
+- [ ] 01-05-PLAN.md — Guided player UI: player bar + scrubber, captions, responsive layout, intro/angle visuals, drag pauses playback
+
+**Wave 4** *(blocked on Wave 3 completion)*
+- [ ] 01-07-PLAN.md — Shareable step URLs: shallow-routing sync, Back/Forward, deep-link e2e
+- [ ] 01-08-PLAN.md — Cos/sin projections with color-matched KaTeX formulas and live locale readouts
+
+**Wave 5** *(blocked on Wave 4 completion)*
+- [ ] 01-09-PLAN.md — Radian moment (peel, bend, repeat to π) and deg/rad toggle
+
+**Wave 6** *(blocked on Wave 5 completion)*
+- [ ] 01-10-PLAN.md — Phone/touch hardening, 3B1B polish (glow, halo, pulse), visual review checkpoint
 **UI hint**: yes
 
 ### Phase 2: Trigonometry Complete
@@ -100,7 +123,7 @@ Duck Math ships as a static, public SvelteKit site where every phase ends with s
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Playable Unit Circle | 0/TBD | Not started | - |
+| 1. Foundation & Playable Unit Circle | 0/10 | Planned | - |
 | 2. Trigonometry Complete | 0/TBD | Not started | - |
 | 3. Functions & Transformations + Module Contract | 0/TBD | Not started | - |
 | 4. Limits | 0/TBD | Not started | - |
