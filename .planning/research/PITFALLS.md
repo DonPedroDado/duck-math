@@ -140,7 +140,7 @@ Labels such as "sin θ", "undefined", "Drag me", angle names drawn directly in c
 
 **How to avoid:**
 - All user-visible strings via keys from day one, including aria-labels, button titles, tooltip text, document title, and in-diagram labels. ICU message format (or an equivalent) for placeholders/plurals; never concatenate fragments.
-- Number formatting through `Intl.NumberFormat` with the locale; math notation itself may stay locale-neutral but note regional differences (German uses sin/cos/tan, `sen` for sine in German school texts; and decimal comma). Make function-name display a localizable token. (MEDIUM confidence; confirm conventions with the German-speaking user, who is the best authority.)
+- Number formatting through `Intl.NumberFormat` with the locale (German: decimal comma). Function names stay sin/cos/tan in both English and German. German strings run ~30% longer — layouts must survive it.
 - Prefer HTML/SVG text overlays over canvas text so layout, fonts and screen readers work; if canvas is used, route labels through a localized text layer.
 - Do not put words in LaTeX strings; keep `\text{}` out or wrap by key.
 - Provide a pseudo-localization mode (long strings with accents, e.g., +40% length) in dev, and require layout to survive it.
