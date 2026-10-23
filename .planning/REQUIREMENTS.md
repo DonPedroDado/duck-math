@@ -125,11 +125,66 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (filled by roadmap) | | |
+| SHELL-01 | Phase 1 | Pending |
+| SHELL-02 | Phase 1 | Pending |
+| SHELL-03 | Phase 1 | Pending |
+| SHELL-04 | Phase 1 | Pending |
+| SHELL-05 | Phase 1 | Pending |
+| PLAY-01 | Phase 1 | Pending |
+| PLAY-02 | Phase 1 | Pending |
+| PLAY-03 | Phase 1 | Pending |
+| PLAY-04 | Phase 1 | Pending |
+| PLAY-05 | Phase 1 | Pending |
+| PLAY-06 | Phase 1 | Pending |
+| MATH-01 | Phase 1 | Pending |
+| MATH-02 | Phase 1 | Pending |
+| I18N-01 | Phase 1 | Pending |
+| I18N-02 | Phase 1 | Pending |
+| I18N-03 | Phase 1 | Pending |
+| I18N-04 | Phase 1 | Pending |
+| TRIG-01 | Phase 1 | Pending |
+| TRIG-02 | Phase 1 | Pending |
+| TRIG-03 | Phase 1 | Pending |
+| TRIG-04 | Phase 2 | Pending |
+| TRIG-05 | Phase 2 | Pending |
+| TRIG-06 | Phase 2 | Pending |
+| TRIG-07 | Phase 2 | Pending |
+| TRIG-08 | Phase 2 | Pending |
+| TRIG-09 | Phase 2 | Pending |
+| MATH-03 | Phase 2 | Pending |
+| MATH-04 | Phase 2 | Pending |
+| MATH-05 | Phase 2 | Pending |
+| MATH-06 | Phase 2 | Pending |
+| PLAY-07 | Phase 2 | Pending |
+| FUNC-01 | Phase 3 | Pending |
+| FUNC-02 | Phase 3 | Pending |
+| FUNC-03 | Phase 3 | Pending |
+| FUNC-04 | Phase 3 | Pending |
+| FUNC-05 | Phase 3 | Pending |
+| MOD-01 | Phase 3 | Pending |
+| MOD-02 | Phase 3 | Pending |
+| MOD-03 | Phase 3 | Pending |
+| LIM-01 | Phase 4 | Pending |
+| LIM-02 | Phase 4 | Pending |
+| LIM-03 | Phase 4 | Pending |
+| LIM-04 | Phase 4 | Pending |
+| LIM-05 | Phase 4 | Pending |
+| LIM-06 | Phase 4 | Pending |
+| DER-01 | Phase 5 | Pending |
+| DER-02 | Phase 5 | Pending |
+| DER-03 | Phase 5 | Pending |
+| DER-04 | Phase 5 | Pending |
+| DER-05 | Phase 5 | Pending |
+| DER-06 | Phase 5 | Pending |
+| A11Y-01 | Phase 1 | Pending |
+| A11Y-02 | Phase 6 | Pending |
+| A11Y-03 | Phase 6 | Pending |
+| A11Y-04 | Phase 6 | Pending |
 
 **Coverage:**
 - v1 requirements: 55 total
-- Mapped to phases: 0 (pending roadmap)
+- Mapped to phases: 55
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-10-24*
