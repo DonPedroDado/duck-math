@@ -389,17 +389,22 @@ export function fmtRatio(fn: Fn, theta: number, locale: string, undefinedText: s
 | A4 | Reusing `radian.ts` for the unroll is unnecessary (per-sample lerp chosen instead) | Pattern 6 | CONTEXT canonical text says "reusable for the unroll"; if user expects the identical peel feel, a bent-arc variant is a bounded alternative |
 | A5 | Keyboard focus on live-rendered formula terms can be deferred to Phase 6 | Pattern 7 | If MATH-03 UAT expects keyboard focus linking now, extra work |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **tan predict "point fixed at about 80°" vs "θ kept within concept" (D-06).**
    - Known: UI-SPEC says the point is fixed at ~80° during the `tan` predict; default θ is 35°; θ policy is `keep`.
    - Unclear: whether the student's dragged θ must be preserved.
    - Recommendation: `tan` step defaults restage θ to 80° on entry (`stepDefaults`), later steps keep. Document as an intentional exception; the predict only works at a steep angle where tan is dramatically off-screen.
+   - RESOLVED (Plan 05): `stepDefaults` restages θ to 80° (PREDICT_THETA) only when entering `tan` from an earlier step; every other step keeps θ (POLICY theta 'restage' with no theta key otherwise). Plan 09 keeps this for sec/csc/cot/all.
 2. **Does the point sweep in `sine`/`periodic` move `user.theta` or only a view-derived point?**
    - Recommendation: view-derived sweep point while `!moved`; user θ after first interaction; `restage moved:false` on step change for this concept. Needs UAT feel check.
+   - RESOLVED (Plans 06 + 07): only a view-derived sweep point moves. `displayTheta(v, user)` in display.ts (Plan 06, unit-tested) is the single-writer rule, and Plan 07 restages `moved: false` on every step change (POLICY moved 'restage'). Plan 10 extends it to periodic. The feel is still subject to the Plan 12 visual review.
 3. **Do `explore`/`periodic` at 4π let the circle drag select the turn?** Recommend no (circle writes θ in turn 1). Confirm.
+   - RESOLVED (Plan 10): no turn selection. A circle drag writes `snapTheta(t)` in turn 1; only the graph TrackPoint writes unwrapped θ in [0, v.range].
 4. **Squares flip side when crossing axes** (Pattern 9). Recommend outward + short crossfade; user may prefer a fixed side.
+   - RESOLVED (Plan 08): squares stay outward, and a square that must flip sides crossfades over ±2° (the `fade` field in squares.ts, unit-tested). Still subject to the Plan 12 visual review; the fallback is a fixed side.
 5. **Chip jump animation owner.** A 400ms tween writing a user-owned param is a second writer; recommend a page-level tween that cancels on any drag/`oninteract`.
+   - RESOLVED (Plan 11): there is one module-level tween in trig-identities/jump.ts (`startJump`/`cancelJump`). Every DragPoint/GuessMarker `oninteract` calls `cancelJump()` first, and reduced motion applies the target at once.
 
 ## Environment Availability
 

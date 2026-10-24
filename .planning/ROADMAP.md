@@ -68,7 +68,29 @@ Plans:
   3. Student sees sin^2 + cos^2 = 1 visually and symmetries via reflected ghost points.
   4. Student can snap to 30/45/60 degrees and see exact values derived from the special triangles.
   5. Hovering a formula term highlights the matching visual element and vice versa; selected steps pause with a "predict, then reveal" prompt before showing the answer.
-**Plans**: TBD
+**Plans**: 12 plans
+Plans:
+**Wave 1**
+- [ ] 02-01-PLAN.md — Generic concept route, ConceptRuntime contract, ConceptPage; unit circle migrated
+- [ ] 02-02-PLAN.md — Phase 2 tokens (contrast + color-blind check), multi-file i18n, shared strings
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 02-03-PLAN.md — Formula-to-visual hover linking (MATH-03) on the Unit circle
+- [ ] 02-04-PLAN.md — Predict pause/reveal in the player, guess marker, Next-concept link
+- [ ] 02-06-PLAN.md — Stage infrastructure: two-panel geometry, PanelPair, CircleBase, 'below' layout, unroll/display math
+
+**Wave 3** *(blocked on Wave 2 completion)*
+- [ ] 02-05-PLAN.md — Tangent & friends: intro + tan step with predict, clipping, undefined
+- [ ] 02-07-PLAN.md — Sine & cosine graphs: intro, unroll, sine predict + sweep
+- [ ] 02-08-PLAN.md — Identities: triangle, squares, three symmetries with predict
+
+**Wave 4** *(blocked on Wave 3 completion)*
+- [ ] 02-09-PLAN.md — Tangent & friends: sec, csc, cot, all six
+- [ ] 02-10-PLAN.md — Sine & cosine graphs: trail, cosine, periodic, explore, graph drag
+- [ ] 02-11-PLAN.md — Identities: snap, exact values, special-triangle derivations, chips
+
+**Wave 5** *(blocked on Wave 4 completion)*
+- [ ] 02-12-PLAN.md — Trig journey e2e and visual sign-off
 **UI hint**: yes
 
 ### Phase 3: Functions & Transformations + Module Contract
