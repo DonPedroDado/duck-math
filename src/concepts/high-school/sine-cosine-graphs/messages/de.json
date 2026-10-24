@@ -14,5 +14,12 @@
 	"sg_step_sine_caption": "Die Höhe des Punkts zeichnet die Welle sin θ.",
 	"sg_step_sine_predict_caption": "Wo erreicht die Sinuskurve ihren Höchstwert?",
 	"sg_step_sine_answer_caption": "Der Höchstwert liegt bei π/2, wo der Punkt am höchsten ist.",
-	"sg_guess_valuetext": "Vermutung bei x = {value}"
+	"sg_guess_valuetext": "Vermutung bei x = {value}",
+	"sg_step_cosine_title": "Kosinuskurve",
+	"sg_step_cosine_caption": "Der Kosinus ist dieselbe Welle, um π/2 verschoben.",
+	"sg_step_periodic_title": "Wiederholung",
+	"sg_step_periodic_caption": "Nach einer Umdrehung beginnt die Welle von vorn.",
+	"sg_step_explore_title": "Erkunden",
+	"sg_step_explore_caption": "Zieh den Punkt auf dem Kreis oder auf der Kurve.",
+	"sg_graph_point_aria": "Punkt auf der Sinuskurve"
 }

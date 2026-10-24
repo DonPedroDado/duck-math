@@ -14,5 +14,12 @@
 	"sg_step_sine_caption": "The height of the point draws the wave sin θ.",
 	"sg_step_sine_predict_caption": "Where does the sine wave reach its peak?",
 	"sg_step_sine_answer_caption": "The peak is at π/2, where the point is highest.",
-	"sg_guess_valuetext": "Guess at x = {value}"
+	"sg_guess_valuetext": "Guess at x = {value}",
+	"sg_step_cosine_title": "Cosine wave",
+	"sg_step_cosine_caption": "Cosine is the same wave, shifted by π/2.",
+	"sg_step_periodic_title": "Repeats",
+	"sg_step_periodic_caption": "After one turn the wave starts over.",
+	"sg_step_explore_title": "Explore",
+	"sg_step_explore_caption": "Drag the point on the circle or on the curve.",
+	"sg_graph_point_aria": "Point on the sine curve"
 }
