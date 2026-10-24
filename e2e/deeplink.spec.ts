@@ -76,3 +76,16 @@ test('reload keeps the step', async ({ page }) => {
 	await page.reload();
 	await expect(concept(page)).toHaveAttribute('data-step', 'cosine');
 });
+
+test('prerendered step pages carry canonical and hreflang links', async ({ request }) => {
+	const head = async (p: string) => (await (await request.get(p)).text()).replace(/\s+/g, ' ');
+	for (const p of [U, U + 'intro/']) {
+		const h = await head(p);
+		expect(h).toContain('rel="canonical" href="/en/high-school/unit-circle/"');
+		expect(h).toContain('hreflang="de" href="/de/high-school/unit-circle/"');
+	}
+	const h = await head('/de/high-school/unit-circle/sine/');
+	expect(h).toContain('rel="canonical" href="/de/high-school/unit-circle/sine/"');
+	expect(h).toContain('hreflang="en" href="/en/high-school/unit-circle/sine/"');
+	expect(h).toContain('hreflang="x-default" href="/en/high-school/unit-circle/sine/"');
+});

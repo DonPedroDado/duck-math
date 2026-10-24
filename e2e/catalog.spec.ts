@@ -16,7 +16,7 @@ test('en catalog shows live and soon cards', async ({ page }) => {
 		const s = soon.nth(i);
 		await expect(s).toContainText(name);
 		await expect(s).toContainText('Soon');
-		await expect(s).toHaveAttribute('aria-disabled', 'true');
+		await expect(s).not.toHaveAttribute('aria-disabled');
 		await expect(s.locator('a')).toHaveCount(0);
 		await expect(s.locator('xpath=ancestor::a')).toHaveCount(0);
 		await expect(s.locator('svg').first()).toBeVisible();

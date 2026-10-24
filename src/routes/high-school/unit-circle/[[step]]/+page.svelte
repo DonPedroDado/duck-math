@@ -3,9 +3,9 @@
 	import { pushState, replaceState } from '$app/navigation';
 	import { page } from '$app/state';
 	import { m } from '#lib/paraglide/messages.js';
-	import { getLocale, localizeHref } from '#lib/paraglide/runtime.js';
+	import { baseLocale, getLocale, localizeHref, locales } from '#lib/paraglide/runtime.js';
 	import type { PlayerAction } from '#lib/engine/player.ts';
-	import { stepPath } from '#concepts/high-school/unit-circle/urls.ts';
+	import { UC_BASE, stepPath } from '#concepts/high-school/unit-circle/urls.ts';
 	import { Player } from '#lib/engine/clock.svelte.ts';
 	import { restage } from '#lib/engine/player.ts';
 	import ConceptLayout from '#lib/player/ConceptLayout.svelte';
@@ -79,10 +79,21 @@
 		sine: () => m.uc_step_sine_title()
 	};
 	const stepTitle = (i: number) => TITLES[STEP_IDS[i]]();
+
+	// /unit-circle/ and /unit-circle/intro/ render the same page: the bare concept URL is canonical for step 0.
+	const canonicalPath = $derived.by(() => {
+		const id = STEP_IDS[player.state.step];
+		return id === STEP_IDS[0] ? UC_BASE : stepPath(id);
+	});
 </script>
 
 <svelte:head>
 	<title>{m.shell_page_title({ title: m.uc_title() })}</title>
+	<link rel="canonical" href={localizeHref(canonicalPath)} />
+	{#each locales as l (l)}
+		<link rel="alternate" hreflang={l} href={localizeHref(canonicalPath, { locale: l })} />
+	{/each}
+	<link rel="alternate" hreflang="x-default" href={localizeHref(canonicalPath, { locale: baseLocale })} />
 </svelte:head>
 
 <div

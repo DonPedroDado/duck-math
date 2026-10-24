@@ -6,7 +6,8 @@
 	const Thumb = $derived(item.thumbnail);
 </script>
 
-<div data-testid="soon-card" aria-disabled="true" class="card">
+<!-- Not interactive (no link, no role), so no aria-disabled: the visible "Soon" badge conveys the status. -->
+<div data-testid="soon-card" class="card">
 	<div class="content">
 		<div class="thumb"><Thumb /></div>
 		<h3>{item.title()}</h3>
