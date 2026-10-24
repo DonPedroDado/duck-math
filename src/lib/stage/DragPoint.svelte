@@ -11,7 +11,8 @@
 		onchange,
 		ondragstart,
 		ondragend,
-		scale = 1
+		scale = 1,
+		glow
 	}: {
 		cx: number;
 		cy: number;
@@ -23,9 +24,13 @@
 		ondragstart?: () => void;
 		ondragend?: () => void;
 		scale?: number;
+		glow?: string;
 	} = $props();
 
 	let dragging = $state(false);
+	let hover = $state(false);
+	let focused = $state(false);
+	const lit = $derived(hover || focused || dragging);
 	const px = $derived(cx + R * Math.cos(theta));
 	const py = $derived(cy - R * Math.sin(theta));
 	const deg = $derived((((theta * 180) / Math.PI) % 360 + 360) % 360);
@@ -64,7 +69,19 @@
 	}
 </script>
 
-<g data-testid="drag-point" data-theta={theta.toFixed(4)}>
+<g data-testid="drag-point" data-theta={theta.toFixed(4)} filter={lit ? glow : undefined}>
+	<circle
+		data-testid="point-halo"
+		class="halo"
+		class:lit
+		class:dragging
+		cx={px}
+		cy={py}
+		r="18"
+		fill="var(--c-point)"
+		pointer-events="none"
+		opacity={scale > 0 ? 1 : 0}
+	/>
 	<circle cx={px} cy={py} r={10 * scale} fill="var(--c-point)" stroke="var(--bg)" stroke-width="2" pointer-events="none" />
 	<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 	<circle
@@ -86,5 +103,28 @@
 		onpointercancel={end}
 		onlostpointercapture={end}
 		onkeydown={key}
+		onpointerenter={() => (hover = true)}
+		onpointerleave={() => (hover = false)}
+		onfocus={(e) => (focused = e.currentTarget.matches(':focus-visible'))}
+		onblur={() => (focused = false)}
 	/>
 </g>
+
+<style>
+	.halo {
+		transform-box: fill-box;
+		transform-origin: center;
+		transform: scale(0.555);
+		fill-opacity: 0;
+		transition:
+			transform var(--dur-ui) var(--ease-out),
+			fill-opacity var(--dur-ui) var(--ease-out);
+	}
+	.halo.lit {
+		transform: scale(1);
+		fill-opacity: 0.15;
+	}
+	.halo.dragging {
+		fill-opacity: 0.25;
+	}
+</style>

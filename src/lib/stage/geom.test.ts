@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { arcPath, polar } from './geom';
+import { arcPath, nudge, polar } from './geom';
 
 describe('geom', () => {
 	it('polar', () => {
@@ -20,5 +20,17 @@ describe('geom', () => {
 	});
 	it('full circle has two arcs', () => {
 		expect((arcPath(0, 0, 10, 0, 2 * Math.PI).match(/A/g) ?? []).length).toBe(2);
+	});
+	it('nudge', () => {
+		const a = nudge(0, 0, 0, 0);
+		expect(a[0]).toBeCloseTo(0, 9);
+		expect(a[1]).toBeCloseTo(-26, 9);
+		const b = nudge(10, 0, 0, 0);
+		expect(b[0]).toBeCloseTo(26, 9);
+		expect(b[1]).toBeCloseTo(0, 9);
+		expect(nudge(40, 0, 0, 0)).toEqual([40, 0]);
+		const c = nudge(3, 4, 0, 0, 10);
+		expect(c[0]).toBeCloseTo(6, 9);
+		expect(c[1]).toBeCloseTo(8, 9);
 	});
 });

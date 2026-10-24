@@ -114,3 +114,71 @@ test.describe('desktop header', () => {
 		await expect(page.locator('header').getByRole('link', { name: 'Catalog' })).toHaveCount(0);
 	});
 });
+
+test.describe('polish', () => {
+	test.beforeEach(({}, testInfo) => {
+		test.skip(testInfo.project.name !== 'desktop', 'run once');
+	});
+	test.use({ viewport: { width: 1280, height: 800 } });
+
+	const filtered = (page: Page) =>
+		page.evaluate(() => document.querySelectorAll('[data-testid=stage] [filter]').length);
+
+	test('stroke glow only while animating', async ({ page }) => {
+		await page.goto('/en/high-school/unit-circle/angle/');
+		await page.getByTestId('player-play').click();
+		await page.waitForTimeout(500);
+		const n = await filtered(page);
+		expect(n).toBeGreaterThanOrEqual(1);
+		expect(n).toBeLessThanOrEqual(2);
+		await expect(page.getByTestId('concept')).toHaveAttribute('data-playing', 'false', {
+			timeout: 12000
+		});
+		await page.waitForTimeout(1000);
+		expect(await filtered(page)).toBe(0);
+	});
+
+	test('point halo on hover', async ({ page }) => {
+		await page.goto('/en/high-school/unit-circle/angle/');
+		const p = await pointAt(page, 60);
+		const scaleOf = () =>
+			page.getByTestId('point-halo').evaluate((el) => {
+				const t = getComputedStyle(el).transform;
+				return t === 'none' ? 1 : new DOMMatrix(t).a;
+			});
+		const before = await scaleOf();
+		await page.mouse.move(p.x, p.y);
+		await page.waitForTimeout(400);
+		expect(await scaleOf()).toBeGreaterThan(before);
+		expect(await filtered(page)).toBeGreaterThanOrEqual(1);
+	});
+
+	test('cos label nudged away from point', async ({ page }) => {
+		await page.goto('/en/high-school/unit-circle/cosine/');
+		await expect(page.getByTestId('concept')).toHaveAttribute('data-playing', 'false', {
+			timeout: 12000
+		});
+		const p = await pointAt(page, 60);
+		const q = await pointAt(page, 2);
+		await page.mouse.move(p.x, p.y);
+		await page.mouse.down();
+		await page.mouse.move(q.x, q.y, { steps: 8 });
+		await page.mouse.up();
+		await expect(page.getByTestId('theta-readout')).toHaveText(/^(1°|2°|3°|0[.,]0[2-6])$/);
+		const lb = (await page.getByTestId('cos-label').boundingBox())!;
+		const pb = (await page.getByTestId('drag-point').locator('circle').first().boundingBox())!;
+		const d = Math.hypot(
+			lb.x + lb.width / 2 - (pb.x + pb.width / 2),
+			lb.y + lb.height / 2 - (pb.y + pb.height / 2)
+		);
+		expect(d).toBeGreaterThanOrEqual(25);
+	});
+
+	test('play pulse', async ({ page }) => {
+		await page.goto('/en/high-school/unit-circle/');
+		await expect(page.getByTestId('player-play')).toHaveAttribute('data-pulse', 'true');
+		await page.emulateMedia({ reducedMotion: 'reduce' });
+		await page.goto('/en/high-school/unit-circle/');
+		await expect(page.getByTestId('player-play')).not.toHaveAttribute('data-pulse', 'true');
+	});
+});

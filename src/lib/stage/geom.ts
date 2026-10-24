@@ -19,3 +19,13 @@ export function arcPath(cx: number, cy: number, r: number, a0: number, a1: numbe
 	const sf = sweep > 0 ? 0 : 1;
 	return `M${f(x0)},${f(y0)}A${f(r)},${f(r)} 0 ${large} ${sf} ${f(x1)},${f(y1)}`;
 }
+
+/** Push a label away from the point so they are at least `min` px apart. */
+export function nudge(lx: number, ly: number, px: number, py: number, min = 26): [number, number] {
+	const dx = lx - px;
+	const dy = ly - py;
+	const d = Math.hypot(dx, dy);
+	if (d >= min) return [lx, ly];
+	if (d < 1e-9) return [px, py - min];
+	return [px + (dx / d) * min, py + (dy / d) * min];
+}

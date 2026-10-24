@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { m } from '#lib/paraglide/messages.js';
 	import Icon from '#lib/icons/Icon.svelte';
 	import Scrubber from './Scrubber.svelte';
@@ -6,7 +7,7 @@
 	import { totalDuration, type StepDef } from '#lib/engine/timeline.ts';
 
 	let {
-		state,
+		state: ps,
 		steps,
 		stepTitle,
 		dispatch
@@ -17,9 +18,13 @@
 		dispatch: (a: PlayerAction) => void;
 	} = $props();
 
+	let pulse = $state(false);
+	onMount(() => {
+		pulse = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+	});
 	const last = $derived(steps.length - 1);
 	const total = $derived(totalDuration(steps));
-	const playLabel = $derived(state.playing ? m.player_pause() : m.player_play());
+	const playLabel = $derived(ps.playing ? m.player_pause() : m.player_play());
 </script>
 
 <div class="bar" role="toolbar" aria-label={m.player_controls()}>
@@ -30,7 +35,7 @@
 			data-testid="player-reset"
 			aria-label={m.player_reset()}
 			title={m.player_reset()}
-			disabled={state.step === 0 && isStaged(steps, state) && !state.playing}
+			disabled={ps.step === 0 && isStaged(steps, ps) && !ps.playing}
 			onclick={() => dispatch({ type: 'reset' })}><Icon name="reset" /></button
 		>
 		<button
@@ -39,18 +44,23 @@
 			data-testid="player-prev"
 			aria-label={m.player_prev()}
 			title={m.player_prev()}
-			disabled={state.step === 0}
+			disabled={ps.step === 0}
 			onclick={() => dispatch({ type: 'prev' })}><Icon name="prev" /></button
 		>
 		<button
 			type="button"
 			class="btn play"
 			data-testid="player-play"
-			data-playing={state.playing}
+			data-playing={ps.playing}
+			data-pulse={pulse}
 			aria-label={playLabel}
 			title={playLabel}
-			onclick={() => dispatch({ type: 'toggle' })}
-			><Icon name={state.playing ? 'pause' : 'play'} /></button
+			onanimationend={() => (pulse = false)}
+			onclick={() => {
+				pulse = false;
+				dispatch({ type: 'toggle' });
+			}}
+			><Icon name={ps.playing ? 'pause' : 'play'} /></button
 		>
 		<button
 			type="button"
@@ -58,14 +68,14 @@
 			data-testid="player-next"
 			aria-label={m.player_next()}
 			title={m.player_next()}
-			disabled={state.step === last}
+			disabled={ps.step === last}
 			onclick={() => dispatch({ type: 'next' })}><Icon name="next" /></button
 		>
 		<Scrubber
-			t={state.t}
+			t={ps.t}
 			{total}
 			{steps}
-			step={state.step}
+			step={ps.step}
 			{stepTitle}
 			onseek={(t) => dispatch({ type: 'seek', t })}
 			ongoto={(i) => dispatch({ type: 'goto', step: i })}
@@ -130,6 +140,30 @@
 		height: 48px;
 		background: var(--accent);
 		color: var(--accent-ink);
+	}
+	.btn.play {
+		position: relative;
+	}
+	.btn.play[data-pulse='true']::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		border-radius: 999px;
+		pointer-events: none;
+		animation: pulse 1.2s var(--ease-out) 1;
+	}
+	@keyframes pulse {
+		from {
+			box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 60%, transparent);
+		}
+		to {
+			box-shadow: 0 0 0 14px transparent;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.btn.play[data-pulse='true']::after {
+			animation: none;
+		}
 	}
 	@media (min-width: 1024px) {
 		.bar {

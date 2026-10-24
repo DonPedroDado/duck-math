@@ -1,12 +1,19 @@
 <script lang="ts">
 	import { fmt } from '#lib/engine/format.ts';
-	import { polar } from '#lib/stage/geom.ts';
+	import { nudge, polar } from '#lib/stage/geom.ts';
 	import { SYM } from './notation.ts';
 	import { radianCopies } from './radian.ts';
 	import type { UCView } from './view.ts';
 
-	let { v, cx, cy, R, locale }: { v: UCView; cx: number; cy: number; R: number; locale: string } =
-		$props();
+	let {
+		v,
+		cx,
+		cy,
+		R,
+		locale,
+		theta = 0
+	}: { v: UCView; cx: number; cy: number; R: number; locale: string; theta?: number } = $props();
+	const [tx, ty] = $derived(polar(cx, cy, R, theta));
 
 	const copies = $derived(radianCopies(v.radian, v.copiesDim));
 	const scr = (p: [number, number]): [number, number] => [cx + p[0] * R, cy - p[1] * R];
@@ -36,8 +43,8 @@
 		'stroke-width': 3,
 		'paint-order': 'stroke'
 	};
-	const [ox, oy] = $derived(polar(cx, cy, 1.18 * R, 0.5));
-	const [px, py] = $derived(polar(cx, cy, 1.18 * R, Math.PI));
+	const [ox, oy] = $derived(nudge(...polar(cx, cy, 1.18 * R, 0.5), tx, ty));
+	const [px, py] = $derived(nudge(...polar(cx, cy, 1.18 * R, Math.PI), tx, ty));
 </script>
 
 {#each copies as c (c.j)}

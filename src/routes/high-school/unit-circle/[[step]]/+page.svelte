@@ -56,6 +56,15 @@
 			});
 		}
 	});
+	let glowing = $state(false);
+	$effect(() => {
+		if (player.state.playing) {
+			glowing = true;
+			return;
+		}
+		const id = setTimeout(() => (glowing = false), 600);
+		return () => clearTimeout(id);
+	});
 	const v = $derived(view(player.state.t, user));
 	onDestroy(() => player.destroy());
 
@@ -83,8 +92,11 @@
 >
 	<ConceptLayout>
 		{#snippet stage()}
+			<svelte:boundary>
 			<Scene
 				{v}
+				{glowing}
+				stepId={STEP_IDS[player.state.step]}
 				title={stepTitle(player.state.step)}
 				theta={user.theta}
 				moved={user.moved}
@@ -94,6 +106,13 @@
 					user.moved = true;
 				}}
 			/>
+			{#snippet failed()}
+				<div class="scene-error" role="alert">
+					<p>{m.error_scene_body()}</p>
+					<button type="button" onclick={() => location.reload()}>{m.error_scene_cta()}</button>
+				</div>
+			{/snippet}
+			</svelte:boundary>
 		{/snippet}
 		{#snippet panel()}
 			<Panel
@@ -114,3 +133,28 @@
 		{/snippet}
 	</ConceptLayout>
 </div>
+
+<style>
+	.scene-error {
+		aspect-ratio: 1;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: var(--sp-md);
+		padding: var(--sp-lg);
+		text-align: center;
+		background: var(--bg);
+		color: var(--text);
+	}
+	.scene-error button {
+		min-height: var(--target);
+		padding: 0 var(--sp-lg);
+		border: 0;
+		border-radius: var(--radius-card);
+		background: var(--accent);
+		color: var(--accent-ink);
+		font-weight: var(--fw-semibold);
+		cursor: pointer;
+	}
+</style>
