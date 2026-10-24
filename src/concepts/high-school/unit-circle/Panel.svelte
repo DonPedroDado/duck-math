@@ -52,8 +52,10 @@
 </div>
 <div class="readout" style="opacity: {v.readout * morph}" aria-hidden={v.readout === 0}>
 	<span aria-hidden="true">{SYM.theta} {shownUnit === 'rad' ? SYM.approx : SYM.eq}</span>
-	<output data-testid="theta-readout" data-unit={shownUnit}
-		>{shownUnit === 'rad' ? fmtRad(theta, locale) : fmtDeg(theta, locale)}</output
+	<!-- Plain element, not <output>: <output> is an implicit live region (role=status) and would
+	     re-announce every drag/arrow step on top of the slider's aria-valuetext. -->
+	<span class="value" data-testid="theta-readout" data-unit={shownUnit}
+		>{shownUnit === 'rad' ? fmtRad(theta, locale) : fmtDeg(theta, locale)}</span
 	>
 	{#if shownUnit === 'rad'}<span aria-hidden="true">{SYM.rad}</span>{/if}
 </div>
@@ -108,7 +110,7 @@
 		min-height: calc(4 * 1.5em);
 		animation: fade var(--dur-ui) var(--ease-out);
 	}
-	.readout output {
+	.readout .value {
 		animation: fade var(--dur-ui) var(--ease-out);
 	}
 	.readout {
