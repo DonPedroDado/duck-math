@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { spawnSync } from 'node:child_process';
 // @ts-expect-error plain JS module
-import { checkMessages } from './check-i18n.mjs';
+import { checkMessages, loadPatternCatalogs } from './check-i18n.mjs';
 
 const words = (n: number) => Array.from({ length: n }, (_, i) => `w${i}`).join(' ');
 const cli = (...args: string[]) =>
@@ -78,5 +78,23 @@ describe('CLI', () => {
 		const r = cli('--dir', 'scripts/fixtures/i18n-caption-long');
 		expect(r.status).toBe(1);
 		expect(r.stderr).toContain('caption too long in en');
+	});
+});
+
+describe('loadPatternCatalogs', () => {
+	const pat = (d: string) => `scripts/fixtures/i18n-multi/${d}/{locale}.json`;
+	it('merges keys from several files', () => {
+		const { catalogs, errors } = loadPatternCatalogs([pat('a'), pat('b')], ['en', 'de']);
+		expect(errors).toEqual([]);
+		expect(Object.keys(catalogs.en).sort()).toEqual(['a_one', 'b_two']);
+		expect(checkMessages(catalogs)).toEqual([]);
+	});
+	it('reports duplicate keys across files', () => {
+		const { errors } = loadPatternCatalogs([pat('a'), pat('dup')], ['en', 'de']);
+		expect(errors.some((e: string) => e.startsWith('duplicate key in en: a_one'))).toBe(true);
+	});
+	it('reports a missing file', () => {
+		const { errors } = loadPatternCatalogs([pat('nope')], ['en']);
+		expect(errors[0]).toContain('missing file');
 	});
 });
