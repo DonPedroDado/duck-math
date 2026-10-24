@@ -28,6 +28,33 @@ export function loadCatalogs(dir = 'messages', locales) {
 	return out;
 }
 
+export function loadPatternCatalogs(patterns, locales) {
+	const catalogs = {};
+	const errors = [];
+	for (const locale of locales) {
+		const merged = {};
+		const origin = {};
+		for (const pattern of patterns) {
+			const file = pattern.replace('{locale}', locale);
+			if (!fs.existsSync(file)) {
+				errors.push(`missing file ${file}`);
+				continue;
+			}
+			const { $schema, ...rest } = JSON.parse(fs.readFileSync(file, 'utf8'));
+			for (const [k, v] of Object.entries(rest)) {
+				if (k in merged) {
+					errors.push(`duplicate key in ${locale}: ${k} (${origin[k]} | ${file})`);
+					continue;
+				}
+				merged[k] = v;
+				origin[k] = file;
+			}
+		}
+		catalogs[locale] = merged;
+	}
+	return { catalogs, errors };
+}
+
 export function checkMessages(catalogs) {
 	const errors = [];
 	const locales = Object.keys(catalogs);
@@ -71,14 +98,24 @@ export function checkMessages(catalogs) {
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
 	const i = process.argv.indexOf('--dir');
-	const dir = i > -1 ? process.argv[i + 1] : 'messages';
-	if (!dir || dir.startsWith('--')) {
+	if (i > -1 && (!process.argv[i + 1] || process.argv[i + 1].startsWith('--'))) {
 		console.error('usage: node scripts/check-i18n.mjs [--dir <messages-dir>]');
 		process.exit(2);
 	}
-	const settingsLocales = JSON.parse(fs.readFileSync('project.inlang/settings.json', 'utf8')).locales;
-	const catalogs = loadCatalogs(dir, settingsLocales);
-	const errors = checkMessages(catalogs);
+	const settings = JSON.parse(fs.readFileSync('project.inlang/settings.json', 'utf8'));
+	const settingsLocales = settings.locales;
+	let catalogs;
+	let loadErrors = [];
+	if (i > -1) {
+		catalogs = loadCatalogs(process.argv[i + 1], settingsLocales);
+	} else {
+		const pp = settings['plugin.inlang.messageFormat'].pathPattern;
+		({ catalogs, errors: loadErrors } = loadPatternCatalogs(
+			Array.isArray(pp) ? pp : [pp],
+			settingsLocales
+		));
+	}
+	const errors = [...loadErrors, ...checkMessages(catalogs)];
 	if (errors.length) {
 		for (const e of errors) console.error(e);
 		process.exit(1);

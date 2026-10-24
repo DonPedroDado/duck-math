@@ -13,6 +13,21 @@
 .t-radian {
 	color: var(--c-radian);
 }
+.t-tan {
+	color: var(--c-tan);
+}
+.t-sec {
+	color: var(--c-sec);
+}
+.t-csc {
+	color: var(--c-csc);
+}
+.t-cot {
+	color: var(--c-cot);
+}
+.t-guess {
+	color: var(--c-guess);
+}
 .tex .katex {
 	font-size: 20px;
 	color: var(--text-strong);

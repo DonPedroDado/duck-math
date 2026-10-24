@@ -14,6 +14,11 @@
 	--c-cos: #4FC3F7;
 	--c-sin: #FF8A65;
 	--c-radian: #B39DDB;
+	--c-tan: #F57FBC;
+	--c-sec: #A8D957;
+	--c-csc: #8F9EFF;
+	--c-cot: #E9A23B;
+	--c-guess: #F0F3F8;
 	--accent: #5EE0B5;
 	--accent-ink: #0b1a14;
 
@@ -24,6 +29,13 @@
 	--ease-math: cubic-bezier(0.65, 0, 0.35, 1);
 	--dur-ui: 150ms;
 	--dur-draw: 800ms;
+	--ghost-opacity: 0.55;
+	--dim-opacity: 0.25;
+	--trail-tail: 0.25;
+	--trail-dim: 0.35;
+	--sq-fill: 0.28;
+	--dur-link: 120ms;
+	--dur-snap: 220ms;
 
 	--sp-xs: 4px;
 	--sp-sm: 8px;
