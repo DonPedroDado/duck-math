@@ -80,9 +80,9 @@ Plans:
 - [x] 02-06-PLAN.md — Stage infrastructure: two-panel geometry, PanelPair, CircleBase, 'below' layout, unroll/display math
 
 **Wave 3** *(blocked on Wave 2 completion)*
-- [ ] 02-05-PLAN.md — Tangent & friends: intro + tan step with predict, clipping, undefined
-- [ ] 02-07-PLAN.md — Sine & cosine graphs: intro, unroll, sine predict + sweep
-- [ ] 02-08-PLAN.md — Identities: triangle, squares, three symmetries with predict
+- [x] 02-05-PLAN.md — Tangent & friends: intro + tan step with predict, clipping, undefined
+- [x] 02-07-PLAN.md — Sine & cosine graphs: intro, unroll, sine predict + sweep
+- [x] 02-08-PLAN.md — Identities: triangle, squares, three symmetries with predict
 
 **Wave 4** *(blocked on Wave 3 completion)*
 - [ ] 02-09-PLAN.md — Tangent & friends: sec, csc, cot, all six
