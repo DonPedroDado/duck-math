@@ -53,7 +53,7 @@ Plans:
 - [x] 01-10-PLAN.md — Phone/touch hardening, 3B1B polish (glow, halo, pulse), visual review checkpoint
 
 **Gap closure**
-- [ ] 01-11-PLAN.md — Keyboard theta wrap (CR-01), keyboard pauses/dismisses hint (WR-03), toggle bound to real unit (WR-02), tick stale requirements
+- [x] 01-11-PLAN.md — Keyboard theta wrap (CR-01), keyboard pauses/dismisses hint (WR-03), toggle bound to real unit (WR-02), tick stale requirements
 **UI hint**: yes
 
 ### Phase 2: Trigonometry Complete
