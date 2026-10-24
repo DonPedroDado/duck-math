@@ -1,8 +1,18 @@
 export const TAU = 2 * Math.PI;
 
+const WRAP_EPS = 1e-9;
+
+/** Wrap into [0, TAU). Values within WRAP_EPS of TAU (or of 0) become exactly 0, so float drift never yields TAU - ulp. */
 export function norm(theta: number): number {
 	const r = ((theta % TAU) + TAU) % TAU;
-	return r === TAU ? 0 : r;
+	return r < WRAP_EPS || TAU - r < WRAP_EPS ? 0 : r;
+}
+
+/** Keyboard step on the integer-degree grid: round current angle to whole degrees, add deltaDeg, wrap mod 360, convert once. */
+export function keyStep(theta: number, deltaDeg: number): number {
+	const cur = Math.round((norm(theta) * 180) / Math.PI);
+	const next = (((cur + deltaDeg) % 360) + 360) % 360;
+	return (next * Math.PI) / 180;
 }
 
 export interface Derived {
