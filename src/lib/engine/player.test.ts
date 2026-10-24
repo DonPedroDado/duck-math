@@ -1,15 +1,15 @@
 import { describe, it, expect } from 'vitest';
-import { initialState, reduce, isStaged, restage, MAX_DT, type PlayerState } from './player';
-import { stepStart, stepEnd, totalDuration } from './timeline';
+import { initialState, reduce, isStaged, restage, awaiting, predictPhase, MAX_DT, type PlayerState } from './player';
+import { stepStart, stepEnd, totalDuration, type StepDef } from './timeline';
 import { STEPS, POLICY, type UCUser } from '#concepts/high-school/unit-circle/steps.ts';
 import { view } from '#concepts/high-school/unit-circle/view.ts';
 
 const S = STEPS;
-const st = (p: Partial<PlayerState>): PlayerState => ({ t: 0, step: 0, playing: false, rate: 1, ...p });
+const st = (p: Partial<PlayerState>): PlayerState => ({ t: 0, step: 0, playing: false, rate: 1, revealed: true, ...p });
 
 describe('player reducer', () => {
 	it('initialState is staged and paused', () => {
-		expect(initialState(S, 2)).toEqual({ t: stepEnd(S, 2), step: 2, playing: false, rate: 1 });
+		expect(initialState(S, 2)).toEqual({ t: stepEnd(S, 2), step: 2, playing: false, rate: 1, revealed: true });
 		expect(isStaged(S, initialState(S, 2))).toBe(true);
 		expect(initialState(S).t).toBe(stepEnd(S, 0));
 	});
@@ -108,5 +108,68 @@ describe('restage', () => {
 		expect(out).not.toBe(user);
 		expect(user.unit).toBe('deg');
 		expect(restage(user, POLICY, {})).toEqual(user);
+	});
+});
+
+describe('predict pause', () => {
+	const P: StepDef[] = [
+		{ id: 'a', dur: 2 },
+		{ id: 'b', dur: 4, pause: 1 },
+		{ id: 'c', dur: 2 }
+	];
+	const run = (s: PlayerState): PlayerState => {
+		for (let k = 0; k < 2000 && s.playing; k++) s = reduce(P, s, { type: 'tick', dt: 1 / 60 });
+		return s;
+	};
+	const atPause = (): PlayerState => run(reduce(P, initialState(P, 0), { type: 'next' }));
+
+	it('stops exactly at the pause point', () => {
+		const n = reduce(P, initialState(P, 0), { type: 'next' });
+		expect(n).toMatchObject({ step: 1, t: 2, playing: true, revealed: false });
+		const s = run(n);
+		expect(s.t).toBe(3);
+		expect(s.playing).toBe(false);
+		expect(awaiting(P, s)).toBe(true);
+		expect(predictPhase(P, s)).toBe('awaiting');
+	});
+	it('play / toggle / next reveal and continue', () => {
+		const s = atPause();
+		for (const type of ['play', 'toggle', 'next'] as const) {
+			expect(reduce(P, s, { type })).toMatchObject({ revealed: true, playing: true, step: 1, t: 3 });
+		}
+		expect(reduce(P, s, { type: 'reveal' })).toMatchObject({ revealed: true, playing: true, step: 1, t: 3 });
+	});
+	it('reveal when not awaiting is a no-op', () => {
+		const s = initialState(P, 0);
+		expect(reduce(P, s, { type: 'reveal' })).toBe(s);
+	});
+	it('after reveal ticks run to step end', () => {
+		const s = run(reduce(P, atPause(), { type: 'reveal' }));
+		expect(s.t).toBe(6);
+		expect(s.playing).toBe(false);
+		expect(predictPhase(P, s)).toBe('after');
+	});
+	it('seek never blocks', () => {
+		const base = initialState(P, 0);
+		const a = reduce(P, base, { type: 'seek', t: 4 });
+		expect(a.revealed).toBe(true);
+		expect(predictPhase(P, a)).toBe('after');
+		const b = reduce(P, base, { type: 'seek', t: 3 });
+		expect(b.revealed).toBe(false);
+		expect(predictPhase(P, b)).toBe('awaiting');
+		const c = reduce(P, base, { type: 'seek', t: 2.5 });
+		expect(c.revealed).toBe(false);
+		expect(predictPhase(P, c)).toBe('before');
+	});
+	it('goto / prev / initialState / reset land revealed', () => {
+		expect(reduce(P, initialState(P, 0), { type: 'goto', step: 1 })).toMatchObject({ t: 6, revealed: true });
+		expect(reduce(P, initialState(P, 2), { type: 'prev' })).toMatchObject({ step: 1, t: 6, revealed: true });
+		expect(initialState(P, 1)).toMatchObject({ t: 6, revealed: true });
+		expect(reduce(P, atPause(), { type: 'reset' }).revealed).toBe(true);
+	});
+	it('steps without pause are unaffected', () => {
+		const s = initialState(S, 1);
+		expect(predictPhase(S, s)).toBe('none');
+		expect(awaiting(S, s)).toBe(false);
 	});
 });

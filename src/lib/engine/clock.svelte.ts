@@ -3,7 +3,7 @@ import type { StepDef } from './timeline';
 
 /** rAF loop around the pure reducer. SSR-safe. */
 export class Player {
-	state = $state<PlayerState>({ t: 0, step: 0, playing: false, rate: 1 });
+	state = $state<PlayerState>({ t: 0, step: 0, playing: false, rate: 1, revealed: true });
 
 	private raf = 0;
 	private running = false;

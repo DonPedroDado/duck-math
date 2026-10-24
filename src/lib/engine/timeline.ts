@@ -3,6 +3,8 @@ import { easeCubicInOut } from 'd3-ease';
 export interface StepDef {
 	id: string;
 	dur: number;
+	/** Seconds from step start where a predict pause happens (0 < pause < dur). */
+	pause?: number;
 }
 export interface Located {
 	i: number;
