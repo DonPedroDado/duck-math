@@ -12,22 +12,21 @@ A student opens a concept and, through guided animated steps they can also grab 
 
 ### Validated
 
-(None yet — ship to validate)
+- [x] Concepts organized by category (High School now; University category reserved for later) — Validated in Phase 1: Foundation & Playable Unit Circle
+- [x] "Blended" experience: guided step-by-step animated explanation (play/pause/step/scrub) where at each step the visual stays live and draggable — Validated in Phase 1: Foundation & Playable Unit Circle
+- [x] Minimal explanatory text alongside each step (not textbook-length) — Validated in Phase 1: Foundation & Playable Unit Circle
+- [x] Math rendered properly (formulas, colored terms that match the visual) — Validated in Phase 1: Foundation & Playable Unit Circle
+- [x] 3Blue1Brown-inspired look: dark background, smooth animation, color-coded math — Validated in Phase 1: Foundation & Playable Unit Circle
+- [x] Multilingual: all UI and concept text translatable (architecture supports multiple languages from day one; English + German) — Validated in Phase 1: Foundation & Playable Unit Circle
+- [x] Publicly deployed website, no accounts required — Validated in Phase 1: Foundation & Playable Unit Circle
+- [x] sin/cos as coordinates of a point on the unit circle; angles in degrees and radians — Validated in Phase 1: Foundation & Playable Unit Circle
 
 ### Active
 
 **Platform / framework**
 - [ ] Modular concept architecture: each concept is a self-contained code module following a shared structure/API; adding a concept doesn't require touching the shell
-- [ ] Concepts organized by category (High School now; University category reserved for later)
-- [ ] "Blended" experience: guided step-by-step animated explanation (play/pause/step/scrub) where at each step the visual stays live and draggable
-- [ ] Minimal explanatory text alongside each step (not textbook-length)
-- [ ] Math rendered properly (formulas, colored terms that match the visual)
-- [ ] 3Blue1Brown-inspired look: dark background, smooth animation, color-coded math
-- [ ] Multilingual: all UI and concept text translatable (architecture supports multiple languages from day one; English + German)
-- [ ] Publicly deployed website, no accounts required
 
 **Concept: Trigonometry & the Unit Circle (High School)**
-- [ ] sin/cos as coordinates of a point on the unit circle; angles in degrees and radians
 - [ ] tan (and sec/csc/cot) shown geometrically as segments
 - [ ] Unrolling the circle into sine/cosine graphs
 - [ ] Identities: sin²+cos²=1, symmetries, special angles (30°/45°/60°)
@@ -51,6 +50,7 @@ A student opens a concept and, through guided animated steps they can also grab 
 
 ## Context
 
+- Phase 1 complete (2026-10-24): deployed SvelteKit static site at dm.ducksoft.ai with engine, guided player, EN/DE, dark theme, touch support and a draggable unit-circle concept. The module contract is not frozen yet (Phase 3).
 - Greenfield project, empty repo (initialized 2026-10-24).
 - Inspiration: 3Blue1Brown visual style; interactive feel of Desmos/GeoGebra.
 - User initially wanted Python, but said it's not strict — choose whatever produces the best live, interactive visuals. Live browser interaction outranks the language preference.
@@ -97,4 +97,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-10-24 after initialization*
+*Last updated: 2026-10-24 after Phase 1*
