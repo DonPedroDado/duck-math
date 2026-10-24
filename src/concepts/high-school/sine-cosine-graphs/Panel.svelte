@@ -38,7 +38,10 @@
 	const CAPTIONS: Record<StepId, () => string> = {
 		intro: () => m.sg_step_intro_caption(),
 		unroll: () => m.sg_step_unroll_caption(),
-		sine: () => m.sg_step_sine_caption()
+		sine: () => m.sg_step_sine_caption(),
+		cosine: () => m.sg_step_cosine_caption(),
+		periodic: () => m.sg_step_periodic_caption(),
+		explore: () => m.sg_step_explore_caption()
 	};
 </script>
 
@@ -67,6 +70,10 @@
 			{#if step >= 2}
 				<span class="sin" aria-hidden="true">{SYM.sin} {SYM.theta} =</span>
 				<span class="value" data-testid="sin-readout">{fmt(Math.sin(th), 2, locale)}</span>
+			{/if}
+			{#if step >= 3}
+				<span class="sin" aria-hidden="true">{SYM.cos} {SYM.theta} =</span>
+				<span class="value" data-testid="cos-readout">{fmt(Math.cos(th), 2, locale)}</span>
 			{/if}
 		</div>
 		<div data-testid="formula" class="formula" style="min-height: 96px">
