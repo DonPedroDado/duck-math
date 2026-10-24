@@ -51,6 +51,11 @@
 	{#snippet children({ cx, cy, R, x, y, glow })}
 		{@const ppx = x(Math.cos(theta))}
 		{@const ppy = y(Math.sin(theta))}
+		<!-- Label/hint positions depend on the Stage geometry (snippet args), so they are snippet-level consts. -->
+		{@const [lx, ly] = nudge(...polar(cx, cy, 0.38 * R, theta / 2), ppx, ppy)}
+		{@const [hx, hy] = polar(cx, cy, R + 28, theta)}
+		{@const [ax, ay] = polar(cx, cy, R + 16, theta + 0.18)}
+		{@const [bx, by] = polar(cx, cy, R + 16, theta + 0.04)}
 		<g data-layer="grid" opacity={v.axes}>
 			{#each GRID as u (u)}
 				<line x1={x(u)} y1={y(-1.5)} x2={x(u)} y2={y(1.5)} stroke="var(--grid)" stroke-width="1" />
@@ -100,25 +105,22 @@
 					stroke-width="3"
 					stroke-linecap="round"
 				/>
-				{#if true}
-					{@const [lx, ly] = nudge(...polar(cx, cy, 0.38 * R, theta / 2), ppx, ppy)}
-					<text
-						data-testid="theta-label"
-						x={lx}
-						y={ly}
-						text-anchor="middle"
-						dominant-baseline="middle"
-						fill="var(--c-angle)"
-						font-size="14"
-						font-weight="600"
-						font-style="italic"
-						font-family="KaTeX_Math, 'Times New Roman', serif"
-						paint-order="stroke"
-						stroke="var(--bg)"
-						stroke-width="3"
-						opacity={v.thetaLabel}>{SYM.theta}</text
-					>
-				{/if}
+				<text
+					data-testid="theta-label"
+					x={lx}
+					y={ly}
+					text-anchor="middle"
+					dominant-baseline="middle"
+					fill="var(--c-angle)"
+					font-size="14"
+					font-weight="600"
+					font-style="italic"
+					font-family="KaTeX_Math, 'Times New Roman', serif"
+					paint-order="stroke"
+					stroke="var(--bg)"
+					stroke-width="3"
+					opacity={v.thetaLabel}>{SYM.theta}</text
+				>
 			</g>
 		{/if}
 		<g data-layer="radian" {...gf('radian', glow.sm)}><RadianLayer {v} {cx} {cy} {R} {locale} {theta} /></g>
@@ -209,30 +211,25 @@
 			pointer-events="none"
 			style="transition: opacity 300ms var(--ease-out)"
 		>
-			{#if true}
-				{@const [hx, hy] = polar(cx, cy, R + 28, theta)}
-				{@const [ax, ay] = polar(cx, cy, R + 16, theta + 0.18)}
-				{@const [bx, by] = polar(cx, cy, R + 16, theta + 0.04)}
-				<text
-					x={hx}
-					y={hy}
-					text-anchor="middle"
-					dominant-baseline="middle"
-					fill="var(--text-muted)"
-					font-size="14"
-					font-weight="600"
-					paint-order="stroke"
-					stroke="var(--bg)"
-					stroke-width="3">{m.uc_drag_hint()}</text
-				>
-				<path
-					d="M{ax.toFixed(1)},{ay.toFixed(1)}A{R + 16},{R + 16} 0 0 1 {bx.toFixed(1)},{by.toFixed(1)}"
-					fill="none"
-					stroke="var(--text-muted)"
-					stroke-width="1.5"
-					stroke-linecap="round"
-				/>
-			{/if}
+			<text
+				x={hx}
+				y={hy}
+				text-anchor="middle"
+				dominant-baseline="middle"
+				fill="var(--text-muted)"
+				font-size="14"
+				font-weight="600"
+				paint-order="stroke"
+				stroke="var(--bg)"
+				stroke-width="3">{m.uc_drag_hint()}</text
+			>
+			<path
+				d="M{ax.toFixed(1)},{ay.toFixed(1)}A{R + 16},{R + 16} 0 0 1 {bx.toFixed(1)},{by.toFixed(1)}"
+				fill="none"
+				stroke="var(--text-muted)"
+				stroke-width="1.5"
+				stroke-linecap="round"
+			/>
 		</g>
 		<g data-layer="point">
 			<line
