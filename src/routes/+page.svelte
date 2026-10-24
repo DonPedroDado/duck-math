@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { m } from '#lib/paraglide/messages.js';
 	import { concepts, conceptsIn } from '#concepts/registry.ts';
-	import { CATEGORIES } from '#lib/catalog/categories';
-	import { UPCOMING } from '#lib/catalog/upcoming';
+	import { CATEGORIES } from '#lib/catalog/categories.ts';
+	import { UPCOMING } from '#lib/catalog/upcoming.ts';
 	import ConceptCard from '#lib/catalog/ConceptCard.svelte';
 	import SoonCard from '#lib/catalog/SoonCard.svelte';
 </script>

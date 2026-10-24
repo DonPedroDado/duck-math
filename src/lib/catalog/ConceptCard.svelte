@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { m } from '#lib/paraglide/messages.js';
 	import { localizeHref } from '#lib/paraglide/runtime.js';
-	import type { ConceptManifest } from '#concepts/types';
+	import type { ConceptManifest } from '#concepts/types.ts';
 
 	let { concept }: { concept: ConceptManifest } = $props();
 	const Thumb = $derived(concept.thumbnail);

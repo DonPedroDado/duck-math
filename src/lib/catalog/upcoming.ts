@@ -1,6 +1,6 @@
 import type { Component } from 'svelte';
 import { m } from '#lib/paraglide/messages.js';
-import type { CategoryId } from '#concepts/types';
+import type { CategoryId } from '#concepts/types.ts';
 import FunctionsThumb from './thumbs/FunctionsThumb.svelte';
 import LimitsThumb from './thumbs/LimitsThumb.svelte';
 import DerivativesThumb from './thumbs/DerivativesThumb.svelte';

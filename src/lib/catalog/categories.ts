@@ -1,5 +1,5 @@
 import { m } from '#lib/paraglide/messages.js';
-import type { CategoryId } from '#concepts/types';
+import type { CategoryId } from '#concepts/types.ts';
 
 export interface CategoryDef {
 	id: CategoryId;
