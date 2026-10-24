@@ -18,6 +18,16 @@ describe('formulaLines', () => {
 		expect(en[1]).toContain('0.87');
 		expect(formulaLines('sine', P3, 'rad', 'de')[1]).toContain('0{,}87');
 	});
+	it('cosine, periodic and explore', () => {
+		const c = formulaLines('cosine', P3, 'deg', 'en').join('');
+		expect(c).toContain('link-cos');
+		expect(c).toContain('link-sin');
+		expect(c).toContain('\\tfrac{\\pi}{2}');
+		expect(formulaLines('periodic', P3, 'deg', 'en').join('')).toContain('2\\pi');
+		const e = formulaLines('explore', P3, 'rad', 'de');
+		expect(e).toHaveLength(2);
+		expect(e.join('')).toContain('{,}');
+	});
 	it('renders for a sweep over 0..2π', () => {
 		for (const id of STEP_IDS)
 			for (let k = 0; k <= 24; k++)

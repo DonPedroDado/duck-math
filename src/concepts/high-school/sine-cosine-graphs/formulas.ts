@@ -21,5 +21,16 @@ export function formulaLines(step: StepId, th: number, unit: 'deg' | 'rad', loca
 				`y = ${cls('sin', '\\sin\\theta')}`,
 				`${cls('sin', '\\sin\\theta')} = ${cls('sin', N(Math.sin(th)))}`
 			];
+		case 'cosine':
+			return [
+				`y = ${cls('cos', '\\cos\\theta')} = ${cls('sin', '\\sin\\!\\left(\\theta + \\tfrac{\\pi}{2}\\right)')}`
+			];
+		case 'periodic':
+			return [`${cls('sin', '\\sin(\\theta + 2\\pi)')} = ${cls('sin', '\\sin\\theta')}`];
+		case 'explore':
+			return [
+				`${cls('sin', '\\sin\\theta')} = ${cls('sin', N(Math.sin(th)))}`,
+				`${cls('cos', '\\cos\\theta')} = ${cls('cos', N(Math.cos(th)))}`
+			];
 	}
 }

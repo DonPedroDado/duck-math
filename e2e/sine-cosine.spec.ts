@@ -100,3 +100,57 @@ test('phone: circle above graph, both sticky, elbow connector', async ({ browser
 	await expect(page.getByTestId('elbow-connector')).toBeVisible();
 	await ctx.close();
 });
+
+test('cosine deep link: cos curve traced and shift bracket visible', async ({ page }) => {
+	await page.goto(BASE + 'cosine/');
+	await expect(page.getByTestId('cos-curve')).toHaveAttribute('data-traced', '6.283');
+	await expect(page.getByTestId('shift-bracket')).toBeVisible();
+});
+
+test('periodic deep link: both curves over two turns, 4π tick', async ({ page }) => {
+	await page.goto(BASE + 'periodic/');
+	await expect(page.getByTestId('sin-curve')).toHaveAttribute('data-traced', '12.566');
+	await expect(page.getByTestId('cos-curve')).toHaveAttribute('data-traced', '12.566');
+	await expect(page.getByTestId('stage').getByText('4π', { exact: true })).toBeVisible();
+});
+
+test('explore: drag along the curve and on the circle, both write one theta', async ({ page }) => {
+	await page.setViewportSize({ width: 1280, height: 800 });
+	await page.goto(BASE + 'explore/');
+	const gs = page.locator('[data-testid="graph-point"] [role="slider"]');
+	await gs.focus();
+	await page.keyboard.press('Home');
+	await expect(page.getByTestId('theta-readout')).toHaveText('0°');
+	for (let k = 0; k < 6; k++) await page.keyboard.press('Shift+ArrowRight');
+	await expect(page.getByTestId('theta-readout')).toHaveText('90°');
+	await expect(page.getByTestId('drag-point')).toHaveAttribute('data-theta', '1.5708');
+	const b = (await gs.boundingBox())!;
+	const fb = (await page.getByTestId('frame-graph').boundingBox())!;
+	const x = b.x + b.width / 2;
+	const y = b.y + b.height / 2;
+	await page.mouse.move(x, y);
+	await page.mouse.down();
+	await page.mouse.move(fb.x + fb.width + 20, y, { steps: 10 });
+	await page.mouse.up();
+	await expect(page.getByTestId('theta-readout')).toHaveText('720°');
+	await expect(page.getByTestId('drag-point')).toHaveAttribute('data-theta', '0.0000');
+	await page.locator('[data-testid="drag-point"] [role="slider"]').focus();
+	await page.keyboard.press('Home');
+	await expect(page.getByTestId('theta-readout')).toHaveText('0°');
+});
+
+test('comet trail is a pure function of position under scrubbing', async ({ page }) => {
+	await page.goto(BASE + 'sine/');
+	const tailEl = page.getByTestId('comet-tail');
+	const gp = page.getByTestId('graph-point');
+	await expect(tailEl.locator('line')).toHaveCount(24);
+	const head0 = await tailEl.getAttribute('data-head');
+	expect(head0).toBe(await gp.getAttribute('data-theta'));
+	await page.getByTestId('scrubber').focus();
+	for (let k = 0; k < 4; k++) await page.keyboard.press('ArrowLeft');
+	const head1 = await tailEl.getAttribute('data-head');
+	expect(head1).toBe(await gp.getAttribute('data-theta'));
+	expect(await tailEl.locator('line').count()).toBeLessThanOrEqual(24);
+	for (let k = 0; k < 4; k++) await page.keyboard.press('ArrowRight');
+	await expect(tailEl).toHaveAttribute('data-head', head0!);
+});

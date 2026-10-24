@@ -9,7 +9,10 @@ import { view, type SGView } from './view.ts';
 const TITLES: Record<StepId, () => string> = {
 	intro: () => m.sg_step_intro_title(),
 	unroll: () => m.sg_step_unroll_title(),
-	sine: () => m.sg_step_sine_title()
+	sine: () => m.sg_step_sine_title(),
+	cosine: () => m.sg_step_cosine_title(),
+	periodic: () => m.sg_step_periodic_title(),
+	explore: () => m.sg_step_explore_title()
 };
 const stepTitle = (i: number) => TITLES[STEP_IDS[i]]();
 
