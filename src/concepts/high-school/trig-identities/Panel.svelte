@@ -2,6 +2,9 @@
 	import { m } from '#lib/paraglide/messages.js';
 	import { fmtDeg, fmtRad } from '#lib/engine/format.ts';
 	import SegmentedToggle from '#lib/ui/SegmentedToggle.svelte';
+	import ChipButton from '#lib/ui/ChipButton.svelte';
+	import { exactFor } from '#lib/trig/special.ts';
+	import { startJump } from './jump.ts';
 	import PredictPrompt from '#lib/player/PredictPrompt.svelte';
 	import Tex from '#lib/tex/Tex.svelte';
 	import type { PanelProps } from '../../types';
@@ -23,10 +26,25 @@
 		pythagoras: () => m.id_step_pythagoras_caption(),
 		negative: () => m.id_step_negative_caption(),
 		supplement: () => m.id_step_supplement_caption(),
-		complement: () => m.id_step_complement_caption()
+		complement: () => m.id_step_complement_caption(),
+		square45: () => m.id_step_square45_caption(),
+		triangle3060: () => m.id_step_triangle3060_caption(),
+		special: () => m.id_step_special_caption()
 	};
 
-	const lines = $derived(formulaLines(id, theta, unit, locale));
+	const lines = $derived(formulaLines(id, theta, unit, locale, user.ghosts));
+	const ex = $derived(exactFor(theta));
+	const rad = (d: number) => (d * Math.PI) / 180;
+	const JUMPS = [
+		{ d: 30, label: SYM.chip30 },
+		{ d: 45, label: SYM.chip45 },
+		{ d: 60, label: SYM.chip60 }
+	];
+	const GHOST_CHIPS = $derived([
+		{ k: 'neg' as const, label: SYM.negDeg },
+		{ k: 'supp' as const, label: unit === 'rad' ? SYM.suppRad : SYM.suppDeg },
+		{ k: 'comp' as const, label: unit === 'rad' ? SYM.compRad : SYM.compDeg }
+	]);
 	const area = $derived(areaTerms(theta, locale));
 </script>
 
@@ -63,6 +81,44 @@
 			{/each}
 		</div>
 	{/key}
+</div>
+<div class="exact-slot">
+	{#if ex}
+		{#key ex.deg}
+			<div class="exact" data-testid="exact" data-deg={ex.deg} data-sin={ex.sin} data-cos={ex.cos} data-tan={ex.tan}>
+				<Tex src={`${ex.deg}^\\circ = ${ex.rad} \\qquad \\tan = ${ex.tan}`} />
+			</div>
+		{/key}
+	{/if}
+</div>
+<div class="chips" inert={v.chips === 0} aria-hidden={v.chips === 0} style="opacity: {v.chips}">
+	<div role="group" aria-label={m.id_special_group()} class="chip-row">
+		{#each JUMPS as j (j.d)}
+			<ChipButton
+				label={j.label}
+				testid={`chip-${j.d}`}
+				onclick={() => startJump(user.theta, rad(j.d), (t) => update({ theta: t }))}
+			/>
+		{/each}
+	</div>
+</div>
+<div class="chips" inert={v.tools === 0} aria-hidden={v.tools === 0} style="opacity: {v.tools}">
+	<div role="group" aria-label={m.id_ghost_group()} class="chip-row">
+		{#each GHOST_CHIPS as g (g.k)}
+			<ChipButton
+				label={g.label}
+				testid={`ghost-chip-${g.k}`}
+				pressed={user.ghosts[g.k]}
+				onclick={() => update({ ghosts: { ...user.ghosts, [g.k]: !user.ghosts[g.k] } })}
+			/>
+		{/each}
+		<ChipButton
+			label={m.id_squares_chip()}
+			testid="chip-squares"
+			pressed={user.squares}
+			onclick={() => update({ squares: !user.squares })}
+		/>
+	</div>
 </div>
 {#if id === 'pythagoras'}
 	<p class="area" data-testid="area-row">
@@ -115,6 +171,20 @@
 		font-variant-numeric: tabular-nums;
 		color: var(--text-strong);
 		min-height: 1.5em;
+	}
+	.exact-slot {
+		min-height: 32px;
+	}
+	.exact {
+		animation: fade 150ms var(--ease-out);
+	}
+	.chips {
+		min-height: 0;
+	}
+	.chip-row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
 	}
 	.area {
 		margin: 0;

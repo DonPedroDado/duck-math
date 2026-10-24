@@ -17,5 +17,14 @@
 	"id_step_complement_title": "Komplementwinkel",
 	"id_step_complement_caption": "90° − θ spiegelt an der Diagonalen. Sinus und Kosinus tauschen.",
 	"id_guess_valuetext": "Vermutung bei {value}",
-	"id_ghost_title": "Spiegelpunkt {label}"
+	"id_ghost_title": "Spiegelpunkt {label}",
+	"id_step_square45_title": "45°",
+	"id_step_square45_caption": "Ein halbes Einheitsquadrat liefert die Katheten √2/2.",
+	"id_step_triangle3060_title": "30° und 60°",
+	"id_step_triangle3060_caption": "Ein halbes gleichseitiges Dreieck liefert 1/2 und √3/2.",
+	"id_step_special_title": "Erkunden",
+	"id_step_special_caption": "Zieh in die Nähe von 30°, 45°, 60° und der Punkt rastet ein.",
+	"id_ghost_group": "Spiegelpunkte zeigen",
+	"id_special_group": "Besondere Winkel",
+	"id_squares_chip": "Quadrate"
 }

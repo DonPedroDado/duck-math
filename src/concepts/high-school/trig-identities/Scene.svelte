@@ -16,7 +16,11 @@
 	import { SYM } from './notation.ts';
 	import { squares, visible, type Sq } from './squares.ts';
 	import { coincides, ghost, type GhostKind } from './ghosts.ts';
-	import { GUESS_DEFAULT, type IDUser } from './steps.ts';
+	import { GUESS_DEFAULT, SPECIAL_STEP, type IDUser } from './steps.ts';
+	import SnapPulse from '#lib/stage/SnapPulse.svelte';
+	import { snapSpecial } from '#lib/trig/snap.ts';
+	import { exactFor } from '#lib/trig/special.ts';
+	import { cancelJump } from './jump.ts';
 	import type { IDView } from './view.ts';
 
 
@@ -41,6 +45,20 @@
 		stepId === 'supplement' &&
 			(predict?.phase === 'awaiting' || (predict?.phase === 'after' && user.guess !== null))
 	);
+
+	/** Final step: the student's toggles replace the scripted schedule (D-24). */
+	const inSpecial = $derived(v.step === SPECIAL_STEP);
+	const mirX = $derived(inSpecial ? (user.ghosts.neg ? 1 : 0) : v.mirrorX);
+	const mirY = $derived(inSpecial ? (user.ghosts.supp ? 1 : 0) : v.mirrorY);
+	const mirD = $derived(inSpecial ? (user.ghosts.comp ? 1 : 0) : v.mirrorD);
+	const sqOp = $derived(inSpecial ? (user.squares ? 1 : 0) : v.squares);
+	const ex = $derived(exactFor(theta));
+	const interact = () => {
+		cancelJump();
+		oninteract();
+	};
+	const S2 = Math.SQRT2 / 2;
+	const S3 = Math.sqrt(3) / 2;
 
 	const KINDS: { kind: GhostKind; op: (v: IDView) => number }[] = [
 		{ kind: 'neg', op: (w) => w.ghostNeg },
@@ -70,7 +88,7 @@
 
 		<!-- Mirror axes -->
 		<!-- The transparent rects give the axis lines a real box (a zero-height line counts as hidden). -->
-		<g data-testid="mirror-x" opacity={v.mirrorX} pointer-events="none">
+		<g data-testid="mirror-x" opacity={mirX} pointer-events="none">
 			<line
 				x1={x(-1.5)}
 				y1={cy}
@@ -82,7 +100,7 @@
 			/>
 			<rect x={x(-1.5)} y={cy - 6} width={x(1.5) - x(-1.5)} height="12" fill="transparent" />
 		</g>
-		<g data-testid="mirror-y" opacity={v.mirrorY} pointer-events="none">
+		<g data-testid="mirror-y" opacity={mirY} pointer-events="none">
 			<line
 				x1={cx}
 				y1={y(-1.5)}
@@ -94,7 +112,7 @@
 			/>
 			<rect x={cx - 6} y={y(1.5)} width="12" height={y(-1.5) - y(1.5)} fill="transparent" />
 		</g>
-		<g data-testid="mirror-d" opacity={v.mirrorD} pointer-events="none">
+		<g data-testid="mirror-d" opacity={mirD} pointer-events="none">
 			<line
 				x1={x(-1.5)}
 				y1={y(-1.5)}
@@ -129,8 +147,146 @@
 			<line x1={x(0)} y1={y(0)} x2={ppx} y2={ppy} stroke="var(--c-point)" stroke-width="2" stroke-linecap="round" />
 		</g>
 
+		<!-- 45 degrees: half a unit square (x^2 + x^2 = 1) -->
+		{#if v.sq45 > 0}
+			{@const half = 1 - v.halfFade}
+			<g data-testid="sq45" opacity={v.sq45} pointer-events="none">
+				<polygon
+					points="{x(0)},{y(0)} {x(0)},{y(S2)} {x(S2)},{y(S2)}"
+					fill="var(--c-point)"
+					fill-opacity={0.12 * half}
+					stroke="var(--c-point)"
+					stroke-width="1.5"
+					stroke-opacity={half}
+					stroke-linejoin="round"
+				/>
+				<polygon
+					points="{x(0)},{y(0)} {x(S2)},{y(0)} {x(S2)},{y(S2)}"
+					fill="var(--c-point)"
+					fill-opacity="0.06"
+					stroke="var(--c-point)"
+					stroke-width="1.5"
+					stroke-linejoin="round"
+				/>
+				<line
+					x1={x(0)}
+					y1={y(0)}
+					x2={x(S2)}
+					y2={y(S2)}
+					stroke="var(--c-point)"
+					stroke-width="3"
+					stroke-linecap="round"
+					opacity={v.diag}
+				/>
+				<text
+					x={x(S2 / 2)}
+					y={y(0) + 16}
+					text-anchor="middle"
+					fill="var(--text)"
+					font-size="14"
+					font-weight="600"
+					paint-order="stroke"
+					stroke="var(--bg)"
+					stroke-width="3">x</text
+				>
+				<text
+					x={x(0) - 12}
+					y={y(S2 / 2)}
+					text-anchor="middle"
+					dominant-baseline="middle"
+					fill="var(--text)"
+					font-size="14"
+					font-weight="600"
+					opacity={half}
+					paint-order="stroke"
+					stroke="var(--bg)"
+					stroke-width="3">x</text
+				>
+			</g>
+		{/if}
+
+		<!-- 30 and 60 degrees: half an equilateral triangle of side 1 -->
+		{#if v.eqTri > 0}
+			{@const rest = 1 - v.halfFade60}
+			<g opacity={v.eqTri} pointer-events="none">
+				<polygon
+					data-testid="eq-tri"
+					points="{x(0)},{y(0)} {x(0.5)},{y(0)} {x(0.5)},{y(S3)}"
+					fill="var(--c-point)"
+					fill-opacity="0.06"
+					stroke="var(--c-point)"
+					stroke-width="1.5"
+					stroke-linejoin="round"
+				/>
+				<polygon
+					points="{x(0.5)},{y(0)} {x(1)},{y(0)} {x(0.5)},{y(S3)}"
+					fill="var(--c-point)"
+					fill-opacity={0.12 * rest}
+					stroke="var(--c-point)"
+					stroke-width="1.5"
+					stroke-opacity={rest}
+					stroke-linejoin="round"
+				/>
+				<g data-testid="alt-60" opacity={v.alt}>
+					<line
+						x1={x(0.5)}
+						y1={y(0)}
+						x2={x(0.5)}
+						y2={y(S3)}
+						stroke="var(--c-sin)"
+						stroke-width="2"
+						stroke-dasharray="6 4"
+					/>
+					<rect x={x(0.5) - 6} y={y(S3)} width="12" height={y(0) - y(S3)} fill="transparent" />
+				</g>
+				<text
+					x={x(0.25)}
+					y={y(0) + 16}
+					text-anchor="middle"
+					fill="var(--text)"
+					font-size="14"
+					font-weight="600"
+					paint-order="stroke"
+					stroke="var(--bg)"
+					stroke-width="3">½</text
+				>
+			</g>
+		{/if}
+		{#if v.mirror30 > 0}
+			<g data-testid="pt-30" opacity={v.mirror30} pointer-events="none">
+				<line
+					x1={x(-0.2)}
+					y1={y(-0.2)}
+					x2={x(1.2)}
+					y2={y(1.2)}
+					stroke="var(--axis)"
+					stroke-width="1.5"
+					stroke-dasharray="6 4"
+				/>
+				<line
+					x1={x(S3)}
+					y1={y(0)}
+					x2={x(S3)}
+					y2={y(0.5)}
+					stroke="var(--c-sin)"
+					stroke-width="2"
+					style="opacity: calc(var(--ghost-opacity) * 0.6)"
+				/>
+				<circle cx={x(S3)} cy={y(0.5)} r="10" fill="var(--c-point)" style="fill-opacity: var(--ghost-opacity)" />
+				<circle
+					cx={x(S3)}
+					cy={y(0.5)}
+					r="10"
+					fill="none"
+					stroke="var(--c-point)"
+					stroke-width="2"
+					stroke-dasharray="4 3"
+				/>
+			</g>
+		{/if}
+
 		<!-- Pythagoras squares -->
-		{#if v.squares > 0}
+		{#if sqOp > 0}
 			{#each [{ id: 'cos2', q: sq.cos2, color: 'var(--c-cos)', sym: SYM.cos2 }, { id: 'sin2', q: sq.sin2, color: 'var(--c-sin)', sym: SYM.sin2 }, { id: 'one', q: sq.one, color: 'var(--c-point)', sym: SYM.one }] as it (it.id)}
 				{#if visible(it.q.side, R)}
 					{@const [qx, qy] = centroid(it.q)}
@@ -147,7 +303,7 @@
 							stroke={it.color}
 							stroke-width="2"
 							stroke-linejoin="round"
-							opacity={v.squares * it.q.fade}
+							opacity={sqOp * it.q.fade}
 						/>
 						<text
 							x={x(qx)}
@@ -160,7 +316,7 @@
 							paint-order="stroke"
 							stroke="var(--bg)"
 							stroke-width="3"
-							opacity={v.squares * it.q.fade}>{it.sym}</text
+							opacity={sqOp * it.q.fade}>{it.sym}</text
 						>
 					</g>
 				{/if}
@@ -184,13 +340,13 @@
 
 		<!-- Ghosts (before the real point) -->
 		{#each KINDS as k (k.kind)}
-			{@const op = k.op(v)}
+			{@const op = inSpecial ? (user.ghosts[k.kind] ? 1 : 0) : k.op(v)}
 			{#if op > 0}
 				{@const g = ghost(k.kind, theta)}
 				{@const gx = x(g.cos)}
 				{@const gy = y(g.sin)}
 				{@const co = coincides(k.kind, theta)}
-				{@const swapped = k.kind === 'comp' && v.swap > 0.5}
+				{@const swapped = k.kind === 'comp' && (inSpecial || v.swap > 0.5)}
 				{@const id = `ghost-${k.kind}` as LinkId}
 				{@const [lx, ly] = polar(cx, cy, R + 24, g.angle)}
 				<g
@@ -271,7 +427,7 @@
 				onpoint={(p) => update({ guess: angleFromPoint(p.x - cx, cy - p.y) })}
 				onstep={(d, big) => update({ guess: norm(ga + (d * (big ? 15 : 1) * Math.PI) / 180) })}
 				onreveal={() => predict?.onreveal()}
-				{oninteract}
+				oninteract={interact}
 				pulse={predict?.phase === 'awaiting'}
 			/>
 		{/if}
@@ -299,6 +455,7 @@
 			>
 		</g>
 
+		<SnapPulse x={ppx} y={ppy} trigger={ex ? ex.deg : null} />
 		<DragPoint
 			{cx}
 			{cy}
@@ -308,7 +465,8 @@
 			label={m.id_point_aria()}
 			valuetext={val}
 			onchange={(t) => update({ theta: snapTheta(t) })}
-			{oninteract}
+			snap={(t) => snapSpecial(t)}
+			oninteract={interact}
 			glow={glow.md}
 		/>
 	{/snippet}

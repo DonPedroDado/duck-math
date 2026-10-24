@@ -17,5 +17,14 @@
 	"id_step_complement_title": "Complement",
 	"id_step_complement_caption": "90° − θ mirrors in the diagonal. Sine and cosine swap.",
 	"id_guess_valuetext": "Guess at {value}",
-	"id_ghost_title": "Mirror point {label}"
+	"id_ghost_title": "Mirror point {label}",
+	"id_step_square45_title": "45°",
+	"id_step_square45_caption": "Half a unit square gives the legs √2/2.",
+	"id_step_triangle3060_title": "30° and 60°",
+	"id_step_triangle3060_caption": "Half an equilateral triangle gives 1/2 and √3/2.",
+	"id_step_special_title": "Explore",
+	"id_step_special_caption": "Drag near 30°, 45°, 60° and the point snaps.",
+	"id_ghost_group": "Show mirror points",
+	"id_special_group": "Special angles",
+	"id_squares_chip": "Squares"
 }

@@ -16,8 +16,27 @@ describe('steps', () => {
 		expect(STEPS.map((s) => s.id)).toEqual([...STEP_IDS]);
 		expect(STEPS[3].pause).toBe(0.3);
 		expect(STEPS.filter((s) => s.pause !== undefined)).toHaveLength(1);
-		expect(initialUser(0)).toEqual({ theta: DEFAULT_THETA, unit: 'deg', moved: false, guess: null });
-		expect(stepDefaults()).toEqual({ guess: null });
+		expect(initialUser(0)).toEqual({
+			theta: DEFAULT_THETA,
+			unit: 'deg',
+			moved: false,
+			guess: null,
+			ghosts: { neg: false, supp: false, comp: false },
+			squares: false
+		});
+		expect(STEPS.map((s) => s.dur).slice(5)).toEqual([4.0, 5.0, 1.0]);
+		expect(initialUser(5).theta).toBeCloseTo(Math.PI / 4, 12);
+		expect(initialUser(6).theta).toBeCloseTo(Math.PI / 3, 12);
+		expect(stepDefaults(1, 0)).toEqual({
+			guess: null,
+			ghosts: { neg: false, supp: false, comp: false },
+			squares: false
+		});
+		expect(stepDefaults(5, 4).theta).toBeCloseTo(Math.PI / 4, 12);
+		expect(stepDefaults(6, 5).theta).toBeCloseTo(Math.PI / 3, 12);
+		expect(stepDefaults(7, 6).theta).toBeUndefined();
+		expect(stepDefaults(5, 5).theta).toBeUndefined();
+		expect(stepDefaults(7, 6).ghosts).not.toBe(stepDefaults(7, 6).ghosts);
 		expect(POLICY.guess).toBe('restage');
 	});
 });
@@ -51,6 +70,12 @@ describe('view', () => {
 			expect(v.ghostComp).toBeCloseTo(i === 4 ? 1 : 0, 9);
 			expect(v.toggle).toBeCloseTo(i >= 2 ? 1 : 0, 9);
 			expect(v.slide).toBeCloseTo(0, 9);
+			expect(v.sq45).toBeCloseTo(i === 5 ? 1 : 0, 9);
+			expect(v.eqTri).toBeCloseTo(i === 6 ? 1 : 0, 9);
+			expect(v.mirror30).toBeCloseTo(i === 6 ? 1 : 0, 9);
+			expect(v.halfFade).toBeCloseTo(i >= 5 ? 1 : 0, 9);
+			expect(v.chips).toBeCloseTo(i >= 6 ? 1 : 0, 9);
+			expect(v.tools).toBeCloseTo(i === 7 ? 1 : 0, 9);
 		}
 	});
 	it('nothing of the supplement answer before the predict pause', () => {

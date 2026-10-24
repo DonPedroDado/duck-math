@@ -11,7 +11,10 @@ const TITLES: Record<StepId, () => string> = {
 	pythagoras: () => m.id_step_pythagoras_title(),
 	negative: () => m.id_step_negative_title(),
 	supplement: () => m.id_step_supplement_title(),
-	complement: () => m.id_step_complement_title()
+	complement: () => m.id_step_complement_title(),
+	square45: () => m.id_step_square45_title(),
+	triangle3060: () => m.id_step_triangle3060_title(),
+	special: () => m.id_step_special_title()
 };
 const stepTitle = (i: number) => TITLES[STEP_IDS[i]]();
 
