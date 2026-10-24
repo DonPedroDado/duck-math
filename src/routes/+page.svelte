@@ -3,8 +3,11 @@
 	import { concepts, conceptsIn } from '#concepts/registry.ts';
 	import { CATEGORIES } from '#lib/catalog/categories.ts';
 	import { UPCOMING } from '#lib/catalog/upcoming.ts';
+	import { stillSoon } from '#lib/catalog/soon.ts';
 	import ConceptCard from '#lib/catalog/ConceptCard.svelte';
 	import SoonCard from '#lib/catalog/SoonCard.svelte';
+
+	const soon = stillSoon(UPCOMING, concepts.map((c) => c.id));
 </script>
 
 <svelte:head>
@@ -29,7 +32,7 @@
 						{#each conceptsIn(cat.id) as c (c.id)}
 							<ConceptCard concept={c} />
 						{/each}
-						{#each UPCOMING.filter((u) => u.category === cat.id) as u (u.id)}
+						{#each soon.filter((u) => u.category === cat.id) as u (u.id)}
 							<SoonCard item={u} />
 						{/each}
 					</div>

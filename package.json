@@ -4,13 +4,14 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
+		"predev": "node scripts/i18n-paths.mjs --write",
 		"dev": "vite dev",
-		"prebuild": "node scripts/check-i18n.mjs",
+		"prebuild": "node scripts/i18n-paths.mjs --write && node scripts/check-i18n.mjs",
 		"build": "vite build && node scripts/postbuild.mjs",
 		"check:i18n": "node scripts/check-i18n.mjs",
 		"preview": "node scripts/serve-build.mjs 4173",
-		"prepare": "svelte-kit sync || echo ''",
-		"paraglide": "node scripts/paraglide-compile.mjs",
+		"prepare": "node scripts/i18n-paths.mjs --write; svelte-kit sync || echo ''",
+		"paraglide": "node scripts/i18n-paths.mjs --write && node scripts/paraglide-compile.mjs",
 		"check": "npm run paraglide && svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"test": "vitest run",
 		"test:e2e": "playwright test"

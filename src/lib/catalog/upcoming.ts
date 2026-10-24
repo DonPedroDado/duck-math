@@ -11,6 +11,8 @@ export interface UpcomingDef {
 	title: () => string;
 	hook: () => string;
 	thumbnail: Component;
+	/** Concept ids that replace this card; it hides once any of them exists. */
+	replacedBy?: readonly string[];
 }
 
 export const UPCOMING: UpcomingDef[] = [
@@ -19,7 +21,8 @@ export const UPCOMING: UpcomingDef[] = [
 		category: 'high-school',
 		title: m.catalog_soon_functions_title,
 		hook: m.catalog_soon_functions_hook,
-		thumbnail: FunctionsThumb
+		thumbnail: FunctionsThumb,
+		replacedBy: ['function-shifts']
 	},
 	{
 		id: 'limits',

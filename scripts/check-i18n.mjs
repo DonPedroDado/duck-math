@@ -3,6 +3,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { staleness } from './i18n-paths.mjs';
 
 const BASE = 'en';
 const CAPTION_MAX = { en: 18, de: 25 };
@@ -109,6 +110,13 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
 	if (i > -1) {
 		catalogs = loadCatalogs(process.argv[i + 1], settingsLocales);
 	} else {
+		const { missing, extra } = staleness();
+		if (missing.length || extra.length) {
+			for (const p of missing) console.error(`not in project.inlang/settings.json: ${p}`);
+			for (const p of extra) console.error(`listed but no such folder: ${p}`);
+			console.error('run: node scripts/i18n-paths.mjs --write');
+			process.exit(1);
+		}
 		const pp = settings['plugin.inlang.messageFormat'].pathPattern;
 		({ catalogs, errors: loadErrors } = loadPatternCatalogs(
 			Array.isArray(pp) ? pp : [pp],
