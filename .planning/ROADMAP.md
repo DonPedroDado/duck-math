@@ -35,9 +35,9 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 - [ ] 01-02-PLAN.md — Deploy to GitHub Pages at dm.ducksoft.ai (workflow, CNAME, checklist, user setup checkpoint)
-- [ ] 01-03-PLAN.md — i18n guardrails: build-failing key/placeholder check, static root language redirect, EN/DE URL e2e
-- [ ] 01-04-PLAN.md — Player engine (TDD): pure timeline, player reducer with keep/restage, rAF clock, unit-circle view schedule, arc geometry
-- [ ] 01-06-PLAN.md — Catalog visual cards (live + soon + University) and localized 404
+- [x] 01-03-PLAN.md — i18n guardrails: build-failing key/placeholder check, static root language redirect, EN/DE URL e2e
+- [x] 01-04-PLAN.md — Player engine (TDD): pure timeline, player reducer with keep/restage, rAF clock, unit-circle view schedule, arc geometry
+- [x] 01-06-PLAN.md — Catalog visual cards (live + soon + University) and localized 404
 
 **Wave 3** *(blocked on Wave 2 completion)*
 - [ ] 01-05-PLAN.md — Guided player UI: player bar + scrubber, captions, responsive layout, intro/angle visuals, drag pauses playback
