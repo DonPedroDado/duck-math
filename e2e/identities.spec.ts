@@ -81,3 +81,88 @@ test('german decimal comma in the area readout', async ({ page }) => {
 	await page.goto('/de/high-school/trig-identities/pythagoras/');
 	await expect(page.getByTestId('area-sum')).toHaveText('1,00');
 });
+
+async function pointAt(page: Page, deg: number) {
+	const b = (await page.getByTestId('stage').boundingBox())!;
+	const R = b.width / 3;
+	const a = (deg * Math.PI) / 180;
+	return { x: b.x + b.width / 2 + R * Math.cos(a), y: b.y + b.height / 2 - R * Math.sin(a) };
+}
+async function dragTo(page: Page, from: number, to: number) {
+	const p0 = await pointAt(page, from);
+	await page.mouse.move(p0.x, p0.y);
+	await page.mouse.down();
+	const p1 = await pointAt(page, to);
+	await page.mouse.move(p1.x, p1.y, { steps: 8 });
+	await page.mouse.up();
+}
+const readout = (page: Page) => page.getByTestId('theta-readout');
+
+test('special: snaps to 60 with exact values and a pulse', async ({ page }) => {
+	await page.goto(B + 'special/');
+	await dragTo(page, 50, 61.5);
+	await expect(readout(page)).toHaveText('60°');
+	const ex = page.getByTestId('exact');
+	await expect(ex).toBeVisible();
+	await expect(ex).toHaveAttribute('data-deg', '60');
+	await expect(page.getByTestId('snap-pulse')).toBeAttached();
+});
+
+test('special: no snap outside the window; axes are not targets', async ({ page }) => {
+	await page.goto(B + 'special/');
+	await dragTo(page, 50, 66);
+	await expect(readout(page)).toHaveText(/^6[5-7]°$/);
+	await expect(page.getByTestId('exact')).toHaveCount(0);
+	await dragTo(page, 66, 89);
+	await expect(readout(page)).toHaveText(/^(8[7-9]|90)°$/);
+	await expect(page.getByTestId('exact')).toHaveCount(0);
+});
+
+test('special: keyboard is not trapped at a snapped angle', async ({ page }) => {
+	await page.goto(B + 'special/');
+	await dragTo(page, 50, 61.5);
+	await expect(readout(page)).toHaveText('60°');
+	await slider(page).focus();
+	await page.keyboard.press('ArrowRight');
+	await expect(readout(page)).toHaveText('61°');
+});
+
+test('special: exact sign in quadrant III, chips, ghosts, squares', async ({ page }) => {
+	await page.goto(B + 'special/');
+	await dragTo(page, 50, 210.5);
+	const ex = page.getByTestId('exact');
+	await expect(ex).toHaveAttribute('data-deg', '210');
+	await expect(ex).toHaveAttribute('data-sin', '-\\tfrac{1}{2}');
+	const chip = page.getByTestId('chip-45');
+	await chip.click();
+	await expect(readout(page)).toHaveText('45°');
+	await expect(chip).not.toHaveAttribute('aria-pressed', /.*/);
+	const g = page.getByTestId('ghost-chip-neg');
+	await expect(g).toHaveAttribute('aria-pressed', 'false');
+	await g.click();
+	await expect(g).toHaveAttribute('aria-pressed', 'true');
+	await expect(page.getByTestId('ghost-neg')).toBeVisible();
+	await page.getByTestId('chip-squares').click();
+	await expect(page.getByTestId('sq-one')).toBeVisible();
+});
+
+test('square45 derivation', async ({ page }) => {
+	await page.goto(B + 'square45/');
+	await expect(readout(page)).toHaveText('45°');
+	await expect(page.getByTestId('sq45')).toBeVisible();
+	await expect(page.getByTestId('exact')).toHaveAttribute('data-deg', '45');
+});
+
+test('triangle3060 derivation', async ({ page }) => {
+	await page.goto(B + 'triangle3060/');
+	await expect(readout(page)).toHaveText('60°');
+	await expect(page.getByTestId('eq-tri')).toBeVisible();
+	await expect(page.getByTestId('alt-60')).toBeVisible();
+	await expect(page.getByTestId('pt-30')).toBeVisible();
+});
+
+test('german chip group labels', async ({ page }) => {
+	await page.goto('/de/high-school/trig-identities/special/');
+	await expect(page.getByRole('group', { name: 'Besondere Winkel' })).toBeVisible();
+	await expect(page.getByRole('group', { name: 'Spiegelpunkte zeigen' })).toBeVisible();
+});

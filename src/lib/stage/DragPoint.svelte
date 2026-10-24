@@ -14,7 +14,8 @@
 		ondragstart,
 		ondragend,
 		scale = 1,
-		glow
+		glow,
+		snap
 	}: {
 		cx: number;
 		cy: number;
@@ -30,6 +31,8 @@
 		ondragend?: () => void;
 		scale?: number;
 		glow?: string;
+		/** Pointer input only; keyboard steps are never snapped (prevents trapping at snapped angles). */
+		snap?: (theta: number) => number;
 	} = $props();
 
 	let dragging = $state(false);
@@ -47,7 +50,8 @@
 		const ctm = (e.currentTarget as SVGGraphicsElement).getScreenCTM();
 		if (!ctm) return;
 		const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(ctm.inverse());
-		onchange(angleFromPoint(p.x - cx, cy - p.y));
+		const a = angleFromPoint(p.x - cx, cy - p.y);
+		onchange(snap ? snap(a) : a);
 	}
 
 	function down(e: PointerEvent) {
