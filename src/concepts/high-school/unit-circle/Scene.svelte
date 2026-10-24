@@ -9,6 +9,10 @@
 	import { TAU } from './derive.ts';
 	import { SYM } from './notation.ts';
 	import RadianLayer from './RadianLayer.svelte';
+	import LinkReset from '#lib/link/LinkReset.svelte';
+	import { link } from '#lib/link/link.svelte.ts';
+	import { linkOpacity } from '#lib/link/ids.ts';
+	import { linkAttrs } from '#lib/link/linkable.ts';
 	import { projection } from './projection.ts';
 	import type { UCView } from './view.ts';
 	import type { UCUser } from './steps.ts';
@@ -52,6 +56,7 @@
 	const GRID = [-1.5, -1, -0.5, 0.5, 1, 1.5];
 </script>
 
+<LinkReset />
 <Stage label={m.uc_stage_aria({ title })}>
 	{#snippet children({ cx, cy, R, x, y, glow })}
 		{@const ppx = x(Math.cos(theta))}
@@ -131,6 +136,22 @@
 		<g data-layer="radian" {...gf('radian', glow.sm)}><RadianLayer {v} {cx} {cy} {R} {locale} {theta} /></g>
 		<g data-layer="projection" {...gf('projection', glow.sm)}>
 			{#if P.showCos}
+				{@const [clx, cly] = nudge(x(P.cos / 2), y(0) + (P.cosLabelBelow ? 19 : -19), ppx, ppy)}
+				<g
+					{...linkAttrs('cos')}
+					style:opacity={linkOpacity('cos', link.id)}
+					style="transition: opacity var(--dur-link)"
+					filter={link.id === 'cos' ? glow.sm : undefined}
+				>
+				<line
+					x1={x(0)}
+					y1={y(0)}
+					x2={x(P.cos * v.cosSeg)}
+					y2={y(0)}
+					stroke="transparent"
+					stroke-width="16"
+					pointer-events="stroke"
+				/>
 				<line
 					data-testid="cos-drop"
 					x1={x(P.cos)}
@@ -153,7 +174,6 @@
 					stroke-width="4"
 					stroke-linecap="round"
 				/>
-				{@const [clx, cly] = nudge(x(P.cos / 2), y(0) + (P.cosLabelBelow ? 19 : -19), ppx, ppy)}
 				<text
 					data-testid="cos-label"
 					x={clx}
@@ -168,8 +188,25 @@
 					stroke-width="3"
 					opacity={v.cosLabel}>{SYM.cos}</text
 				>
+				</g>
 			{/if}
 			{#if P.showSin}
+				{@const [slx, sly] = nudge(x(0) + (P.sinLabelLeft ? -12 : 12), y(P.sin / 2), ppx, ppy)}
+				<g
+					{...linkAttrs('sin')}
+					style:opacity={linkOpacity('sin', link.id)}
+					style="transition: opacity var(--dur-link)"
+					filter={link.id === 'sin' ? glow.sm : undefined}
+				>
+				<line
+					x1={x(0)}
+					y1={y(0)}
+					x2={x(0)}
+					y2={y(P.sin * v.sinSeg)}
+					stroke="transparent"
+					stroke-width="16"
+					pointer-events="stroke"
+				/>
 				<line
 					data-testid="sin-drop"
 					x1={x(P.cos)}
@@ -192,7 +229,6 @@
 					stroke-width="4"
 					stroke-linecap="round"
 				/>
-				{@const [slx, sly] = nudge(x(0) + (P.sinLabelLeft ? -12 : 12), y(P.sin / 2), ppx, ppy)}
 				<text
 					data-testid="sin-label"
 					x={slx}
@@ -207,6 +243,7 @@
 					stroke-width="3"
 					opacity={v.sinLabel}>{SYM.sin}</text
 				>
+				</g>
 			{/if}
 		</g>
 		<g

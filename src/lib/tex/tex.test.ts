@@ -5,6 +5,9 @@ describe('tex', () => {
 	it('keeps htmlClass', () => {
 		expect(tex('\\htmlClass{t-cos}{\\cos\\theta}')).toContain('t-cos');
 	});
+	it('keeps link classes', () => {
+		expect(tex('\\htmlClass{t-cos link-cos}{x}')).toContain('t-cos link-cos');
+	});
 	it('throws on invalid TeX', () => {
 		expect(() => tex('\\frac{')).toThrow();
 	});

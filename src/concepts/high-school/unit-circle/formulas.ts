@@ -18,8 +18,8 @@ export function formulaLines(
 		const D = texNum(fmtDeg(theta, locale).replace('°', ''));
 		return `${cls('t-angle', '\\theta')} = ${cls('t-angle', `${D}^\\circ`)}`;
 	};
-	const cosT = cls('t-cos', '\\cos\\theta');
-	const sinT = cls('t-sin', '\\sin\\theta');
+	const cosT = cls('t-cos link-cos', '\\cos\\theta');
+	const sinT = cls('t-sin link-sin', '\\sin\\theta');
 	switch (step) {
 		case 'intro':
 			return [];
@@ -37,12 +37,12 @@ export function formulaLines(
 			return [`${cls('t-angle', '\\theta')} \\approx ${cls('t-angle', R)}`];
 		}
 		case 'cosine':
-			return [`${cosT} = x = ${cls('t-cos', N(d.cos))}`];
+			return [`${cosT} = x = ${cls('t-cos link-cos', N(d.cos))}`];
 		case 'sine': {
 			const SEP = locale === 'de' ? '\\,;\\,' : ',\\ ';
 			return [
-				`${cosT} = ${cls('t-cos', N(d.cos))}`,
-				`${sinT} = ${cls('t-sin', N(d.sin))}`,
+				`${cosT} = ${cls('t-cos link-cos', N(d.cos))}`,
+				`${sinT} = ${cls('t-sin link-sin', N(d.sin))}`,
 				`P = (${cosT}${SEP}${sinT})`
 			];
 		}
