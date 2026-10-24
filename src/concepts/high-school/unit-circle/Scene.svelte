@@ -90,7 +90,7 @@
 				opacity="0.9"
 			/>
 		</g>
-		{#if theta >= 1e-3}
+		{#if theta > 0}
 			<g data-layer="angle" {...gf('angle', glow.sm)}>
 				<path
 					data-testid="angle-arc"

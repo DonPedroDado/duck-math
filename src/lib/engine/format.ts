@@ -1,12 +1,6 @@
-const TAU = 2 * Math.PI;
-const DEG = '°';
+import { DISPLAY_EPS_DEG, norm } from './angle.ts';
 
-// Private copy: the engine must not depend on a concept.
-const WRAP_EPS = 1e-9;
-function norm(x: number): number {
-	const r = ((x % TAU) + TAU) % TAU;
-	return r < WRAP_EPS || TAU - r < WRAP_EPS ? 0 : r;
-}
+const DEG = '°';
 
 const cache = new Map<string, Intl.NumberFormat>();
 function formatter(locale: string, digits: number): Intl.NumberFormat {
@@ -29,9 +23,9 @@ export function fmt(x: number, digits: number, locale: string): string {
 /** Degrees as shown to the user: in [0, 360), integer when within 0.05 of one, else 1 decimal. Shared by fmtDeg and aria-valuenow. */
 export function degValue(theta: number): number {
 	const d = (norm(theta) * 180) / Math.PI;
-	if (d >= 359.95) return 0;
+	if (d >= 360 - DISPLAY_EPS_DEG) return 0;
 	const nearest = Math.round(d);
-	if (Math.abs(d - nearest) < 0.05) return nearest === 360 ? 0 : nearest;
+	if (Math.abs(d - nearest) < DISPLAY_EPS_DEG) return nearest === 360 ? 0 : nearest;
 	return Math.round(d * 10) / 10;
 }
 
