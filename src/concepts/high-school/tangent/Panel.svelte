@@ -126,6 +126,8 @@
 	}
 	.formula-line {
 		min-height: 32px;
+		/* KaTeX fractions overhang the line box; keep stacked lines apart. */
+		padding-block: var(--sp-sm);
 	}
 	@keyframes fade {
 		from {

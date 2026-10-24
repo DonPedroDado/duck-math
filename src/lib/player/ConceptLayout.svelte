@@ -41,6 +41,11 @@
 		flex-direction: column;
 		gap: var(--sp-lg);
 	}
+	/* The desktop panel has a fixed height and scrolls; shrinking its blocks
+	   would let readout rows and formulas spill over each other instead. */
+	.panel > :global(*) {
+		flex-shrink: 0;
+	}
 	.bar {
 		position: sticky;
 		bottom: 0;
