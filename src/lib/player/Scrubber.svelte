@@ -30,12 +30,24 @@
 		return clamp01((e.clientX - r.left) / r.width) * total;
 	}
 	function down(e: PointerEvent) {
-		track.setPointerCapture(e.pointerId);
+		try {
+			track.setPointerCapture(e.pointerId);
+		} catch {
+			// Synthetic or already-released pointer: seek once, but do not enter capture mode.
+			onseek(xToT(e));
+			return;
+		}
 		capturing = true;
 		onseek(xToT(e));
 	}
 	function move(e: PointerEvent) {
-		if (capturing) onseek(xToT(e));
+		if (!capturing) return;
+		// A mouse with no button held means the gesture ended without an up/cancel event reaching us.
+		if (e.pointerType === 'mouse' && e.buttons === 0) {
+			capturing = false;
+			return;
+		}
+		onseek(xToT(e));
 	}
 	function up() {
 		capturing = false;
@@ -74,6 +86,7 @@
 		onpointermove={move}
 		onpointerup={up}
 		onpointercancel={up}
+		onlostpointercapture={up}
 		onkeydown={key}
 	>
 		<div class="rail"></div>
