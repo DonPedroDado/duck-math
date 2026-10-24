@@ -11,27 +11,30 @@
 	import RadianLayer from './RadianLayer.svelte';
 	import { projection } from './projection.ts';
 	import type { UCView } from './view.ts';
+	import type { UCUser } from './steps.ts';
 
 	let {
 		v,
 		title,
-		theta,
-		moved,
+		user,
 		glowing = false,
 		stepId = 'intro',
-		onthetachange,
+		update,
 		oninteract
 	}: {
 		v: UCView;
 		title: string;
-		theta: number;
-		moved: boolean;
+		user: UCUser;
 		glowing?: boolean;
 		stepId?: string;
 		/** Receives display-snapped angles only (see snapTheta): the `theta > 0` arc condition below relies on it. */
-		onthetachange: (t: number) => void;
+		update: (patch: Partial<UCUser>) => void;
 		oninteract?: () => void;
+		step?: number;
 	} = $props();
+
+	const theta = $derived(user.theta);
+	const moved = $derived(user.moved);
 
 	const locale = getLocale();
 	const val = $derived(fmtDeg(theta, locale));
@@ -252,7 +255,7 @@
 				scale={v.point}
 				label={m.uc_point_aria()}
 				valuetext={val}
-				onchange={(t) => onthetachange(snapTheta(t))}
+				onchange={(t) => update({ theta: snapTheta(t) })}
 				{oninteract}
 				glow={glow.md}
 			/>
