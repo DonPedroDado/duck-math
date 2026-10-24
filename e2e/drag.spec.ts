@@ -59,7 +59,9 @@ test('drag during intro animation pauses and hides the hint', async ({ page }) =
 	await page.getByTestId('scrubber').focus();
 	await page.keyboard.press('Home');
 	await page.getByTestId('player-play').click();
-	await page.waitForTimeout(300);
+	// The point is inert until it is drawn (IN-03); grab it as soon as it appears, while the intro still plays.
+	await expect(page.getByTestId('point-halo')).toHaveAttribute('opacity', '1');
+	await expect(concept(page)).toHaveAttribute('data-playing', 'true');
 	const a = await pointAt(page, 60);
 	const z = await pointAt(page, 200);
 	await page.mouse.move(a.x, a.y);
@@ -168,4 +170,19 @@ test('slider accessible name is static; only aria-valuetext carries the value', 
 	await page.keyboard.press('ArrowRight');
 	await expect(s).toHaveAttribute('aria-label', 'Angle of the point');
 	await expect(s).toHaveAttribute('aria-valuetext', await readout(page).innerText());
+});
+
+test('the point is not operable while it is not drawn', async ({ page }) => {
+	await page.goto(U);
+	await page.getByTestId('scrubber').focus();
+	await page.keyboard.press('Home');
+	await expect(concept(page)).toHaveAttribute('data-t', '0.00');
+	await expect(slider(page)).toHaveAttribute('tabindex', '-1');
+	const before = await thetaAttr(page);
+	const p = await pointAt(page, 120);
+	await page.mouse.click(p.x, p.y);
+	expect(await thetaAttr(page)).toBe(before);
+	await page.getByTestId('scrubber').focus();
+	await page.keyboard.press('End');
+	await expect(slider(page)).toHaveAttribute('tabindex', '0');
 });
