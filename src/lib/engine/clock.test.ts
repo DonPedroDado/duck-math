@@ -84,6 +84,37 @@ describe('Player', () => {
 		expect(p.state.t).toBe(t);
 		expect(queue.length).toBe(1);
 	});
+	it('uses rAF timestamps frame to frame (callback latency does not slow playback)', () => {
+		const p = new Player(STEPS, 0);
+		p.dispatch({ type: 'next' });
+		const t0 = p.state.t;
+		const LATENCY = 5;
+		const FRAME = 16;
+		// performance.now() runs LATENCY ms ahead of the frame timestamp, as in a real browser.
+		vi.spyOn(performance, 'now').mockImplementation(() => now + LATENCY);
+		let ts = 0;
+		for (let k = 0; k < 10; k++) {
+			ts += FRAME;
+			const cb = queue.shift();
+			now = ts;
+			cb?.(ts);
+		}
+		expect(p.state.t - t0).toBeCloseTo((10 * FRAME) / 1000, 9);
+		expect(queue.length).toBe(1);
+		p.destroy();
+	});
+	it('pause cancels the pending frame; play again schedules exactly one loop', () => {
+		const p = new Player(STEPS, 0);
+		p.dispatch({ type: 'next' });
+		frame(16);
+		p.dispatch({ type: 'pause' });
+		expect(cancel).toHaveBeenCalled();
+		p.dispatch({ type: 'play' });
+		frame(16);
+		frame(16);
+		expect(queue.length).toBe(1);
+		p.destroy();
+	});
 	it('SSR: no requestAnimationFrame does not throw', () => {
 		vi.stubGlobal('requestAnimationFrame', undefined);
 		const p = new Player(STEPS, 0);

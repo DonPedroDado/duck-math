@@ -6,6 +6,8 @@ export class Player {
 	state = $state<PlayerState>({ t: 0, step: 0, playing: false, rate: 1 });
 
 	private raf = 0;
+	private running = false;
+	private session = 0;
 	private last = 0;
 	private destroyed = false;
 
@@ -24,26 +26,39 @@ export class Player {
 		if (next === prev) return;
 		this.state = next;
 		if (next.step !== prev.step) this.onstep?.(next.step, prev.step);
-		if (next.playing && !this.raf) this.start();
+		if (next.playing && !this.running) this.start();
+		else if (!next.playing && this.running) this.stop();
 	}
 
+	/** Starts the loop once per play session; the loop owns re-scheduling so rAF timestamps are kept frame to frame. */
 	private start(): void {
 		if (typeof requestAnimationFrame === 'undefined') return;
+		this.running = true;
 		this.last = performance.now();
+		const id = ++this.session;
 		const loop = (ts: number) => {
+			// A frame from an earlier (stopped) session must never drive the clock.
+			if (id !== this.session) return;
 			this.raf = 0;
-			if (this.destroyed) return;
+			if (this.destroyed || !this.running) return;
 			const dt = Math.max(0, (ts - this.last) / 1000);
 			this.last = ts;
 			this.dispatch({ type: 'tick', dt });
-			if (this.state.playing && !this.raf && !this.destroyed) this.raf = requestAnimationFrame(loop);
+			if (this.running && this.state.playing && !this.destroyed) this.raf = requestAnimationFrame(loop);
+			else this.running = false;
 		};
 		this.raf = requestAnimationFrame(loop);
 	}
 
-	destroy(): void {
-		this.destroyed = true;
+	private stop(): void {
+		this.running = false;
+		this.session++;
 		if (this.raf && typeof cancelAnimationFrame !== 'undefined') cancelAnimationFrame(this.raf);
 		this.raf = 0;
+	}
+
+	destroy(): void {
+		this.destroyed = true;
+		this.stop();
 	}
 }
