@@ -25,7 +25,7 @@
 
 ### Math Display
 
-- [ ] **MATH-01**: Formulas are typeset properly (KaTeX) with terms colored to match their geometric counterparts
+- [x] **MATH-01**: Formulas are typeset properly (KaTeX) with terms colored to match their geometric counterparts
 - [x] **MATH-02**: Live numeric readouts update as the student drags (locale-aware number formatting)
 - [ ] **MATH-03**: Hovering/focusing a formula term highlights the matching visual element, and vice versa
 - [ ] **MATH-04**: Moving points can leave a fading trace trail (e.g. tracing a wave or derivative graph)
@@ -37,7 +37,7 @@
 - [x] **I18N-01**: Visitor can switch between English and German; all UI and concept text changes language
 - [x] **I18N-02**: Each language has its own URL (e.g. /en/..., /de/...)
 - [x] **I18N-03**: Numbers use the locale's format (decimal comma in German); function names sin/cos/tan in both
-- [ ] **I18N-04**: A check fails the build when a text key is missing in any language
+- [x] **I18N-04**: A check fails the build when a text key is missing in any language
 
 ### Accessibility & Devices
 
@@ -56,7 +56,7 @@
 
 - [x] **TRIG-01**: Student can drag a point around the unit circle and see the angle in degrees and radians (with toggle)
 - [x] **TRIG-02**: Student sees what a radian is (radius laid along the arc)
-- [ ] **TRIG-03**: Student sees cos and sin as the x and y projections of the point, with live values
+- [x] **TRIG-03**: Student sees cos and sin as the x and y projections of the point, with live values
 - [ ] **TRIG-04**: Student sees tan as a segment on the tangent line (similar triangles), undefined at 90°/270°
 - [ ] **TRIG-05**: Student sees sec, csc and cot as geometric segments (one at a time)
 - [ ] **TRIG-06**: Student can watch/scrub the circle "unrolling" into the sine and cosine graphs, linked to the circle
@@ -136,15 +136,15 @@
 | PLAY-04 | Phase 1 | Complete |
 | PLAY-05 | Phase 1 | Complete |
 | PLAY-06 | Phase 1 | Complete |
-| MATH-01 | Phase 1 | Pending |
+| MATH-01 | Phase 1 | Complete |
 | MATH-02 | Phase 1 | Complete |
 | I18N-01 | Phase 1 | Complete |
 | I18N-02 | Phase 1 | Complete |
 | I18N-03 | Phase 1 | Complete |
-| I18N-04 | Phase 1 | Pending |
+| I18N-04 | Phase 1 | Complete |
 | TRIG-01 | Phase 1 | Complete |
 | TRIG-02 | Phase 1 | Complete |
-| TRIG-03 | Phase 1 | Pending |
+| TRIG-03 | Phase 1 | Complete |
 | TRIG-04 | Phase 2 | Pending |
 | TRIG-05 | Phase 2 | Pending |
 | TRIG-06 | Phase 2 | Pending |
