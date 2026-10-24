@@ -1,3 +1,4 @@
+import { conceptRoutes } from '../scripts/concept-routes.mjs';
 import { test, expect, type Page } from '@playwright/test';
 import { touchDrag } from './helpers/touch';
 
@@ -24,7 +25,11 @@ for (const vp of VIEWPORTS) {
 				test.skip(testInfo.project.name !== 'desktop', 'run once');
 			});
 
-			for (const p of ['', 'high-school/unit-circle/radians/', 'high-school/unit-circle/sine/']) {
+			for (const p of [
+				'',
+				...conceptRoutes().flatMap((r) => [r.path.slice(1), `${r.path.slice(1)}${r.stepIds[r.stepIds.length - 1]}/`]),
+				'high-school/unit-circle/radians/'
+			]) {
 				test(`no horizontal overflow /${p}`, async ({ page }) => {
 					await page.goto(`/${l}/${p}`);
 					await page.waitForLoadState('networkidle');

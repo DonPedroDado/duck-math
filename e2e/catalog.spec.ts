@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { conceptRoutes } from '../scripts/concept-routes.mjs';
 
 test('en catalog shows live and soon cards', async ({ page }) => {
 	await page.goto('/en/');
@@ -6,10 +7,10 @@ test('en catalog shows live and soon cards', async ({ page }) => {
 	await expect(page.getByRole('heading', { level: 2, name: 'High School' })).toBeVisible();
 	await expect(page.getByRole('heading', { level: 2, name: 'University' })).toBeVisible();
 	const card = page.locator('a[data-testid="concept-card"]');
-	await expect(card).toHaveCount(1);
-	await expect(card).toHaveAttribute('href', '/en/high-school/unit-circle/');
-	await expect(card).toContainText('Unit circle');
-	await expect(card.locator('svg').first()).toBeVisible();
+	await expect(card).toHaveCount(conceptRoutes().length);
+	await expect(card.first()).toHaveAttribute('href', '/en/high-school/unit-circle/');
+	await expect(card.first()).toContainText('Unit circle');
+	await expect(card.first().locator('svg').first()).toBeVisible();
 	const soon = page.locator('[data-testid="soon-card"]');
 	await expect(soon).toHaveCount(3);
 	for (const [i, name] of ['Functions', 'Limits', 'Derivatives'].entries()) {
@@ -26,7 +27,7 @@ test('en catalog shows live and soon cards', async ({ page }) => {
 
 test('card opens concept and back link returns', async ({ page }) => {
 	await page.goto('/en/');
-	await page.locator('a[data-testid="concept-card"]').click();
+	await page.locator('a[data-testid="concept-card"]').first().click();
 	await expect(page).toHaveURL(/\/en\/high-school\/unit-circle\/$/);
 	await expect(page.locator('h1')).toHaveText('Unit circle');
 	await page.locator('header').getByRole('link', { name: 'Catalog' }).locator('visible=true').click();
@@ -40,8 +41,8 @@ test('de catalog is translated', async ({ page }) => {
 	await expect(page.getByRole('heading', { level: 2, name: 'Universität' })).toBeVisible();
 	await expect(page.locator('[data-testid="soon-card"]').first()).toContainText('Bald');
 	const card = page.locator('a[data-testid="concept-card"]');
-	await expect(card).toContainText('Einheitskreis');
-	await expect(card).toHaveAttribute('href', '/de/high-school/unit-circle/');
+	await expect(card.first()).toContainText('Einheitskreis');
+	await expect(card.first()).toHaveAttribute('href', '/de/high-school/unit-circle/');
 });
 
 test('grid layout adapts', async ({ page }) => {
