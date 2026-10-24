@@ -20,6 +20,15 @@ export interface IDView {
 	ghostComp: number;
 	swap: number;
 	toggle: number;
+	sq45: number;
+	diag: number;
+	halfFade: number;
+	eqTri: number;
+	alt: number;
+	halfFade60: number;
+	mirror30: number;
+	chips: number;
+	tools: number;
 }
 
 /** Pure schedule: reads only t. Never the angle (PD-1). */
@@ -48,6 +57,15 @@ export function view(t: number): IDView {
 		mirrorD: only(4, (q) => E(seg(q, 0, 0.15))),
 		ghostComp: only(4, (q) => E(seg(q, 0.15, 0.5))),
 		swap: only(4, (q) => E(seg(q, 0.5, 0.8))),
-		toggle: layer(2, (q) => E(seg(q, 0, 0.15)))
+		toggle: layer(2, (q) => E(seg(q, 0, 0.15))),
+		sq45: only(5, (q) => E(seg(q, 0, 0.3))),
+		diag: only(5, (q) => E(seg(q, 0.25, 0.45))),
+		halfFade: layer(5, (q) => E(seg(q, 0.5, 0.75))),
+		eqTri: only(6, (q) => E(seg(q, 0, 0.25))),
+		alt: only(6, (q) => E(seg(q, 0.25, 0.45))),
+		halfFade60: layer(6, (q) => E(seg(q, 0.45, 0.65))),
+		mirror30: only(6, (q) => E(seg(q, 0.7, 0.9))),
+		chips: i >= 6 ? (i === 6 ? E(seg(p, 0.9, 1)) : 1) : 0,
+		tools: layer(7, (q) => E(seg(q, 0, 0.3)))
 	};
 }

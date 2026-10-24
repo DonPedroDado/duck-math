@@ -8,5 +8,8 @@ export const SYM = {
 	suppDeg: '180° − θ',
 	compDeg: '90° − θ',
 	suppRad: 'π − θ',
-	compRad: 'π/2 − θ'
+	compRad: 'π/2 − θ',
+	chip30: '30°',
+	chip45: '45°',
+	chip60: '60°'
 } as const;

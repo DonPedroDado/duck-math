@@ -23,7 +23,10 @@
 		pythagoras: () => m.id_step_pythagoras_caption(),
 		negative: () => m.id_step_negative_caption(),
 		supplement: () => m.id_step_supplement_caption(),
-		complement: () => m.id_step_complement_caption()
+		complement: () => m.id_step_complement_caption(),
+		square45: () => m.id_step_square45_caption(),
+		triangle3060: () => m.id_step_triangle3060_caption(),
+		special: () => m.id_step_special_caption()
 	};
 
 	const lines = $derived(formulaLines(id, theta, unit, locale));

@@ -1,26 +1,47 @@
 import { fmt } from '#lib/engine/format.ts';
+import { exactFor } from '#lib/trig/special.ts';
 import { texNum } from '#lib/tex/tex.ts';
 import { areaTerms } from './squares.ts';
 import type { StepId } from './step-ids.ts';
+import type { Ghosts } from './steps.ts';
 
 /** TeX term carrying a color class and a link role (hover links it to the visual). */
 export const term = (color: string, linkRole: string, body: string) =>
 	`\\htmlClass{t-${color} link-${linkRole}}{${body}}`;
+
+const NO_GHOSTS: Ghosts = { neg: false, supp: false, comp: false };
+
+/**
+ * sin and cos lines. At a special angle the decimals switch to the exact forms from the table
+ * (D-25); everywhere else they are live locale numbers.
+ */
+function trigLines(theta: number, unit: 'deg' | 'rad', N: (x: number) => string): string[] {
+	const e = exactFor(theta);
+	if (e) {
+		const A = unit === 'deg' ? `${e.deg}^\\circ` : e.rad;
+		return [
+			`${term('cos', 'cos', `\\cos ${A}`)} = ${term('cos', 'cos', e.cos)}`,
+			`${term('sin', 'sin', `\\sin ${A}`)} = ${term('sin', 'sin', e.sin)}`
+		];
+	}
+	return [
+		`${term('cos', 'cos', '\\cos\\theta')} = ${term('cos', 'cos', N(Math.cos(theta)))}`,
+		`${term('sin', 'sin', '\\sin\\theta')} = ${term('sin', 'sin', N(Math.sin(theta)))}`
+	];
+}
 
 /** Per-step TeX lines with live locale numbers. Formulas carry no language. */
 export function formulaLines(
 	step: StepId,
 	theta: number,
 	unit: 'deg' | 'rad',
-	locale: string
+	locale: string,
+	ghosts: Ghosts = NO_GHOSTS
 ): string[] {
 	const N = (x: number) => texNum(fmt(x, 2, locale));
 	switch (step) {
 		case 'intro':
-			return [
-				`${term('cos', 'cos', '\\cos\\theta')} = ${term('cos', 'cos', N(Math.cos(theta)))}`,
-				`${term('sin', 'sin', '\\sin\\theta')} = ${term('sin', 'sin', N(Math.sin(theta)))}`
-			];
+			return trigLines(theta, unit, N);
 		case 'pythagoras': {
 			const a = areaTerms(theta, locale);
 			return [
@@ -46,6 +67,31 @@ export function formulaLines(
 				`${term('sin', 'ghost-comp', `\\sin(${a})`)} = ${term('cos', 'cos', '\\cos\\theta')}`,
 				`${term('cos', 'ghost-comp', `\\cos(${a})`)} = ${term('sin', 'sin', '\\sin\\theta')}`
 			];
+		}
+		case 'square45':
+			return [
+				`${term('point', 'one', 'x^2 + x^2 = 1')}`,
+				`${term('cos', 'cos', 'x = \\tfrac{\\sqrt{2}}{2}')}`,
+				...trigLines(theta, unit, N)
+			];
+		case 'triangle3060': {
+			const lines = [
+				`\\left(\\tfrac{1}{2}\\right)^2 + y^2 = 1`,
+				`${term('sin', 'sin', 'y = \\tfrac{\\sqrt{3}}{2}')}`,
+				...trigLines(theta, unit, N)
+			];
+			lines.push(
+				`${term('sin', 'sin', '\\sin 30^\\circ = \\tfrac{1}{2}')}`,
+				`${term('cos', 'cos', '\\cos 30^\\circ = \\tfrac{\\sqrt{3}}{2}')}`
+			);
+			return lines;
+		}
+		case 'special': {
+			const lines = trigLines(theta, unit, N);
+			if (ghosts.neg) lines.push(...formulaLines('negative', theta, unit, locale));
+			if (ghosts.supp) lines.push(...formulaLines('supplement', theta, unit, locale));
+			if (ghosts.comp) lines.push(...formulaLines('complement', theta, unit, locale));
+			return lines;
 		}
 	}
 }
