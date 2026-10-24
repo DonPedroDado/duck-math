@@ -10,7 +10,7 @@
 - [x] **SHELL-01**: Visitor can browse a catalog of concepts grouped by category (High School; University shown as reserved/coming later)
 - [x] **SHELL-02**: Visitor can open a concept from the catalog and return to the catalog
 - [x] **SHELL-03**: Visitor can share/open a link that lands on a specific step of a concept (stable step IDs)
-- [ ] **SHELL-04**: Site is publicly reachable at a URL with no account or login
+- [x] **SHELL-04**: Site is publicly reachable at a URL with no account or login
 - [x] **SHELL-05**: Site uses a 3Blue1Brown-inspired dark theme with a consistent semantic color palette (same color = same meaning across concepts)
 
 ### Guided Player
@@ -128,7 +128,7 @@
 | SHELL-01 | Phase 1 | Complete |
 | SHELL-02 | Phase 1 | Complete |
 | SHELL-03 | Phase 1 | Complete |
-| SHELL-04 | Phase 1 | Pending |
+| SHELL-04 | Phase 1 | Complete |
 | SHELL-05 | Phase 1 | Complete |
 | PLAY-01 | Phase 1 | Complete |
 | PLAY-02 | Phase 1 | Complete |
