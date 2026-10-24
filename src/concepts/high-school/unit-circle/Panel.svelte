@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { m } from '#lib/paraglide/messages.js';
 	import { fmt, fmtDeg, fmtRad } from '#lib/engine/format.ts';
+	import Tex from '#lib/tex/Tex.svelte';
+	import { formulaLines } from './formulas.ts';
 	import { SYM } from './notation.ts';
 	import { STEP_IDS, type StepId } from './step-ids.ts';
 	import { STEPS } from './steps.ts';
@@ -23,6 +25,8 @@
 	};
 
 	const shownUnit = $derived(v.unitBlend >= 0.5 ? 'rad' : 'deg');
+	const id = $derived(STEP_IDS[step]);
+	const lines = $derived(formulaLines(id, theta, shownUnit, locale));
 	const morph = $derived(v.unitBlend > 0 && v.unitBlend < 1 ? Math.abs(1 - 2 * v.unitBlend) : 1);
 </script>
 
@@ -40,7 +44,15 @@
 	>
 	{#if shownUnit === 'rad'}<span aria-hidden="true">{SYM.rad}</span>{/if}
 </div>
-<div data-testid="formula" class="formula" style="min-height: 96px"></div>
+<div data-testid="formula" class="formula" style="min-height: 96px">
+	{#key id}
+		<div class="formula-fade">
+			{#each lines as src, i (`${id}-${i}`)}
+				<div class="formula-line"><Tex {src} /></div>
+			{/each}
+		</div>
+	{/key}
+</div>
 <div data-testid="toggle-slot" style="min-height: 44px"></div>
 
 <style>
@@ -68,6 +80,12 @@
 		color: var(--text-strong);
 		min-height: 1.5em;
 	}
+	.formula-fade {
+		animation: fade 150ms var(--ease-out);
+	}
+	.formula-line {
+		min-height: 32px;
+	}
 	@keyframes fade {
 		from {
 			opacity: 0;
@@ -82,7 +100,8 @@
 		}
 	}
 	@media (prefers-reduced-motion: reduce) {
-		.caption {
+		.caption,
+		.formula-fade {
 			animation: none;
 		}
 	}
