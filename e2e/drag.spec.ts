@@ -159,3 +159,13 @@ test('slider supports Home/End and PageUp/PageDown (ARIA slider pattern)', async
 	await expect(readout(page)).toHaveText('359°');
 	await expect(s).toHaveAttribute('aria-valuenow', '359');
 });
+
+test('slider accessible name is static; only aria-valuetext carries the value', async ({ page }) => {
+	await page.goto(U + 'angle/');
+	const s = slider(page);
+	await expect(s).toHaveAttribute('aria-label', 'Angle of the point');
+	await s.focus();
+	await page.keyboard.press('ArrowRight');
+	await expect(s).toHaveAttribute('aria-label', 'Angle of the point');
+	await expect(s).toHaveAttribute('aria-valuetext', await readout(page).innerText());
+});

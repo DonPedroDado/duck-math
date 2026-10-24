@@ -41,7 +41,7 @@
 	"uc_title": "Unit circle",
 	"uc_hook": "Drag a point and see angles, cos and sin appear.",
 	"uc_drag_hint": "Drag me",
-	"uc_point_aria": "Angle of the point, {value}",
+	"uc_point_aria": "Angle of the point",
 	"uc_stage_aria": "Unit circle diagram: {title}",
 	"uc_unit_toggle_label": "Angle unit",
 	"uc_unit_deg": "deg",

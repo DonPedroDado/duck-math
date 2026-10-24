@@ -248,7 +248,7 @@
 				{R}
 				{theta}
 				scale={v.point}
-				label={m.uc_point_aria({ value: val })}
+				label={m.uc_point_aria()}
 				valuetext={val}
 				onchange={onthetachange}
 				{oninteract}

@@ -41,7 +41,7 @@
 	"uc_title": "Einheitskreis",
 	"uc_hook": "Zieh einen Punkt und sieh Winkel, cos und sin entstehen.",
 	"uc_drag_hint": "Zieh mich",
-	"uc_point_aria": "Winkel des Punkts, {value}",
+	"uc_point_aria": "Winkel des Punkts",
 	"uc_stage_aria": "Einheitskreis-Diagramm: {title}",
 	"uc_unit_toggle_label": "Winkeleinheit",
 	"uc_unit_deg": "Grad",
