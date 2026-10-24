@@ -1,4 +1,5 @@
-const TAU = 2 * Math.PI;
+import { TAU } from '#lib/engine/angle.ts';
+
 const f = (x: number) => x.toFixed(2);
 
 /** Math angle (CCW, y-up) to screen px. */

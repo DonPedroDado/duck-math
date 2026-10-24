@@ -4,6 +4,7 @@
 	import { m } from '#lib/paraglide/messages.js';
 	import { getLocale } from '#lib/paraglide/runtime.js';
 	import { fmt, fmtDeg } from '#lib/engine/format.ts';
+	import { snapTheta } from '#lib/engine/angle.ts';
 	import { arcPath, nudge, polar } from '#lib/stage/geom.ts';
 	import { TAU } from './derive.ts';
 	import { SYM } from './notation.ts';
@@ -27,6 +28,7 @@
 		moved: boolean;
 		glowing?: boolean;
 		stepId?: string;
+		/** Receives display-snapped angles only (see snapTheta): the `theta > 0` arc condition below relies on it. */
 		onthetachange: (t: number) => void;
 		oninteract?: () => void;
 	} = $props();
@@ -250,7 +252,7 @@
 				scale={v.point}
 				label={m.uc_point_aria()}
 				valuetext={val}
-				onchange={onthetachange}
+				onchange={(t) => onthetachange(snapTheta(t))}
 				{oninteract}
 				glow={glow.md}
 			/>

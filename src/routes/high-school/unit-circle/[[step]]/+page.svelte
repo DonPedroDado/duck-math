@@ -19,7 +19,6 @@
 		stepDefaults,
 		initialUser
 	} from '#concepts/high-school/unit-circle/steps.ts';
-	import { snapTheta } from '#lib/engine/angle.ts';
 	import { view } from '#concepts/high-school/unit-circle/view.ts';
 	import type { PageProps } from './$types';
 
@@ -112,7 +111,7 @@
 				title={stepTitle(player.state.step)}
 				theta={user.theta}
 				moved={user.moved}
-				onthetachange={(t) => (user.theta = snapTheta(t))}
+				onthetachange={(t) => (user.theta = t)}
 				oninteract={() => {
 					player.dispatch({ type: 'pause' });
 					user.moved = true;
