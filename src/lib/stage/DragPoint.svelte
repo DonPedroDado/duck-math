@@ -65,15 +65,22 @@
 			ondragend?.();
 		}
 	}
+	const PAGE_DEG = 15;
+	/** Largest reachable value: 360° wraps to 0°, so the slider range is 0..359. */
+	const MAX_DEG = 359;
 	function key(e: KeyboardEvent) {
-		const stepDeg = e.shiftKey ? 15 : 1;
-		let dir: number;
-		if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') dir = -1;
-		else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') dir = 1;
+		const stepDeg = e.shiftKey ? PAGE_DEG : 1;
+		let next: number;
+		if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') next = keyStep(theta, -stepDeg);
+		else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') next = keyStep(theta, stepDeg);
+		else if (e.key === 'PageDown') next = keyStep(theta, -PAGE_DEG);
+		else if (e.key === 'PageUp') next = keyStep(theta, PAGE_DEG);
+		else if (e.key === 'Home') next = 0;
+		else if (e.key === 'End') next = (MAX_DEG * Math.PI) / 180;
 		else return;
 		e.preventDefault();
 		oninteract?.();
-		onchange(keyStep(theta, dir * stepDeg));
+		onchange(next);
 	}
 </script>
 
@@ -101,7 +108,7 @@
 		tabindex="0"
 		aria-label={label}
 		aria-valuemin="0"
-		aria-valuemax="360"
+		aria-valuemax={MAX_DEG}
 		aria-valuenow={degValue(theta)}
 		aria-valuetext={valuetext}
 		style="cursor:{dragging ? 'grabbing' : 'grab'}; touch-action:none"

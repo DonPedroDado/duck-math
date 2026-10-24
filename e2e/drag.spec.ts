@@ -142,3 +142,20 @@ test('keyboard during playback pauses and hides the hint', async ({ page }) => {
 	await page.keyboard.press('ArrowRight');
 	await expect(concept(page)).toHaveAttribute('data-playing', 'false');
 });
+
+test('slider supports Home/End and PageUp/PageDown (ARIA slider pattern)', async ({ page }) => {
+	await page.goto(U + 'angle/');
+	const s = slider(page);
+	await expect(s).toHaveAttribute('aria-valuemax', '359');
+	await s.focus();
+	await page.keyboard.press('Home');
+	await expect(readout(page)).toHaveText('0°');
+	await page.keyboard.press('PageUp');
+	await expect(readout(page)).toHaveText('15°');
+	await page.keyboard.press('PageDown');
+	await page.keyboard.press('PageDown');
+	await expect(readout(page)).toHaveText('345°');
+	await page.keyboard.press('End');
+	await expect(readout(page)).toHaveText('359°');
+	await expect(s).toHaveAttribute('aria-valuenow', '359');
+});
