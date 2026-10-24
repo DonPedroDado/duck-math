@@ -96,7 +96,13 @@
 			/>
 		{/snippet}
 		{#snippet panel()}
-			<Panel step={player.state.step} {v} theta={user.theta} {locale} />
+			<Panel
+				step={player.state.step}
+				{v}
+				theta={user.theta}
+				{locale}
+				onunitchange={(u) => (user.unit = u)}
+			/>
 		{/snippet}
 		{#snippet bar()}
 			<PlayerBar

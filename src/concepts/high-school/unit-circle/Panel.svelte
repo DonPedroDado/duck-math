@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { m } from '#lib/paraglide/messages.js';
 	import { fmt, fmtDeg, fmtRad } from '#lib/engine/format.ts';
+	import SegmentedToggle from '#lib/ui/SegmentedToggle.svelte';
 	import Tex from '#lib/tex/Tex.svelte';
 	import { formulaLines } from './formulas.ts';
 	import { SYM } from './notation.ts';
@@ -12,8 +13,15 @@
 		step,
 		v,
 		theta,
-		locale
-	}: { step: number; v: UCView; theta: number; locale: string } = $props();
+		locale,
+		onunitchange
+	}: {
+		step: number;
+		v: UCView;
+		theta: number;
+		locale: string;
+		onunitchange: (u: 'deg' | 'rad') => void;
+	} = $props();
 
 	const CAPTIONS: Record<StepId, () => string> = {
 		intro: () => m.uc_step_intro_caption(),
@@ -53,7 +61,27 @@
 		</div>
 	{/key}
 </div>
-<div data-testid="toggle-slot" style="min-height: 44px"></div>
+<div data-testid="toggle-slot" style="min-height: 44px">
+	<div
+		class="toggle"
+		data-testid="unit-toggle"
+		style="opacity: {v.toggle}; transform: translateY({(1 - v.toggle) * 8}px)"
+		inert={v.toggle === 0}
+		aria-hidden={v.toggle === 0}
+	>
+		<SegmentedToggle
+			label={m.uc_unit_toggle_label()}
+			value={shownUnit}
+			options={[
+				{ value: 'deg', label: m.uc_unit_deg(), testid: 'unit-deg' },
+				{ value: 'rad', label: m.uc_unit_rad(), testid: 'unit-rad' }
+			]}
+			onchange={(u) => {
+				if (u === 'deg' || u === 'rad') onunitchange(u);
+			}}
+		/>
+	</div>
+</div>
 
 <style>
 	.counter {
@@ -73,6 +101,9 @@
 	.caption {
 		margin: 0;
 		min-height: calc(4 * 1.5em);
+		animation: fade var(--dur-ui) var(--ease-out);
+	}
+	.readout output {
 		animation: fade var(--dur-ui) var(--ease-out);
 	}
 	.readout {
