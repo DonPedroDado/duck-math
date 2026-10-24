@@ -27,3 +27,12 @@ GitHub Actions (`ci.yml`) additionally runs the Playwright e2e suite on every pu
 ## Verify
 `curl -sI https://dm.ducksoft.ai/en/` shows `200`;
 `curl -sI https://dm.ducksoft.ai/en/high-school/unit-circle/angle` redirects to the `/` form.
+
+## Last verified: 2026-10-24 (Vercel)
+Checked against https://dm.ducksoft.ai with curl (valid TLS, no -k):
+- `/` 200, static redirect page (`location.replace` + hreflang links)
+- `/en/` and `/de/` 200 with `<html lang="en">` / `<html lang="de">`
+- `/en/high-school/unit-circle/` and `/de/high-school/unit-circle/sine/` 200
+- `/en/high-school/unit-circle/angle` -> 308 to `.../angle/`
+- `/en/does-not-exist/` 404 (serves the app's `404.html`, rendered by `+error.svelte`)
+- `/_app/immutable/*` has `cache-control: public, max-age=31536000, immutable`
