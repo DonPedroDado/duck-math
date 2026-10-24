@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { angleFromPoint, keyStep } from '#concepts/high-school/unit-circle/derive.ts';
+	import { angleFromPoint, keyStep } from '#lib/engine/angle.ts';
 	import { degValue } from '#lib/engine/format.ts';
 
 	let {
@@ -36,12 +36,12 @@
 	const py = $derived(cy - R * Math.sin(theta));
 
 	function update(e: PointerEvent) {
-		const svg = (e.currentTarget as SVGElement).ownerSVGElement;
-		if (!svg) return;
-		const r = svg.getBoundingClientRect();
-		const dx = e.clientX - (r.left + r.width / 2);
-		const dyUp = r.top + r.height / 2 - e.clientY;
-		onchange(angleFromPoint(dx, dyUp));
+		// Map the pointer into this element's user space (the space cx/cy/px/py live in, including any
+		// ancestor transforms) and measure from the actual centre, whatever the Stage's origin or scaling is.
+		const ctm = (e.currentTarget as SVGGraphicsElement).getScreenCTM();
+		if (!ctm) return;
+		const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(ctm.inverse());
+		onchange(angleFromPoint(p.x - cx, cy - p.y));
 	}
 
 	function down(e: PointerEvent) {

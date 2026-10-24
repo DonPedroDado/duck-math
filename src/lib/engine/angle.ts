@@ -26,3 +26,15 @@ export function snapTheta(theta: number): number {
 	const d = (r * 180) / Math.PI;
 	return d < DISPLAY_EPS_DEG || d >= 360 - DISPLAY_EPS_DEG ? 0 : r;
 }
+
+/** Keyboard step on the integer-degree grid: round current angle to whole degrees, add deltaDeg, wrap mod 360, convert once. */
+export function keyStep(theta: number, deltaDeg: number): number {
+	const cur = Math.round((norm(theta) * 180) / Math.PI);
+	const next = (((cur + deltaDeg) % 360) + 360) % 360;
+	return (next * Math.PI) / 180;
+}
+
+/** Angle of the vector (dx, dyUp) in [0, TAU). dyUp is math-up (caller flips screen y). */
+export function angleFromPoint(dx: number, dyUp: number): number {
+	return norm(Math.atan2(dyUp, dx));
+}

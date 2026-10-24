@@ -1,13 +1,7 @@
-import { TAU, norm } from '#lib/engine/angle.ts';
+import { TAU, norm, keyStep, angleFromPoint } from '#lib/engine/angle.ts';
 
-export { TAU, norm };
-
-/** Keyboard step on the integer-degree grid: round current angle to whole degrees, add deltaDeg, wrap mod 360, convert once. */
-export function keyStep(theta: number, deltaDeg: number): number {
-	const cur = Math.round((norm(theta) * 180) / Math.PI);
-	const next = (((cur + deltaDeg) % 360) + 360) % 360;
-	return (next * Math.PI) / 180;
-}
+// Angle primitives live in #lib/engine/angle.ts (single source); re-exported for concept code.
+export { TAU, norm, keyStep, angleFromPoint };
 
 export interface Derived {
 	theta: number;
@@ -31,9 +25,4 @@ export function derive(theta: number): Derived {
 	else if (cos > 0) quadrant = sin > 0 ? 1 : 4;
 	else quadrant = sin > 0 ? 2 : 3;
 	return { theta: t, cos, sin, x: cos, y: sin, deg: (t * 180) / Math.PI, quadrant };
-}
-
-/** dyUp is math-up (caller flips screen y). */
-export function angleFromPoint(dx: number, dyUp: number): number {
-	return norm(Math.atan2(dyUp, dx));
 }
