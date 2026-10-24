@@ -1,30 +1,80 @@
 <script lang="ts">
+	import { onDestroy } from 'svelte';
 	import { m } from '#lib/paraglide/messages.js';
 	import { getLocale } from '#lib/paraglide/runtime.js';
-	import { fmtDeg } from '#lib/engine/format.ts';
+	import { Player } from '#lib/engine/clock.svelte.ts';
+	import { restage } from '#lib/engine/player.ts';
+	import ConceptLayout from '#lib/player/ConceptLayout.svelte';
+	import PlayerBar from '#lib/player/PlayerBar.svelte';
 	import Scene from '#concepts/high-school/unit-circle/Scene.svelte';
-	import { SYM } from '#concepts/high-school/unit-circle/notation.ts';
+	import Panel from '#concepts/high-school/unit-circle/Panel.svelte';
+	import { STEP_IDS, type StepId } from '#concepts/high-school/unit-circle/step-ids.ts';
+	import {
+		STEPS,
+		POLICY,
+		stepDefaults,
+		initialUser
+	} from '#concepts/high-school/unit-circle/steps.ts';
+	import { view } from '#concepts/high-school/unit-circle/view.ts';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
-	let theta = $state(Math.PI / 3);
+
+	// svelte-ignore state_referenced_locally
+	const i0 = Math.max(0, STEP_IDS.indexOf(data.step as StepId));
+	let user = $state(initialUser(i0));
+	const player = new Player(STEPS, i0, (i, prev) => {
+		user = restage(user, POLICY, stepDefaults(i, prev));
+	});
+	const v = $derived(view(player.state.t, user));
+	onDestroy(() => player.destroy());
+
+	const locale = getLocale();
+	const TITLES: Record<StepId, () => string> = {
+		intro: () => m.uc_step_intro_title(),
+		angle: () => m.uc_step_angle_title(),
+		radian: () => m.uc_step_radian_title(),
+		radians: () => m.uc_step_radians_title(),
+		cosine: () => m.uc_step_cosine_title(),
+		sine: () => m.uc_step_sine_title()
+	};
+	const stepTitle = (i: number) => TITLES[STEP_IDS[i]]();
 </script>
 
 <svelte:head>
 	<title>{m.shell_page_title({ title: m.uc_title() })}</title>
 </svelte:head>
 
-<h1>{m.uc_title()}</h1>
-<div class="host" data-testid="stage-host" data-step={data.step}>
-	<Scene {theta} onthetachange={(t) => (theta = t)} />
-	<p class="readout">
-		<span aria-hidden="true">{SYM.theta} {SYM.eq}</span>
-		<span data-testid="theta-readout" style="font-variant-numeric: tabular-nums">{fmtDeg(theta, getLocale())}</span>
-	</p>
+<div
+	data-testid="concept"
+	data-step={STEP_IDS[player.state.step]}
+	data-t={player.state.t.toFixed(2)}
+	data-playing={player.state.playing}
+>
+	<ConceptLayout>
+		{#snippet stage()}
+			<Scene
+				{v}
+				title={stepTitle(player.state.step)}
+				theta={user.theta}
+				moved={user.moved}
+				onthetachange={(t) => (user.theta = t)}
+				ondragstart={() => {
+					player.dispatch({ type: 'pause' });
+					user.moved = true;
+				}}
+			/>
+		{/snippet}
+		{#snippet panel()}
+			<Panel step={player.state.step} {v} theta={user.theta} {locale} />
+		{/snippet}
+		{#snippet bar()}
+			<PlayerBar
+				state={player.state}
+				steps={STEPS}
+				{stepTitle}
+				dispatch={(a) => player.dispatch(a)}
+			/>
+		{/snippet}
+	</ConceptLayout>
 </div>
-
-<style>
-	.host {
-		max-width: 640px;
-	}
-</style>
