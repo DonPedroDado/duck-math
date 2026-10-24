@@ -123,3 +123,14 @@ test('desktop layout: 44px targets, stage left of panel', async ({ page }) => {
 	const c = (await page.getByTestId('caption').boundingBox())!;
 	expect(s.x).toBeLessThan(c.x);
 });
+
+test('concept panel has exactly one live region (the step caption)', async ({ page }) => {
+	for (const step of ['intro', 'angle', 'radians', 'sine']) {
+		await page.goto(`/en/high-school/unit-circle/${step}/`);
+		const live = page.locator(
+			'aside [aria-live], aside [role="status"], aside [role="alert"], aside [role="log"], aside output'
+		);
+		await expect(live).toHaveCount(1);
+		await expect(live.getByTestId('caption')).toHaveCount(1);
+	}
+});
