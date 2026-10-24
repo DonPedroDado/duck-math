@@ -1,5 +1,21 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"id_title": "Identities & special angles",
-	"id_hook": "Squares, mirrors and exact values at 30°, 45°, 60°."
+	"id_hook": "Squares, mirrors and exact values at 30°, 45°, 60°.",
+	"id_stage_aria": "Identities diagram: {title}",
+	"id_point_aria": "Angle of the point",
+	"id_step_intro_title": "Triangle",
+	"id_step_intro_caption": "The point makes a right triangle. Its hypotenuse is 1.",
+	"id_step_pythagoras_title": "sin² + cos² = 1",
+	"id_step_pythagoras_caption": "The two small squares always fill the big one.",
+	"id_step_negative_title": "Negative angle",
+	"id_step_negative_caption": "−θ mirrors in the x-axis. Cosine stays, sine flips.",
+	"id_step_supplement_title": "Supplement",
+	"id_step_supplement_caption": "180° − θ mirrors in the y-axis. Sine stays, cosine flips.",
+	"id_step_supplement_predict_caption": "Where will the mirror point of 180° − θ land?",
+	"id_step_supplement_answer_caption": "Mirrored in the y-axis. Its height matches the original.",
+	"id_step_complement_title": "Complement",
+	"id_step_complement_caption": "90° − θ mirrors in the diagonal. Sine and cosine swap.",
+	"id_guess_valuetext": "Guess at {value}",
+	"id_ghost_title": "Mirror point {label}"
 }
