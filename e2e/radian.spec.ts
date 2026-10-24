@@ -106,3 +106,17 @@ test('DE labels and decimal comma', async ({ page }) => {
 	await expect(page.getByTestId('unit-rad')).toHaveText('rad');
 	await expect(readout(page)).toHaveText('1,05');
 });
+
+test('toggle shows the real unit during the radians blend', async ({ page }) => {
+	await page.goto(U + 'radians/');
+	await page.getByTestId('scrubber').focus();
+	for (let i = 0; i < 7; i++) await page.keyboard.press('ArrowLeft');
+	const c = page.getByTestId('concept');
+	await expect(c).toHaveAttribute('data-step', 'radians');
+	await expect(c).toHaveAttribute('data-t', '8.75');
+	await expect(page.getByTestId('unit-rad')).toHaveAttribute('aria-pressed', 'true');
+	await page.getByTestId('unit-deg').click();
+	await expect(page.getByTestId('unit-deg')).toHaveAttribute('aria-pressed', 'true');
+	await page.getByTestId('unit-rad').click();
+	await expect(page.getByTestId('unit-rad')).toHaveAttribute('aria-pressed', 'true');
+});

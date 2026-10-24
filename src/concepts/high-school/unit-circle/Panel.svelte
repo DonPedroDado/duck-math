@@ -13,12 +13,14 @@
 		step,
 		v,
 		theta,
+		unit,
 		locale,
 		onunitchange
 	}: {
 		step: number;
 		v: UCView;
 		theta: number;
+		unit: 'deg' | 'rad';
 		locale: string;
 		onunitchange: (u: 'deg' | 'rad') => void;
 	} = $props();
@@ -71,7 +73,7 @@
 	>
 		<SegmentedToggle
 			label={m.uc_unit_toggle_label()}
-			value={shownUnit}
+			value={unit}
 			options={[
 				{ value: 'deg', label: m.uc_unit_deg(), testid: 'unit-deg' },
 				{ value: 'rad', label: m.uc_unit_rad(), testid: 'unit-rad' }
