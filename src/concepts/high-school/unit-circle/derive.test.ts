@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { TAU, norm, derive, angleFromPoint } from './derive';
+import { TAU, norm, derive, angleFromPoint, keyStep } from './derive';
 
 describe('norm', () => {
 	it('wraps into [0, TAU)', () => {
@@ -64,5 +64,45 @@ describe('norm keyboard wrap', () => {
 			expect(norm(a)).toBeGreaterThanOrEqual(0);
 			expect(norm(a)).toBeLessThan(TAU);
 		}
+	});
+});
+
+describe('norm tolerance snap', () => {
+	it('snaps near TAU and near 0 to exactly 0', () => {
+		expect(norm(TAU - 1e-14)).toBe(0);
+		expect(norm(TAU - 5.3e-15)).toBe(0);
+		expect(norm(-1e-14)).toBe(0);
+		expect(norm(1e-12)).toBe(0);
+		expect(norm(TAU)).toBe(0);
+	});
+	it('does not over-snap', () => {
+		expect(norm(TAU - 1e-6)).toBeCloseTo(TAU - 1e-6, 12);
+		expect(norm(TAU - 1e-6)).toBeGreaterThan(0);
+		expect(norm(1e-6)).toBeCloseTo(1e-6, 12);
+		expect(norm(1e-6)).toBeGreaterThan(0);
+	});
+});
+
+describe('keyStep stepping up through 360', () => {
+	const r = (deg: number) => (deg * Math.PI) / 180;
+	it('20x +15 from 60 deg lands on exactly 0, every step on the grid', () => {
+		let t = Math.PI / 3;
+		for (let i = 1; i <= 20; i++) {
+			t = keyStep(t, 15);
+			expect(t).toBe(r((60 + 15 * i) % 360));
+		}
+		expect(t).toBe(0);
+	});
+	it('300x +1 from 60 deg lands on exactly 0', () => {
+		let t = Math.PI / 3;
+		for (let i = 0; i < 300; i++) t = keyStep(t, 1);
+		expect(t).toBe(0);
+	});
+	it('wraps down and recovers drifted values', () => {
+		expect(keyStep(0, -1)).toBe(r(359));
+		expect(keyStep(0, -15)).toBe(r(345));
+		expect(keyStep(r(359), 1)).toBe(0);
+		expect(keyStep(TAU - 5.3e-15, 1)).toBe(r(1));
+		expect(keyStep(r(134.6), 1)).toBe(r(136));
 	});
 });
