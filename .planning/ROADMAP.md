@@ -27,7 +27,7 @@ Duck Math ships as a static, public SvelteKit site where every phase ends with s
   4. Dragging during playback pauses it cleanly with no jumps; moving to another step re-stages the scene predictably.
   5. Visitor can switch between English and German via /en/ and /de/ URLs, numbers use a decimal comma in German, a link to a specific step opens at that step, and the build fails if a text key is missing in either language.
   6. On a phone or tablet, student can drag the point, use the player controls, and the layout fits the small screen without overflow (EN and DE).
-**Plans**: 11 plans (6 waves + 1 gap closure)
+**Plans**: 12 plans (6 waves + 2 gap closure)
 
 Plans:
 **Wave 1**
@@ -54,6 +54,7 @@ Plans:
 
 **Gap closure**
 - [x] 01-11-PLAN.md — Keyboard theta wrap (CR-01), keyboard pauses/dismisses hint (WR-03), toggle bound to real unit (WR-02), tick stale requirements
+- [ ] 01-12-PLAN.md — Upward keyboard wrap through 360° (CR-01): integer-degree key steps, norm() tolerance snap, aria-valuenow from degValue
 **UI hint**: yes
 
 ### Phase 2: Trigonometry Complete
