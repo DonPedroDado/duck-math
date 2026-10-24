@@ -38,6 +38,8 @@
 	const lit = $derived(hover || focused || dragging);
 	const px = $derived(cx + R * Math.cos(theta));
 	const py = $derived(cy - R * Math.sin(theta));
+	/** Nothing is drawn while scale is 0 (start of intro), so the hit target must not be operable either. */
+	const live = $derived(scale > 0);
 
 	function update(e: PointerEvent) {
 		// Map the pointer into this element's user space (the space cx/cy/px/py live in, including any
@@ -49,6 +51,7 @@
 	}
 
 	function down(e: PointerEvent) {
+		if (!live) return;
 		e.preventDefault();
 		(e.currentTarget as Element).setPointerCapture(e.pointerId);
 		dragging = true;
@@ -69,6 +72,7 @@
 	/** Largest reachable value: 360° wraps to 0°, so the slider range is 0..359. */
 	const MAX_DEG = 359;
 	function key(e: KeyboardEvent) {
+		if (!live) return;
 		const stepDeg = e.shiftKey ? PAGE_DEG : 1;
 		let next: number;
 		if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') next = keyStep(theta, -stepDeg);
@@ -95,7 +99,7 @@
 		r="18"
 		fill="var(--c-point)"
 		pointer-events="none"
-		opacity={scale > 0 ? 1 : 0}
+		opacity={live ? 1 : 0}
 	/>
 	<circle cx={px} cy={py} r={10 * scale} fill="var(--c-point)" stroke="var(--bg)" stroke-width="2" pointer-events="none" />
 	<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
@@ -105,7 +109,8 @@
 		r="24"
 		fill="transparent"
 		role="slider"
-		tabindex="0"
+		tabindex={live ? 0 : -1}
+		pointer-events={live ? 'auto' : 'none'}
 		aria-label={label}
 		aria-valuemin="0"
 		aria-valuemax={MAX_DEG}
