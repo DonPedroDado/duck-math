@@ -7,6 +7,7 @@
 	import { arcPath, polar } from '#lib/stage/geom.ts';
 	import { TAU } from './derive.ts';
 	import { SYM } from './notation.ts';
+	import RadianLayer from './RadianLayer.svelte';
 	import { projection } from './projection.ts';
 	import type { UCView } from './view.ts';
 
@@ -104,6 +105,7 @@
 				{/if}
 			</g>
 		{/if}
+		<g data-layer="radian"><RadianLayer {v} {cx} {cy} {R} {locale} /></g>
 		<g data-layer="projection">
 			{#if P.showCos}
 				<line
