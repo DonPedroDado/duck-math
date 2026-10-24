@@ -27,9 +27,18 @@ export function snapTheta(theta: number): number {
 	return d < DISPLAY_EPS_DEG || d >= 360 - DISPLAY_EPS_DEG ? 0 : r;
 }
 
-/** Keyboard step on the integer-degree grid: round current angle to whole degrees, add deltaDeg, wrap mod 360, convert once. */
+/** Within this many degrees of a whole degree, the angle counts as on the grid (absorbs float drift). */
+const GRID_EPS_DEG = 1e-6;
+
+/**
+ * Keyboard step on the integer-degree grid: snap the current angle to whole degrees in the
+ * direction of travel (so an off-grid 134.6° goes to 135° on +1 and 134° on -1, never skipping a
+ * degree), add deltaDeg, wrap mod 360, convert once. On-grid angles (within float drift) step exactly.
+ */
 export function keyStep(theta: number, deltaDeg: number): number {
-	const cur = Math.round((norm(theta) * 180) / Math.PI);
+	const d = (norm(theta) * 180) / Math.PI;
+	const r = Math.round(d);
+	const cur = Math.abs(d - r) < GRID_EPS_DEG ? r : deltaDeg > 0 ? Math.floor(d) : Math.ceil(d);
 	const next = (((cur + deltaDeg) % 360) + 360) % 360;
 	return (next * Math.PI) / 180;
 }

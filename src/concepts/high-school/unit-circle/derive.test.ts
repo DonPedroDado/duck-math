@@ -103,6 +103,11 @@ describe('keyStep stepping up through 360', () => {
 		expect(keyStep(0, -15)).toBe(r(345));
 		expect(keyStep(r(359), 1)).toBe(0);
 		expect(keyStep(TAU - 5.3e-15, 1)).toBe(r(1));
-		expect(keyStep(r(134.6), 1)).toBe(r(136));
+		expect(keyStep(r(134.6), 1)).toBe(r(135));
+		expect(keyStep(r(134.6), -1)).toBe(r(134));
+		expect(keyStep(r(134.4), 1)).toBe(r(135));
+		expect(keyStep(r(134.4), -1)).toBe(r(134));
+		expect(keyStep(r(359.6), 1)).toBe(0);
+		expect(keyStep(r(0.4), -1)).toBe(0);
 	});
 });
