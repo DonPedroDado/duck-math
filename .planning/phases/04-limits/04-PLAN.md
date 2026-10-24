@@ -135,3 +135,17 @@ Scaffolded with `npm run new-concept`. Layout `side`. Params: `xl`, `xr` (handle
 - **Handle collisions on phones:** at high zoom, both handles sit near a in screen space. That is fine because the min gap is screen-relative (1.5% of the width on each side), and the hit areas of the two handles must not overlap. Check this on a phone in slice 2.
 - **Outward zoom vs. scrubbing:** the window is a pure function of the handle x, so scrubbing reproduces it exactly. No state is kept between frames.
 - **Message budget:** EN ≤ 18 words and DE ≤ 25 per caption. "Does not exist" and "grows without bound" are message keys, never inline.
+
+---
+
+## Status (2026-10-24)
+
+Slices 1–3 built and pushed (`f172a1a`, `c940a17`, `8100287`). The slice 4 tests (catalog order, Next chain, predict and hover-link coverage) shipped with slices 2 and 3. The full suite is green. What remains is the user's visual review.
+
+Deviations from the plan, found while building:
+- **`limit-approach` got an `intro` step.** The player opens a concept at the end of its first step, so a predict on step 1 would have opened already answered.
+- **`limit-infinity` hides 1/x near 0 until the reveal.** The curve is drawn only as far as the handles have explored, otherwise the picture gives the predict away.
+- **No auto-zoom in `both-up`.** An x-only zoom just runs the curve off the top of an empty screen. The zoom stays available as a control.
+- **Below about 10 px per swing, sin(1/x) is drawn as a band**, not as a zig-zag.
+- **Each `lim` operator carries its hover link as a whole.** KaTeX's subscript box swallows hovers on the subscript alone.
+- **Tick labels may use the decade below the major lines**, so a zoomed-out axis (±866) still gets labels.
