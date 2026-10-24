@@ -1,9 +1,9 @@
 ---
 phase: 1
 slug: foundation-playable-unit-circle
-status: planned
+status: validated
 nyquist_compliant: true
-wave_0_complete: false
+wave_0_complete: true
 created: 2026-10-24
 updated: 2026-10-24
 ---
@@ -63,6 +63,11 @@ updated: 2026-10-24
 | 01-10-T1 | A11Y-01, PLAY-04 | 320/390 px EN+DE: no overflow, >= 44px, touch drag does not scroll, sticky stage/bar | e2e | `E2E_PORT=4310 npx playwright test e2e/mobile.spec.ts --project=desktop` | 01-10-T1 |
 | 01-10-T2 | SHELL-05, A11Y-01 | Group glow (<= 2 filters), halo, pulse (reduced-motion off), label nudge, error boundary | unit + e2e | `npx vitest run src/lib/stage src/lib/styles && E2E_PORT=4310 npx playwright test e2e/mobile.spec.ts --project=desktop` | 01-10-T1/T2 |
 | 01-10-T3 | all (visual) | User visual approval; full suite run once before pausing | checkpoint | `E2E_PORT=4310 npx playwright test e2e/mobile.spec.ts --project=desktop` (full suite = wave gate) | n/a |
+| 01-11-T1 | PLAY-04, PLAY-05, TRIG-01 | Keyboard θ wraps to [0, 2π) with arc kept; keyboard pauses playback and hides hint (CR-01, WR-03) | unit + e2e | `npx vitest run src/concepts/high-school/unit-circle/derive.test.ts && npx playwright test e2e/drag.spec.ts --project=desktop` | 01-11-T1 |
+| 01-11-T2 | TRIG-02 | Deg/rad toggle shows the real user unit during the radians blend (WR-02) | e2e | `npm run check && npx playwright test e2e/radian.spec.ts --project=desktop` | 01-11-T2 |
+| 01-11-T3 | TRIG-03, MATH-01, I18N-04 | Stale requirements ticked; full suite green | full suite | `npm run check && npx vitest run && npx playwright test` | n/a |
+| 01-12-T1 | TRIG-03, A11Y-01 | `norm()` tolerance snap at 2π, integer-degree `keyStep()`, shared `degValue()` | unit | `npx vitest run src/concepts/high-school/unit-circle/derive.test.ts src/lib/engine/format.test.ts` | 01-12-T1 |
+| 01-12-T2 | TRIG-03, A11Y-01 | Keyboard up through 360° lands on exactly 0 with consistent arc and aria-valuetext | e2e | `npm run check && npx vitest run && npx playwright test e2e/drag.spec.ts --project=desktop` | 01-12-T2 |
 
 *Status is tracked per task in each plan SUMMARY.*
 
@@ -100,4 +105,23 @@ All test scaffolds are created inside the plans that need them (test-first tasks
 - [x] Feedback latency < 120s
 - [x] `nyquist_compliant: true` set in frontmatter
 
-**Approval:** planner sign-off 2026-10-24 (checker re-review pending)
+**Approval:** planner sign-off 2026-10-24; Nyquist audit 2026-10-24 (all automated checks green)
+
+---
+
+## Validation Audit 2026-10-24
+
+| Metric | Count |
+|--------|-------|
+| Gaps found | 0 |
+| Resolved | 0 |
+| Escalated | 0 |
+
+Every Phase 1 requirement (SHELL-01..05, PLAY-01..06, TRIG-01..03, MATH-01..02, I18N-01..04, A11Y-01) maps to at least one automated test, and all of them pass:
+
+- `npm run check`: 0 errors, 0 warnings
+- `npx vitest run`: 15 files, 146 tests passed
+- `node scripts/check-i18n.mjs`: 58 keys OK in en, de
+- `npx playwright test`: 130 passed, 37 skipped (the `mobile` project allowlist skips by design)
+
+The per-task map now includes the gap-closure plans 01-11 and 01-12, which were missing from it. The three manual-only items are unchanged.
