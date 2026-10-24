@@ -47,7 +47,7 @@ Plans:
 - [x] 01-08-PLAN.md — Cos/sin projections with color-matched KaTeX formulas and live locale readouts
 
 **Wave 5** *(blocked on Wave 4 completion)*
-- [ ] 01-09-PLAN.md — Radian moment (peel, bend, repeat to π) and deg/rad toggle
+- [x] 01-09-PLAN.md — Radian moment (peel, bend, repeat to π) and deg/rad toggle
 
 **Wave 6** *(blocked on Wave 5 completion)*
 - [ ] 01-10-PLAN.md — Phone/touch hardening, 3B1B polish (glow, halo, pulse), visual review checkpoint

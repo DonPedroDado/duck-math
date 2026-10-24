@@ -55,7 +55,7 @@
 ### Concept: Trigonometry & the Unit Circle
 
 - [x] **TRIG-01**: Student can drag a point around the unit circle and see the angle in degrees and radians (with toggle)
-- [ ] **TRIG-02**: Student sees what a radian is (radius laid along the arc)
+- [x] **TRIG-02**: Student sees what a radian is (radius laid along the arc)
 - [ ] **TRIG-03**: Student sees cos and sin as the x and y projections of the point, with live values
 - [ ] **TRIG-04**: Student sees tan as a segment on the tangent line (similar triangles), undefined at 90°/270°
 - [ ] **TRIG-05**: Student sees sec, csc and cot as geometric segments (one at a time)
@@ -143,7 +143,7 @@
 | I18N-03 | Phase 1 | Complete |
 | I18N-04 | Phase 1 | Pending |
 | TRIG-01 | Phase 1 | Complete |
-| TRIG-02 | Phase 1 | Pending |
+| TRIG-02 | Phase 1 | Complete |
 | TRIG-03 | Phase 1 | Pending |
 | TRIG-04 | Phase 2 | Pending |
 | TRIG-05 | Phase 2 | Pending |
