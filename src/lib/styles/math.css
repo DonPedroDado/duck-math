@@ -1,0 +1,19 @@
+.t-angle {
+	color: var(--c-angle);
+}
+.t-point {
+	color: var(--c-point);
+}
+.t-cos {
+	color: var(--c-cos);
+}
+.t-sin {
+	color: var(--c-sin);
+}
+.t-radian {
+	color: var(--c-radian);
+}
+.tex .katex {
+	font-size: 20px;
+	color: var(--text-strong);
+}

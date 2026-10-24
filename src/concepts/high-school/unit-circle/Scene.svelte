@@ -7,6 +7,7 @@
 	import { arcPath, polar } from '#lib/stage/geom.ts';
 	import { TAU } from './derive.ts';
 	import { SYM } from './notation.ts';
+	import { projection } from './projection.ts';
 	import type { UCView } from './view.ts';
 
 	let {
@@ -27,6 +28,7 @@
 
 	const locale = getLocale();
 	const val = $derived(fmtDeg(theta, locale));
+	const P = $derived(projection(theta));
 	const GRID = [-1.5, -1, -0.5, 0.5, 1, 1.5];
 </script>
 
@@ -102,6 +104,84 @@
 				{/if}
 			</g>
 		{/if}
+		<g data-layer="projection">
+			{#if P.showCos}
+				<line
+					data-testid="cos-drop"
+					x1={x(P.cos)}
+					y1={y(P.sin)}
+					x2={x(P.cos)}
+					y2={y(P.sin * (1 - v.cosDrop))}
+					stroke="var(--c-cos)"
+					stroke-width="1.5"
+					opacity="0.6"
+					stroke-dasharray="4 4"
+				/>
+				<line
+					data-testid="cos-seg"
+					data-len={(Math.abs(P.cos) * v.cosSeg).toFixed(3)}
+					x1={x(0)}
+					y1={y(0)}
+					x2={x(P.cos * v.cosSeg)}
+					y2={y(0)}
+					stroke="var(--c-cos)"
+					stroke-width="4"
+					stroke-linecap="round"
+				/>
+				<text
+					data-testid="cos-label"
+					x={x(P.cos / 2)}
+					y={y(0) + (P.cosLabelBelow ? 19 : -19)}
+					text-anchor="middle"
+					dominant-baseline="middle"
+					fill="var(--c-cos)"
+					font-size="14"
+					font-weight="600"
+					paint-order="stroke"
+					stroke="var(--bg)"
+					stroke-width="3"
+					opacity={v.cosLabel}>{SYM.cos}</text
+				>
+			{/if}
+			{#if P.showSin}
+				<line
+					data-testid="sin-drop"
+					x1={x(P.cos)}
+					y1={y(P.sin)}
+					x2={x(P.cos * (1 - v.sinDrop))}
+					y2={y(P.sin)}
+					stroke="var(--c-sin)"
+					stroke-width="1.5"
+					opacity="0.6"
+					stroke-dasharray="4 4"
+				/>
+				<line
+					data-testid="sin-seg"
+					data-len={(Math.abs(P.sin) * v.sinSeg).toFixed(3)}
+					x1={x(0)}
+					y1={y(0)}
+					x2={x(0)}
+					y2={y(P.sin * v.sinSeg)}
+					stroke="var(--c-sin)"
+					stroke-width="4"
+					stroke-linecap="round"
+				/>
+				<text
+					data-testid="sin-label"
+					x={x(0) + (P.sinLabelLeft ? -12 : 12)}
+					y={y(P.sin / 2)}
+					text-anchor={P.sinLabelLeft ? 'end' : 'start'}
+					dominant-baseline="middle"
+					fill="var(--c-sin)"
+					font-size="14"
+					font-weight="600"
+					paint-order="stroke"
+					stroke="var(--bg)"
+					stroke-width="3"
+					opacity={v.sinLabel}>{SYM.sin}</text
+				>
+			{/if}
+		</g>
 		<g data-layer="hint" data-testid="drag-hint" opacity={moved ? 0 : v.hint} pointer-events="none">
 			{#if true}
 				{@const [hx, hy] = polar(cx, cy, R + 28, theta)}
