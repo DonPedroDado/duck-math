@@ -6,7 +6,7 @@ import { pathToFileURL } from 'node:url';
 import { staleness } from './i18n-paths.mjs';
 
 const BASE = 'en';
-const CAPTION_MAX = { en: 18, de: 25 };
+const CAPTION_MAX = { en: 18, de: 25, ru: 20 };
 
 const placeholders = (s) =>
 	[...String(s).matchAll(/\{(\w+)\}/g)]
@@ -108,7 +108,14 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
 	let catalogs;
 	let loadErrors = [];
 	if (i > -1) {
-		catalogs = loadCatalogs(process.argv[i + 1], settingsLocales);
+		// A fixture dir is checked on its own: its locales are the files it holds.
+		const dir = process.argv[i + 1];
+		const dirLocales = fs
+			.readdirSync(dir)
+			.filter((f) => f.endsWith('.json'))
+			.map((f) => f.slice(0, -'.json'.length))
+			.sort();
+		catalogs = loadCatalogs(dir, dirLocales);
 	} else {
 		const { missing, extra } = staleness();
 		if (missing.length || extra.length) {

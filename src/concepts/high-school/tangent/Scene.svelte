@@ -5,6 +5,7 @@
 	import CircleBase from '#lib/stage/CircleBase.svelte';
 	import { m } from '#lib/paraglide/messages.js';
 	import { getLocale } from '#lib/paraglide/runtime.js';
+	import { trigName } from '#lib/tex/notation.ts';
 	import { fmt, fmtDeg } from '#lib/engine/format.ts';
 	import { snapTheta } from '#lib/engine/angle.ts';
 	import { polar } from '#lib/stage/geom.ts';
@@ -90,7 +91,7 @@
 		const out: LabelOut[] = [];
 		const dimOp = (d: number) => 1 - (1 - 0.25) * d;
 		const add = (id: Lbl['id'], px: number, py: number, ux: number, uy: number, opacity: number) =>
-			out.push({ id, x: px, y: py, ux, uy, text: id, color: LBL_COLOR[id], opacity });
+			out.push({ id, x: px, y: py, ux, uy, text: trigName(id, locale), color: LBL_COLOR[id], opacity });
 		const mid = (end: Pt, k: number): Pt => ({
 			x: cx + ((x(end.x) - cx) * k) / 2,
 			y: cy + ((y(end.y) - cy) * k) / 2

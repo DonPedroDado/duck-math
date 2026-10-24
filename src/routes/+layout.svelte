@@ -21,10 +21,10 @@
 		concepts.find((c) => deLocalizeUrl(page.url).pathname.startsWith(c.path))
 	);
 
-	const names = { en: m.shell_locale_en_name, de: m.shell_locale_de_name } as const;
-	const shorts = { en: m.shell_locale_en_short, de: m.shell_locale_de_short } as const;
+	const names = { en: m.shell_locale_en_name, de: m.shell_locale_de_name, ru: m.shell_locale_ru_name } as const;
+	const shorts = { en: m.shell_locale_en_short, de: m.shell_locale_de_short, ru: m.shell_locale_ru_short } as const;
 
-	function switchLocale(e: MouseEvent & { currentTarget: HTMLAnchorElement }, locale: 'en' | 'de') {
+	function switchLocale(e: MouseEvent & { currentTarget: HTMLAnchorElement }, locale: keyof typeof names) {
 		localStorage.setItem('dm-locale', locale);
 		e.currentTarget.href = localizeHref(location.pathname, { locale });
 	}

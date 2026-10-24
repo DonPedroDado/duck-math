@@ -7,6 +7,7 @@
 	import { startJump } from './jump.ts';
 	import PredictPrompt from '#lib/player/PredictPrompt.svelte';
 	import Tex from '#lib/tex/Tex.svelte';
+	import { trigTex } from '#lib/tex/notation.ts';
 	import type { PanelProps } from '../../types';
 	import { formulaLines } from './formulas.ts';
 	import { SYM } from './notation.ts';
@@ -86,7 +87,7 @@
 	{#if ex}
 		{#key ex.deg}
 			<div class="exact" data-testid="exact" data-deg={ex.deg} data-sin={ex.sin} data-cos={ex.cos} data-tan={ex.tan}>
-				<Tex src={`${ex.deg}^\\circ = ${ex.rad} \\qquad \\tan = ${ex.tan}`} />
+				<Tex src={`${ex.deg}^\\circ = ${ex.rad} \\qquad ${trigTex('tan', locale)} = ${ex.tan}`} />
 			</div>
 		{/key}
 	{/if}

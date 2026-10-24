@@ -21,5 +21,6 @@
 	"cb_step_explore_caption": "Zieh am Graphen, am Hochpunkt oder an den Reglern. Probier auch andere Grundgraphen.",
 	"cb_guess_valuetext": "Tipp: Hochpunkt bei x = {value}",
 	"cb_handle_valuetext": "a = {a}, b = {b}",
-	"cb_base_group": "Grundgraph"
+	"cb_base_group": "Grundgraph",
+	"cb_versus": "vs."
 }

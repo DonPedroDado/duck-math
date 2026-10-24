@@ -13,7 +13,7 @@ const write = (rel: string, body: string) => {
 
 beforeEach(() => {
 	root = fs.mkdtempSync(path.join(os.tmpdir(), 'new-concept-'));
-	write('project.inlang/settings.json', JSON.stringify({ locales: ['en', 'de'], 'plugin.inlang.messageFormat': { pathPattern: ['./messages/{locale}.json'] } }));
+	write('project.inlang/settings.json', JSON.stringify({ locales: ['en', 'de', 'ru'], 'plugin.inlang.messageFormat': { pathPattern: ['./messages/{locale}.json'] } }));
 	write('messages/en.json', JSON.stringify({ uc_title: 'Unit circle' }));
 	write('src/concepts/high-school/tangent/index.ts', "export default { order: 2 };");
 	write('src/concepts/high-school/tangent/messages/en.json', JSON.stringify({ tn_title: 'x' }));
@@ -22,9 +22,9 @@ afterEach(() => fs.rmSync(root, { recursive: true, force: true }));
 
 describe('new-concept', () => {
 	it('scaffolds a filled-in concept, ordered last, and registers its messages', () => {
-		const r = scaffold({ root, category: 'high-school', id: 'slope-play', title: 'Slope play', titleDe: 'Steigung' });
+		const r = scaffold({ root, category: 'high-school', id: 'slope-play', title: 'Slope play', titleDe: 'Steigung', titleRu: 'Наклон' });
 		expect(r.files).toEqual([
-			'Panel.svelte', 'Scene.svelte', 'Thumbnail.svelte', 'index.ts', 'messages/de.json', 'messages/en.json',
+			'Panel.svelte', 'Scene.svelte', 'Thumbnail.svelte', 'index.ts', 'messages/de.json', 'messages/en.json', 'messages/ru.json',
 			'runtime.ts', 'step-ids.ts', 'steps.ts', 'view.test.ts', 'view.ts'
 		]);
 		const read = (f: string) => fs.readFileSync(path.join(r.dir, f), 'utf8');
@@ -35,6 +35,7 @@ describe('new-concept', () => {
 		expect(read('steps.ts')).toContain('interface SlopePlayUser');
 		expect(JSON.parse(read('messages/en.json')).sp_title).toBe('Slope play');
 		expect(JSON.parse(read('messages/de.json')).sp_title).toBe('Steigung');
+		expect(JSON.parse(read('messages/ru.json')).sp_title).toBe('Наклон');
 		const settings = JSON.parse(fs.readFileSync(path.join(root, 'project.inlang/settings.json'), 'utf8'));
 		expect(settings['plugin.inlang.messageFormat'].pathPattern).toContain('./src/concepts/high-school/slope-play/messages/{locale}.json');
 	});

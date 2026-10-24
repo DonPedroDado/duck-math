@@ -60,7 +60,10 @@
 	{#key id}
 		<div class="formula-fade">
 			{#each lines as src, i (`${id}-${i}`)}
-				<div class="formula-line"><Tex {src} /></div>
+				<div class="formula-line">
+					{#if id === 'order' && i === 1}<span class="vs">{m.cb_versus()}</span>{/if}
+					<Tex {src} />
+				</div>
 			{/each}
 		</div>
 	{/key}
@@ -120,6 +123,9 @@
 	}
 	.formula-line {
 		min-height: 32px;
+		display: flex;
+		align-items: baseline;
+		gap: var(--sp-sm);
 		/* KaTeX fractions overhang the line box; keep stacked lines apart. */
 		padding-block: var(--sp-sm);
 	}

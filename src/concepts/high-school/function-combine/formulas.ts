@@ -16,7 +16,8 @@ export function formulaLines(id: StepId, p: Params, locale: string, base: BaseId
 		if (!revealed) return [`g(x) = ${ref}`];
 		return [
 			`g(x) = f(${B}x - 1) = f(${B}(x - ${term('c', '\\tfrac{1}{2}')}))`,
-			`\\text{vs. } ${ref}`
+			// The Panel prints the localized "vs." before this line: no words inside TeX (R-04).
+			ref
 		];
 	}
 	// Build steps show every applied term (even at its identity value while it animates in);

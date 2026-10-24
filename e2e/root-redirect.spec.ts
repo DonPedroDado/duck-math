@@ -37,6 +37,15 @@ test.describe('root redirect', () => {
 		});
 	});
 
+	test.describe('ru browser', () => {
+		test.use({ locale: 'ru-RU' });
+		test('goes to /ru/', async ({ page }) => {
+			await page.goto('/');
+			await page.waitForURL('**/ru/');
+			expect(new URL(page.url()).pathname).toBe('/ru/');
+		});
+	});
+
 	test.describe('fr browser', () => {
 		test.use({ locale: 'fr-FR' });
 		test('falls back to /en/', async ({ page }) => {

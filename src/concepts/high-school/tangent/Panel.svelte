@@ -3,6 +3,7 @@
 	import { fmtDeg } from '#lib/engine/format.ts';
 	import { fmtRatio, ratio } from '#lib/trig/ratios.ts';
 	import Tex from '#lib/tex/Tex.svelte';
+	import { trigName } from '#lib/tex/notation.ts';
 	import PredictPrompt from '#lib/player/PredictPrompt.svelte';
 	import type { PanelProps } from '#concepts/types.ts';
 	import { formulaLines } from './formulas.ts';
@@ -57,7 +58,7 @@
 		{#if step >= f.from}
 			<div class="row">
 				<span class="swatch" style:background="var(--c-{f.fn})" aria-hidden="true"></span>
-				<span aria-hidden="true">{f.fn} θ =</span>
+				<span aria-hidden="true">{trigName(f.fn, locale)} θ =</span>
 				<span
 					class="value"
 					data-testid="{f.fn}-readout"

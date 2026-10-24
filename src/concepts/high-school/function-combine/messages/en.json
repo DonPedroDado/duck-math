@@ -21,5 +21,6 @@
 	"cb_step_explore_caption": "Drag the graph, the peak or the sliders. Try other base graphs too.",
 	"cb_guess_valuetext": "Guess: peak at x = {value}",
 	"cb_handle_valuetext": "a = {a}, b = {b}",
-	"cb_base_group": "Base graph"
+	"cb_base_group": "Base graph",
+	"cb_versus": "vs."
 }

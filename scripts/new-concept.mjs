@@ -1,5 +1,5 @@
 // Scaffolds a working concept from scripts/templates/concept (MOD-03):
-//   npm run new-concept -- <category>/<id> [--prefix xx] [--title "Title"] [--title-de "Titel"]
+//   npm run new-concept -- <category>/<id> [--prefix xx] [--title "Title"] [--title-de "Titel"] [--title-ru "Название"]
 // The concept appears in the catalog with no shell edits. See src/concepts/AUTHORING.md.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -44,7 +44,7 @@ function nextOrder(root, category) {
  * Creates src/concepts/<category>/<id>/ under `root`. Throws with a readable message on bad
  * input; never overwrites. Returns the created folder and the files written.
  */
-export function scaffold({ root = '.', category, id, prefix = defaultPrefix(id), title, titleDe }) {
+export function scaffold({ root = '.', category, id, prefix = defaultPrefix(id), title, titleDe, titleRu }) {
 	if (!CATEGORIES.includes(category)) throw new Error(`category must be one of: ${CATEGORIES.join(', ')}`);
 	if (!/^[a-z][a-z0-9]*(-[a-z0-9]+)*$/.test(id)) throw new Error(`id must be kebab-case, e.g. "my-concept" (got "${id}")`);
 	if (!/^[a-z]{2,4}$/.test(prefix)) throw new Error(`prefix must be 2-4 lowercase letters (got "${prefix}")`);
@@ -61,6 +61,7 @@ export function scaffold({ root = '.', category, id, prefix = defaultPrefix(id),
 		__ORDER__: String(nextOrder(root, category)),
 		__PREFIX__: prefix,
 		__TITLE_DE__: titleDe ?? name,
+		__TITLE_RU__: titleRu ?? name,
 		__TITLE__: name
 	};
 	const fill = (s) => Object.entries(vars).reduce((acc, [k, v]) => acc.split(k).join(v), s);
@@ -92,12 +93,12 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
 	// The positional argument: not a flag and not a flag's value.
 	const target = args.find((a, i) => !a.startsWith('--') && !(i > 0 && args[i - 1].startsWith('--')));
 	if (!target) {
-		console.error('usage: npm run new-concept -- <category>/<id> [--prefix xx] [--title "Title"] [--title-de "Titel"]');
+		console.error('usage: npm run new-concept -- <category>/<id> [--prefix xx] [--title "Title"] [--title-de "Titel"] [--title-ru "Название"]');
 		process.exit(2);
 	}
 	const [category, id] = target.split('/');
 	try {
-		const r = scaffold({ category, id, prefix: opt('--prefix'), title: opt('--title'), titleDe: opt('--title-de') });
+		const r = scaffold({ category, id, prefix: opt('--prefix'), title: opt('--title'), titleDe: opt('--title-de'), titleRu: opt('--title-ru') });
 		console.log(`created ${path.relative('.', r.dir)}/`);
 		for (const f of r.files) console.log(`  ${f}`);
 		console.log(`\nopen http://localhost:5173/en${r.path} (npm run dev)`);

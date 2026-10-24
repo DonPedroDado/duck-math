@@ -15,7 +15,8 @@ const REQUIRED = [
 	'Panel.svelte',
 	'Thumbnail.svelte',
 	'messages/en.json',
-	'messages/de.json'
+	'messages/de.json',
+	'messages/ru.json'
 ];
 
 const routes: { category: string; id: string; path: string; stepIds: string[] }[] = conceptRoutes();

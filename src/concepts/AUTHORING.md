@@ -3,7 +3,7 @@
 A concept is one folder. Adding the folder is all it takes for it to appear in the catalog and get prerendered pages in every locale. You never edit the shell.
 
 ```bash
-npm run new-concept -- high-school/my-concept --title "My concept" --title-de "Mein Konzept"
+npm run new-concept -- high-school/my-concept --title "My concept" --title-de "Mein Konzept" --title-ru "Моя тема"
 npm run dev   # open http://localhost:5173/en/high-school/my-concept/
 ```
 
@@ -23,7 +23,7 @@ The script copies `scripts/templates/concept/`, which is a working two-step conc
 | `Scene.svelte` | `SceneProps` | The stage visual. |
 | `Panel.svelte` | `PanelProps` | Counter, title, caption, formulas and controls. |
 | `Thumbnail.svelte` | — | Card art, a 160×90 SVG using color tokens. |
-| `messages/{en,de}.json` | — | All text. Every key starts with the concept's prefix (`xx_`). |
+| `messages/{en,de,ru}.json` | — | All text. Every key starts with the concept's prefix (`xx_`). |
 | `*.test.ts` | — | At least a view test. |
 
 The types are documented in `src/concepts/types.ts`.
@@ -45,8 +45,9 @@ Add `pause: seconds` to one step in `STEPS`. Playback stops there, the Play butt
 
 ## Text
 
-- Write keys as `xx_step_<id>_title` and `xx_step_<id>_caption`. Captions are capped at 18 words in English and 25 in German (`npm run check:i18n`).
-- No UI words inside components. Math notation (`f(x)`, `x²`) is not text and can live in a `notation.ts`.
+- Write keys as `xx_step_<id>_title` and `xx_step_<id>_caption`. Captions are capped at 18 words in English, 25 in German and 20 in Russian (`npm run check:i18n`). Russian text addresses the student as «ты».
+- No UI words inside components, and none inside TeX (KaTeX's fonts have no Cyrillic). Math notation (`f(x)`, `x²`) is not text and can live in a `notation.ts`.
+- Trig names differ by locale: Russian schools write tg, ctg, cosec. Use `trigTex(fn, locale)` / `trigName(fn, locale)` from `#lib/tex/notation.ts`, never a literal `\tan`.
 - Use the locale-aware number helpers: `fmt` from `#lib/engine/format.ts`, and `num` / `texNum` inside TeX.
 
 ## Visuals and formulas
