@@ -44,9 +44,12 @@
 	{m.player_step_counter({ n: step + 1, total: STEPS.length })}
 </p>
 <h1>{m.uc_title()}</h1>
-{#key step}
-	<p class="caption" data-testid="caption" aria-live="polite">{CAPTIONS[STEP_IDS[step]]()}</p>
-{/key}
+<!-- Persistent live region: only its content is re-keyed, so screen readers announce each step caption. -->
+<div aria-live="polite">
+	{#key step}
+		<p class="caption" data-testid="caption">{CAPTIONS[STEP_IDS[step]]()}</p>
+	{/key}
+</div>
 <div class="readout" style="opacity: {v.readout * morph}" aria-hidden={v.readout === 0}>
 	<span aria-hidden="true">{SYM.theta} {shownUnit === 'rad' ? SYM.approx : SYM.eq}</span>
 	<output data-testid="theta-readout" data-unit={shownUnit}
