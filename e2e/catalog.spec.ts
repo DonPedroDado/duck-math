@@ -24,12 +24,12 @@ test('en catalog shows live and soon cards', async ({ page }) => {
 	await expect(page.locator('[data-testid="later-card"]')).toContainText('Coming later');
 });
 
-test('card opens concept and wordmark returns', async ({ page }) => {
+test('card opens concept and back link returns', async ({ page }) => {
 	await page.goto('/en/');
 	await page.locator('a[data-testid="concept-card"]').click();
 	await expect(page).toHaveURL(/\/en\/high-school\/unit-circle\/$/);
 	await expect(page.locator('h1')).toHaveText('Unit circle');
-	await page.getByRole('link', { name: 'Duck Math' }).first().click();
+	await page.locator('header').getByRole('link', { name: 'Catalog' }).locator('visible=true').click();
 	await expect(page).toHaveURL(/\/en\/$/);
 	await expect(page.locator('h1')).toHaveText('Visual math');
 });

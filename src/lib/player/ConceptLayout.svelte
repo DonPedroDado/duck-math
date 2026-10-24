@@ -39,15 +39,20 @@
 	.bar {
 		position: sticky;
 		bottom: 0;
+		padding-bottom: env(safe-area-inset-bottom);
 		z-index: 2;
 	}
 	.stage :global(.stage) {
 		margin: 0 auto;
 	}
 	@media (max-width: 639px) {
+		.layout {
+			overflow-x: clip;
+		}
 		.stage {
-			width: 100vw;
-			max-width: none;
+			width: 100%;
+			max-width: calc(100dvh - var(--header-h) - var(--bar-h-phone) - 96px);
+			margin-inline: auto;
 			position: sticky;
 			top: var(--header-h);
 			z-index: 1;
