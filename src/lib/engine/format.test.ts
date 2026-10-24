@@ -1,5 +1,14 @@
 import { describe, it, expect } from 'vitest';
-import { fmt, fmtDeg, fmtRad, degValue } from './format';
+import { fmt, fmtDeg, fmtRad, degValue, fmtValue } from './format';
+
+describe('fmtValue', () => {
+	it('integers from 1000, two decimals below', () => {
+		expect(fmtValue(1146.3, 'de')).toBe('1146');
+		expect(fmtValue(-1146.3, 'en')).toBe('−1146');
+		expect(fmtValue(57.2899, 'en')).toBe('57.29');
+		expect(fmtValue(-0.0001, 'en')).toBe('0.00');
+	});
+});
 
 const TAU = 2 * Math.PI;
 const rad = (d: number) => (d * Math.PI) / 180;

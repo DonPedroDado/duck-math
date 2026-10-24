@@ -1,5 +1,15 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"tn_title": "Tangens & Co.",
-	"tn_hook": "Sieh tan, sec, csc und cot als Strecken, die du ziehen kannst."
+	"tn_hook": "Sieh tan, sec, csc und cot als Strecken, die du ziehen kannst.",
+	"tn_stage_aria": "Tangens-Diagramm: {title}",
+	"tn_point_aria": "Winkel des Punkts",
+	"tn_step_intro_title": "Kreis",
+	"tn_step_intro_caption": "Gleicher Kreis, gleicher Punkt. Jetzt kommt eine Linie bei x = 1 dazu.",
+	"tn_step_tan_title": "Tangens",
+	"tn_step_tan_caption": "Verlängere den Radius bis zur Linie. Diese Höhe ist tan θ.",
+	"tn_step_tan_predict_caption": "Wo endet die tan-Strecke bei etwa 80°?",
+	"tn_step_tan_answer_caption": "Das ist tan θ. Nahe 90° wächst es rasant.",
+	"tn_guess_valuetext": "Vermutung bei Höhe {value}",
+	"tn_readout_label": "Werte"
 }

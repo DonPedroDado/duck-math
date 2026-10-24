@@ -1,5 +1,15 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"tn_title": "Tangent & friends",
-	"tn_hook": "See tan, sec, csc and cot as lines you can pull."
+	"tn_hook": "See tan, sec, csc and cot as lines you can pull.",
+	"tn_stage_aria": "Tangent diagram: {title}",
+	"tn_point_aria": "Angle of the point",
+	"tn_step_intro_title": "Circle",
+	"tn_step_intro_caption": "Same circle, same point. Now we add a line at x = 1.",
+	"tn_step_tan_title": "Tangent",
+	"tn_step_tan_caption": "Extend the radius to the line. That height is tan θ.",
+	"tn_step_tan_predict_caption": "Where will the tan segment end for about 80°?",
+	"tn_step_tan_answer_caption": "That is tan θ. It grows fast near 90°.",
+	"tn_guess_valuetext": "Guess at height {value}",
+	"tn_readout_label": "Values"
 }

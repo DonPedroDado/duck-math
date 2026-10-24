@@ -34,6 +34,21 @@ export function fmtDeg(theta: number, locale: string): string {
 	return (Number.isInteger(v) ? fmt(v, 0, locale) : fmt(v, 1, locale)) + DEG;
 }
 
+const intCache = new Map<string, Intl.NumberFormat>();
+
+/** Ratio values: 2 decimals, but no decimals from 1000 up (huge values near poles). U+2212 minus, never -0. */
+export function fmtValue(v: number, locale: string): string {
+	if (Math.abs(v) >= 1000) {
+		let f = intCache.get(locale);
+		if (!f) {
+			f = new Intl.NumberFormat(locale, { useGrouping: false, maximumFractionDigits: 0 });
+			intCache.set(locale, f);
+		}
+		return f.format(Math.round(v)).replace('-', '−');
+	}
+	return fmt(v, 2, locale);
+}
+
 export function fmtRad(theta: number, locale: string): string {
 	return fmt(norm(theta), 2, locale);
 }
