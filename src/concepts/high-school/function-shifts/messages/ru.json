@@ -1,0 +1,21 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"sh_title": "Сдвиг графиков",
+	"sh_hook": "Двигай график вверх, вниз и в стороны.",
+	"sh_stage_aria": "График f и его сдвиг: {title}",
+	"sh_step_intro_title": "График",
+	"sh_step_intro_caption": "Это f. Запомни вершину, впадину и место, где график пересекает ноль.",
+	"sh_step_vertical_title": "Вверх и вниз",
+	"sh_step_vertical_caption": "Прибавляем d — и каждая точка поднимается на d. Тяни график.",
+	"sh_step_opposite_title": "Внутри скобок",
+	"sh_step_opposite_caption": "Теперь 2 стоит внутри скобок: f(x + 2).",
+	"sh_step_opposite_predict_caption": "Куда сдвинется f(x + 2)? Поставь маркер туда, где окажется вершина.",
+	"sh_step_opposite_answer_caption": "Влево! График сдвигается в сторону, противоположную знаку.",
+	"sh_step_lookup_title": "Почему влево?",
+	"sh_step_lookup_caption": "Чтобы найти g в точке x, берём f в точке x + 2. Каждая высота приходит на 2 раньше.",
+	"sh_step_horizontal_title": "Сдвиг на c",
+	"sh_step_horizontal_caption": "f(x − c) сдвигается вправо на c, при отрицательном c — влево. Тяни в сторону.",
+	"sh_step_both_title": "Оба сразу",
+	"sh_step_both_caption": "f(x − c) + d: двигай график куда угодно.",
+	"sh_guess_valuetext": "Догадка: вершина при x = {value}"
+}

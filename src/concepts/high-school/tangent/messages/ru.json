@@ -1,0 +1,23 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"tn_title": "Тангенс и компания",
+	"tn_hook": "tg, sec, cosec и ctg как отрезки, которые можно потянуть.",
+	"tn_stage_aria": "Тангенс на окружности: {title}",
+	"tn_point_aria": "Угол точки",
+	"tn_step_intro_title": "Окружность",
+	"tn_step_intro_caption": "Та же окружность, та же точка. Теперь добавим прямую x = 1.",
+	"tn_step_tan_title": "Тангенс",
+	"tn_step_tan_caption": "Продли радиус до прямой. Эта высота — tg θ.",
+	"tn_step_tan_predict_caption": "Где закончится отрезок тангенса для угла около 80°?",
+	"tn_step_tan_answer_caption": "Это tg θ. Около 90° он растёт очень быстро.",
+	"tn_step_sec_title": "Секанс",
+	"tn_step_sec_caption": "Наклонный отрезок до той же точки — это sec θ.",
+	"tn_step_csc_title": "Косеканс",
+	"tn_step_csc_caption": "Теперь прямая y = 1. Наклонный отрезок до неё — cosec θ.",
+	"tn_step_cot_title": "Котангенс",
+	"tn_step_cot_caption": "Вдоль y = 1 получается ctg θ, напарник tg θ.",
+	"tn_step_all_title": "Все шесть",
+	"tn_step_all_caption": "Двигай точку. Следи за знаками и за тем, где всё обрывается при 90°.",
+	"tn_guess_valuetext": "Догадка: высота {value}",
+	"tn_readout_label": "Значения"
+}

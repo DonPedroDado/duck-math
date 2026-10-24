@@ -1,0 +1,23 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"la_title": "Приближение к значению",
+	"la_hook": "Смотри, как f(x) приближается, пока x подбирается к точке.",
+	"la_stage_aria": "График f возле точки приближения: {title}",
+	"la_step_intro_title": "Функция",
+	"la_step_intro_caption": "Это f. При x = 1 происходит что-то странное.",
+	"la_step_predict_title": "Просто подставить?",
+	"la_step_predict_caption": "Попробуй подставить x = 1.",
+	"la_step_predict_predict_caption": "Чему равно f(1)? Поставь маркер на свою догадку.",
+	"la_step_predict_answer_caption": "Подстановка 1 даёт 0/0: f(1) не определено. Но график явно идёт к 2.",
+	"la_step_approach_title": "Всё ближе и ближе",
+	"la_step_approach_caption": "Подводи x к 1 с обеих сторон. f(x) приближается к 2 — это предел.",
+	"la_step_zoom_title": "Приблизь",
+	"la_step_zoom_caption": "Приближай сколько угодно: график выглядит прямым, и в нём не хватает одной точки.",
+	"la_step_value_title": "Предел ≠ значение",
+	"la_step_value_caption": "Теперь f(1) = 3. Предел всё равно 2: он смотрит только рядом с 1, а не в саму 1.",
+	"la_step_jump_title": "Скачок",
+	"la_step_jump_caption": "Слева f идёт к 2, справа — к 0. Они не совпадают: предела нет.",
+	"la_step_oscillate_title": "Без покоя",
+	"la_step_oscillate_caption": "Возле 0 функция sin(1/x) колеблется всё быстрее. Приблизь: она не успокаивается, предела нет.",
+	"la_guess_valuetext": "Догадка: f(1) = {value}"
+}

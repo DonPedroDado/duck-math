@@ -1,0 +1,22 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"sr_title": "Растяжение и отражение",
+	"sr_hook": "Растяни график, а потом отрази его относительно оси.",
+	"sr_stage_aria": "График f, растянутый и отражённый: {title}",
+	"sr_step_intro_title": "Сетка",
+	"sr_step_intro_caption": "Та же f. Теперь вместе с ней может растягиваться вся сетка.",
+	"sr_step_vertical_title": "Выше",
+	"sr_step_vertical_caption": "a·f(x) умножает каждую высоту на a. Точки на оси x остаются на месте.",
+	"sr_step_horizontal_title": "Уже",
+	"sr_step_horizontal_caption": "Теперь множитель внутри скобок: f(2x).",
+	"sr_step_horizontal_predict_caption": "Где окажется вершина f(2x)? Поставь туда маркер.",
+	"sr_step_horizontal_answer_caption": "Уже! f(2x) достигает каждой высоты при вдвое меньшем x. Ось y остаётся на месте.",
+	"sr_step_reflect_x_title": "Отражение по вертикали",
+	"sr_step_reflect_x_caption": "Проведи a через 0 до −1: график сплющивается, потом переворачивается. Это −f(x).",
+	"sr_step_reflect_y_title": "Отражение по горизонтали",
+	"sr_step_reflect_y_caption": "Теперь b через 0 до −1: отражение относительно оси y. Это f(−x).",
+	"sr_step_explore_title": "Поиграй",
+	"sr_step_explore_caption": "Тяни вершину куда угодно: вверх-вниз меняет a, в стороны — b.",
+	"sr_guess_valuetext": "Догадка: вершина при x = {value}",
+	"sr_handle_valuetext": "{param} = {value}"
+}

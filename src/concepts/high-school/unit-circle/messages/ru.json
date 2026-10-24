@@ -1,0 +1,23 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"uc_title": "Единичная окружность",
+	"uc_hook": "Двигай точку и смотри, как появляются угол, cos и sin.",
+	"uc_drag_hint": "Тяни меня",
+	"uc_point_aria": "Угол точки",
+	"uc_stage_aria": "Единичная окружность: {title}",
+	"uc_unit_toggle_label": "Единица угла",
+	"uc_unit_deg": "град",
+	"uc_unit_rad": "рад",
+	"uc_step_intro_title": "Окружность",
+	"uc_step_intro_caption": "Окружность радиуса 1. Двигай точку по ней.",
+	"uc_step_angle_title": "Угол",
+	"uc_step_angle_caption": "Угол θ показывает, насколько точка повернулась от правого края.",
+	"uc_step_radian_title": "Один радиан",
+	"uc_step_radian_caption": "Уложи радиус вдоль окружности. Длина этой дуги — один радиан.",
+	"uc_step_radians_title": "Радианы",
+	"uc_step_radians_caption": "На половине окружности умещается около {pi} радиусов. Это π.",
+	"uc_step_cosine_title": "Косинус",
+	"uc_step_cosine_caption": "Тень точки на оси x — это cos θ.",
+	"uc_step_sine_title": "Синус",
+	"uc_step_sine_caption": "Тень на оси y — это sin θ. Двигай точку и следи за обеими."
+}
