@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Phase 1 UI-SPEC approved
-last_updated: "2026-10-24T08:55:14.147Z"
+last_updated: "2026-10-24T08:55:18.621Z"
 last_activity: 2026-10-24
 progress:
   total_phases: 6
@@ -48,12 +48,15 @@ Progress: [█░░░░░░░░░] 10%
 
 ## Accumulated Context
 
+| Phase 01 P01 | 15min | 3 tasks | 45 files |
+
 ### Decisions
 
 - Stack: TypeScript + SvelteKit (static), own SVG primitives, KaTeX, Paraglide
 - Languages: English + German
 - Mode: MVP vertical slices; every phase is browser-testable; visual polish matters
 - Module contract extracted after concept #2 (Phase 3), not before
+- [Phase 01]: Stage SVG role=group; #concepts imports need explicit .ts extensions; Kit 3 Handle/Reroute from @sveltejs/kit/hooks
 
 ### Pending Todos
 
