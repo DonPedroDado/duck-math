@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { initialState, reduce, isStaged, restage, MAX_DT, type PlayerState } from './player';
 import { stepStart, stepEnd, totalDuration } from './timeline';
-import { STEPS, POLICY } from '#concepts/high-school/unit-circle/steps.ts';
+import { STEPS, POLICY, type UCUser } from '#concepts/high-school/unit-circle/steps.ts';
 import { view } from '#concepts/high-school/unit-circle/view.ts';
 
 const S = STEPS;
@@ -102,7 +102,7 @@ describe('seek equivalence (PLAY-02)', () => {
 
 describe('restage', () => {
 	it('resets restage keys only, without mutation', () => {
-		const user = Object.freeze({ theta: 2, unit: 'deg' as const, moved: true });
+		const user: Readonly<UCUser> = Object.freeze({ theta: 2, unit: 'deg', moved: true });
 		const out = restage(user, POLICY, { unit: 'rad' });
 		expect(out).toEqual({ theta: 2, unit: 'rad', moved: true });
 		expect(out).not.toBe(user);
