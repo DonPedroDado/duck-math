@@ -58,3 +58,26 @@ test('grid layout adapts', async ({ page }) => {
 		for (let i = 1; i < tops.length; i++) expect(tops[i]).toBeGreaterThan(tops[i - 1]);
 	}
 });
+
+const ORDER = ['unit-circle', 'tangent', 'sine-cosine-graphs', 'trig-identities'];
+const TITLES = {
+	en: ['Unit circle', 'Tangent & friends', 'Sine & cosine graphs', 'Identities & special angles'],
+	de: ['Einheitskreis', 'Tangens & Co.', 'Sinus- und Kosinuskurve', 'Identitäten & besondere Winkel']
+};
+
+for (const l of ['en', 'de'] as const) {
+	test(`high school order (${l})`, async ({ page }) => {
+		await page.goto(`/${l}/`);
+		const items = page.locator('.grid').first().locator(':scope > *');
+		await expect(items).toHaveCount(ORDER.length + 3);
+		for (const [i, id] of ORDER.entries()) {
+			const card = items.nth(i);
+			await expect(card).toHaveAttribute('data-testid', 'concept-card');
+			await expect(card).toHaveAttribute('href', `/${l}/high-school/${id}/`);
+			await expect(card).toContainText(TITLES[l][i]);
+		}
+		for (let i = ORDER.length; i < ORDER.length + 3; i++) {
+			await expect(items.nth(i)).toHaveAttribute('data-testid', 'soon-card');
+		}
+	});
+}
