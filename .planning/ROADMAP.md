@@ -71,8 +71,8 @@ Plans:
 **Plans**: 12 plans
 Plans:
 **Wave 1**
-- [ ] 02-01-PLAN.md — Generic concept route, ConceptRuntime contract, ConceptPage; unit circle migrated
-- [ ] 02-02-PLAN.md — Phase 2 tokens (contrast + color-blind check), multi-file i18n, shared strings
+- [x] 02-01-PLAN.md — Generic concept route, ConceptRuntime contract, ConceptPage; unit circle migrated
+- [x] 02-02-PLAN.md — Phase 2 tokens (contrast + color-blind check), multi-file i18n, shared strings
 
 **Wave 2** *(blocked on Wave 1 completion)*
 - [ ] 02-03-PLAN.md — Formula-to-visual hover linking (MATH-03) on the Unit circle
