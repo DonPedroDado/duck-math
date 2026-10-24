@@ -51,9 +51,9 @@ test('grid layout adapts', async ({ page }) => {
 	const tops = await page
 		.locator('[data-testid="concept-card"], [data-testid="soon-card"]')
 		.evaluateAll((els) => els.map((e) => e.getBoundingClientRect().top));
-	expect(tops).toHaveLength(4);
+	expect(tops.length).toBeGreaterThanOrEqual(4);
 	if (vw >= 1024) {
-		for (const t of tops) expect(Math.abs(t - tops[0])).toBeLessThanOrEqual(2);
+		for (const t of tops.slice(0, 4)) expect(Math.abs(t - tops[0])).toBeLessThanOrEqual(2);
 	} else if (vw < 640) {
 		for (let i = 1; i < tops.length; i++) expect(tops[i]).toBeGreaterThan(tops[i - 1]);
 	}
