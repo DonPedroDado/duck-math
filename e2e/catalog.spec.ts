@@ -59,10 +59,10 @@ test('grid layout adapts', async ({ page }) => {
 	}
 });
 
-const ORDER = ['unit-circle', 'tangent', 'sine-cosine-graphs', 'trig-identities', 'function-shifts', 'function-stretches'];
+const ORDER = ['unit-circle', 'tangent', 'sine-cosine-graphs', 'trig-identities', 'function-shifts', 'function-stretches', 'function-combine'];
 const TITLES = {
-	en: ['Unit circle', 'Tangent & friends', 'Sine & cosine graphs', 'Identities & special angles', 'Shifting graphs', 'Stretching & reflecting'],
-	de: ['Einheitskreis', 'Tangens & Co.', 'Sinus- und Kosinuskurve', 'Identitäten & besondere Winkel', 'Graphen verschieben', 'Strecken & Spiegeln']
+	en: ['Unit circle', 'Tangent & friends', 'Sine & cosine graphs', 'Identities & special angles', 'Shifting graphs', 'Stretching & reflecting', 'Combining transformations'],
+	de: ['Einheitskreis', 'Tangens & Co.', 'Sinus- und Kosinuskurve', 'Identitäten & besondere Winkel', 'Graphen verschieben', 'Strecken & Spiegeln', 'Transformationen kombinieren']
 };
 
 for (const l of ['en', 'de'] as const) {

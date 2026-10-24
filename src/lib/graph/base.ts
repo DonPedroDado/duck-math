@@ -18,15 +18,15 @@ export interface Base {
 
 /**
  * Monotone cubic (Fritsch–Carlson) through the knots: no overshoot, and a local extremum
- * exactly at a knot where the data turns, so landmarks sit on knots. Constant outside the knots.
+ * exactly at a knot where the data turns, so landmarks sit on knots. Flat at and beyond the end knots.
  */
 export function monotoneCubic(xs: readonly number[], ys: readonly number[]): (x: number) => number {
 	const n = xs.length;
 	const h = xs.slice(1).map((x, i) => x - xs[i]);
 	const dk = h.map((hi, i) => (ys[i + 1] - ys[i]) / hi);
+	// Zero slope at both ends, so the constant continuation outside the knots joins smoothly.
 	const m = xs.map((_, i) => {
-		if (i === 0) return dk[0];
-		if (i === n - 1) return dk[n - 2];
+		if (i === 0 || i === n - 1) return 0;
 		return dk[i - 1] * dk[i] <= 0 ? 0 : (dk[i - 1] + dk[i]) / 2;
 	});
 	for (let i = 0; i < n - 1; i++) {
