@@ -80,10 +80,12 @@ export function formulaLines(
 				`${term('sin', 'sin', 'y = \\tfrac{\\sqrt{3}}{2}')}`,
 				...trigLines(theta, unit, N)
 			];
-			lines.push(
-				`${term('sin', 'sin', '\\sin 30^\\circ = \\tfrac{1}{2}')}`,
-				`${term('cos', 'cos', '\\cos 30^\\circ = \\tfrac{\\sqrt{3}}{2}')}`
-			);
+			// At exactly 30° the live lines already say this; don't print it twice.
+			if (exactFor(theta)?.deg !== 30)
+				lines.push(
+					`${term('sin', 'sin', '\\sin 30^\\circ = \\tfrac{1}{2}')}`,
+					`${term('cos', 'cos', '\\cos 30^\\circ = \\tfrac{\\sqrt{3}}{2}')}`
+				);
 			return lines;
 		}
 		case 'special': {

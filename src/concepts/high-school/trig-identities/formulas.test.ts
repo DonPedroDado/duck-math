@@ -35,6 +35,8 @@ describe('formulaLines', () => {
 	it('derivation steps and ghost toggles', () => {
 		expect(formulaLines('square45', rad(45), 'deg', 'en')[0]).toContain('x^2 + x^2 = 1');
 		expect(formulaLines('triangle3060', rad(60), 'deg', 'en').join('')).toContain('\\sin 30^\\circ');
+		const at30 = formulaLines('triangle3060', rad(30), 'deg', 'en').join('');
+		expect(at30.split('\\sin 30^\\circ').length - 1).toBe(1);
 		const g = { neg: true, supp: false, comp: false };
 		expect(formulaLines('special', rad(50), 'deg', 'en', g).join('')).toContain('link-ghost-neg');
 		expect(formulaLines('special', rad(50), 'deg', 'en').join('')).not.toContain('link-ghost-neg');

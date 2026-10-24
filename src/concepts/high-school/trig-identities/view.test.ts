@@ -74,7 +74,7 @@ describe('view', () => {
 			expect(v.eqTri).toBeCloseTo(i === 6 ? 1 : 0, 9);
 			expect(v.mirror30).toBeCloseTo(i === 6 ? 1 : 0, 9);
 			expect(v.halfFade).toBeCloseTo(i >= 5 ? 1 : 0, 9);
-			expect(v.chips).toBeCloseTo(i >= 6 ? 1 : 0, 9);
+			expect(v.chips).toBeCloseTo(i === 7 ? 1 : 0, 9);
 			expect(v.tools).toBeCloseTo(i === 7 ? 1 : 0, 9);
 		}
 	});

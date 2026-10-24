@@ -65,7 +65,8 @@ export function view(t: number): IDView {
 		alt: only(6, (q) => E(seg(q, 0.25, 0.45))),
 		halfFade60: layer(6, (q) => E(seg(q, 0.45, 0.65))),
 		mirror30: only(6, (q) => E(seg(q, 0.7, 0.9))),
-		chips: i >= 6 ? (i === 6 ? E(seg(p, 0.9, 1)) : 1) : 0,
+		// Jumping away would contradict the fixed 30/60 drawing, so chips belong to the explore step.
+		chips: layer(7, (q) => E(seg(q, 0, 0.3))),
 		tools: layer(7, (q) => E(seg(q, 0, 0.3)))
 	};
 }
