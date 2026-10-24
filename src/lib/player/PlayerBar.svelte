@@ -3,7 +3,7 @@
 	import { m } from '#lib/paraglide/messages.js';
 	import Icon from '#lib/icons/Icon.svelte';
 	import Scrubber from './Scrubber.svelte';
-	import { isStaged, type PlayerAction, type PlayerState } from '#lib/engine/player.ts';
+	import { awaiting, isStaged, type PlayerAction, type PlayerState } from '#lib/engine/player.ts';
 	import { totalDuration, type StepDef } from '#lib/engine/timeline.ts';
 
 	let {
@@ -24,6 +24,7 @@
 	});
 	const last = $derived(steps.length - 1);
 	const total = $derived(totalDuration(steps));
+	const wait = $derived(awaiting(steps, ps));
 	const playLabel = $derived(ps.playing ? m.player_pause() : m.player_play());
 </script>
 
@@ -50,17 +51,21 @@
 		<button
 			type="button"
 			class="btn play"
+			class:reveal={wait}
 			data-testid="player-play"
 			data-playing={ps.playing}
+			data-awaiting={wait ? 'true' : undefined}
 			data-pulse={pulse}
-			aria-label={playLabel}
-			title={playLabel}
+			aria-label={wait ? m.predict_reveal() : playLabel}
+			title={wait ? m.predict_reveal() : playLabel}
 			onanimationend={() => (pulse = false)}
 			onclick={() => {
 				pulse = false;
-				dispatch({ type: 'toggle' });
+				dispatch(wait ? { type: 'reveal' } : { type: 'toggle' });
 			}}
-			><Icon name={ps.playing ? 'pause' : 'play'} /></button
+			>{#if wait}<span class="reveal-text">{m.predict_reveal()}</span>{:else}<Icon
+					name={ps.playing ? 'pause' : 'play'}
+				/>{/if}</button
 		>
 		<button
 			type="button"
@@ -143,6 +148,19 @@
 	}
 	.btn.play {
 		position: relative;
+	}
+	.btn.play.reveal,
+	.btn.play.reveal:hover:not(:disabled) {
+		width: auto;
+		min-width: 96px;
+		padding: 0 var(--sp-md);
+		border-radius: 999px;
+	}
+	.reveal-text {
+		font-size: var(--fs-label);
+		font-weight: var(--fw-semibold);
+		color: var(--accent-ink);
+		white-space: nowrap;
 	}
 	.btn.play[data-pulse='true']::after {
 		content: '';

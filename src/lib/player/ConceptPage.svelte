@@ -6,7 +6,7 @@
 	import { baseLocale, getLocale, localizeHref, locales } from '#lib/paraglide/runtime.js';
 	import type { PlayerAction } from '#lib/engine/player.ts';
 	import { Player } from '#lib/engine/clock.svelte.ts';
-	import { restage } from '#lib/engine/player.ts';
+	import { restage, predictPhase } from '#lib/engine/player.ts';
 	import ConceptLayout from '#lib/player/ConceptLayout.svelte';
 	import PlayerBar from '#lib/player/PlayerBar.svelte';
 	import type { ConceptManifest, ConceptRuntime } from '#concepts/types.ts';
@@ -67,6 +67,8 @@
 		return () => clearTimeout(id);
 	});
 	const v = $derived(rt.view(player.state.t, user));
+	const phase = $derived(predictPhase(rt.steps, player.state));
+	const predict = $derived({ phase, onreveal: () => act({ type: 'reveal' }) });
 	onDestroy(() => player.destroy());
 
 	const locale = getLocale();
@@ -98,6 +100,7 @@
 	data-step={stepIds[player.state.step]}
 	data-t={player.state.t.toFixed(2)}
 	data-playing={player.state.playing}
+	data-predict={phase}
 >
 	<ConceptLayout variant={rt.layout ?? 'side'}>
 		{#snippet stage()}
@@ -111,6 +114,7 @@
 					{glowing}
 					{update}
 					{oninteract}
+					{predict}
 				/>
 				{#snippet failed()}
 					<div class="scene-error" role="alert">
@@ -128,6 +132,7 @@
 				stepId={stepIds[player.state.step]}
 				{locale}
 				{update}
+				{predict}
 			/>
 		{/snippet}
 		{#snippet bar()}

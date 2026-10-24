@@ -94,6 +94,14 @@
 		<div class="knob" style="left: {pct}%"></div>
 	</div>
 	{#each steps as s, i (s.id)}
+		{#if s.pause !== undefined}
+			<span
+				class="pause-mark"
+				data-testid="pause-mark-{s.id}"
+				aria-hidden="true"
+				style="left: {total > 0 ? ((stepStart(steps, i) + s.pause) / total) * 100 : 0}%"
+			></span>
+		{/if}
 		<button
 			type="button"
 			class="tick"
@@ -149,6 +157,15 @@
 		border-radius: 50%;
 		background: var(--accent);
 		box-shadow: 0 0 0 2px var(--bg);
+		pointer-events: none;
+	}
+	.pause-mark {
+		position: absolute;
+		top: 4px;
+		width: 6px;
+		height: 6px;
+		transform: translate(-50%, 0) rotate(45deg);
+		background: var(--text-muted);
 		pointer-events: none;
 	}
 	.tick {
