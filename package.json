@@ -5,7 +5,9 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
+		"prebuild": "node scripts/check-i18n.mjs",
 		"build": "vite build",
+		"check:i18n": "node scripts/check-i18n.mjs",
 		"preview": "node scripts/serve-build.mjs 4173",
 		"prepare": "svelte-kit sync || echo ''",
 		"paraglide": "node scripts/paraglide-compile.mjs",
