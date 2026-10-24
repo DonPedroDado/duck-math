@@ -106,6 +106,28 @@ test('keyboard past 0 deg wraps and keeps the angle arc', async ({ page }) => {
 	expect(t2).toBeLessThan(0.018);
 });
 
+test('keyboard up through 360 deg lands on exactly 0 with consistent arc and aria', async ({ page }) => {
+	await page.goto(U + 'angle/');
+	const s = slider(page);
+	await s.focus();
+	for (let i = 0; i < 20; i++) await page.keyboard.press('Shift+ArrowRight');
+	await expect(readout(page)).toHaveText('0°');
+	await expect(page.getByTestId('drag-point')).toHaveAttribute('data-theta', '0.0000');
+	expect(await thetaAttr(page)).toBe(0);
+	await expect(s).toHaveAttribute('aria-valuenow', '0');
+	await expect(s).toHaveAttribute('aria-valuetext', '0°');
+	await expect(page.getByTestId('angle-arc')).toHaveCount(0);
+	await page.keyboard.press('ArrowRight');
+	await expect(readout(page)).toHaveText('1°');
+	await expect(s).toHaveAttribute('aria-valuenow', '1');
+	await expect(s).toHaveAttribute('aria-valuetext', '1°');
+	await expect(page.getByTestId('angle-arc')).toHaveCount(1);
+	expect(await arcCount(page)).toBe(1);
+	await page.keyboard.press('ArrowLeft');
+	await expect(readout(page)).toHaveText('0°');
+	await expect(s).toHaveAttribute('aria-valuenow', '0');
+});
+
 test('keyboard during playback pauses and hides the hint', async ({ page }) => {
 	await page.goto(U);
 	await slider(page).focus();

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { fmt, fmtDeg, fmtRad } from './format';
+import { fmt, fmtDeg, fmtRad, degValue } from './format';
 
 const TAU = 2 * Math.PI;
 const rad = (d: number) => (d * Math.PI) / 180;
@@ -34,5 +34,20 @@ describe('fmtRad', () => {
 		expect(fmtRad(Math.PI / 3, 'de')).toBe('1,05');
 		expect(fmtRad(Math.PI / 3, 'en')).toBe('1.05');
 		expect(fmtRad(TAU - 1e-6, 'en')).toBe('6.28');
+	});
+});
+
+describe('degValue', () => {
+	it('matches fmtDeg rounding and wraps 360 to 0', () => {
+		expect(degValue(Math.PI / 3)).toBe(60);
+		expect(degValue(rad(59.96))).toBe(60);
+		expect(degValue(rad(12.34))).toBe(12.3);
+		expect(degValue(rad(359.97))).toBe(0);
+		expect(degValue(rad(359.9))).toBe(359.9);
+		expect(degValue(TAU - 5.3e-15)).toBe(0);
+		expect(degValue(0)).toBe(0);
+	});
+	it('fmtDeg of a drifted 360 is 0°', () => {
+		expect(fmtDeg(TAU - 5.3e-15, 'en')).toBe('0°');
 	});
 });

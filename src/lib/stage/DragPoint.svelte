@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { angleFromPoint, norm } from '#concepts/high-school/unit-circle/derive.ts';
+	import { angleFromPoint, keyStep } from '#concepts/high-school/unit-circle/derive.ts';
+	import { degValue } from '#lib/engine/format.ts';
 
 	let {
 		cx,
@@ -33,7 +34,6 @@
 	const lit = $derived(hover || focused || dragging);
 	const px = $derived(cx + R * Math.cos(theta));
 	const py = $derived(cy - R * Math.sin(theta));
-	const deg = $derived((((theta * 180) / Math.PI) % 360 + 360) % 360);
 
 	function update(e: PointerEvent) {
 		const svg = (e.currentTarget as SVGElement).ownerSVGElement;
@@ -61,14 +61,14 @@
 		}
 	}
 	function key(e: KeyboardEvent) {
-		const step = ((e.shiftKey ? 15 : 1) * Math.PI) / 180;
-		let next: number;
-		if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') next = norm(theta - step);
-		else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') next = norm(theta + step);
+		const stepDeg = e.shiftKey ? 15 : 1;
+		let dir: number;
+		if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') dir = -1;
+		else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') dir = 1;
 		else return;
 		e.preventDefault();
 		ondragstart?.();
-		onchange(next);
+		onchange(keyStep(theta, dir * stepDeg));
 	}
 </script>
 
@@ -97,7 +97,7 @@
 		aria-label={label}
 		aria-valuemin="0"
 		aria-valuemax="360"
-		aria-valuenow={Math.round(deg)}
+		aria-valuenow={degValue(theta)}
 		aria-valuetext={valuetext}
 		style="cursor:{dragging ? 'grabbing' : 'grab'}; touch-action:none"
 		onpointerdown={down}
