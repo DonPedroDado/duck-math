@@ -82,6 +82,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		gap: var(--sp-md);
 		padding: 0 var(--sp-md);
 		background: var(--surface);
 		border-bottom: 1px solid var(--border);

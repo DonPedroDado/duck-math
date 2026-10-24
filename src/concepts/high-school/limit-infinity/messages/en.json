@@ -1,7 +1,7 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"li_title": "Limits & infinity",
-	"li_hook": "Curves that shoot off to infinity, and curves that settle down far out.",
+	"li_hook": "Curves that shoot off to infinity, or settle down far out.",
 	"li_stage_aria": "Graph of f with asymptotes: {title}",
 	"li_step_intro_title": "One over x",
 	"li_step_intro_caption": "f(x) = 1/x. What happens as x creeps up on 0?",

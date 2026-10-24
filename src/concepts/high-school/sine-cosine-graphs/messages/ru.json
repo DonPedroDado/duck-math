@@ -1,7 +1,7 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"sg_title": "Графики синуса и косинуса",
-	"sg_hook": "Смотри, как окружность разворачивается в волну.",
+	"sg_hook": "Окружность разворачивается в волну.",
 	"sg_stage_aria": "Окружность и график: {title}",
 	"sg_circle_aria": "Единичная окружность",
 	"sg_graph_aria": "График синуса и косинуса",

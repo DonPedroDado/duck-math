@@ -1,7 +1,7 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"id_title": "Тождества и особые углы",
-	"id_hook": "Квадраты, отражения и точные значения для 30°, 45°, 60°.",
+	"id_hook": "Квадраты, отражения и точные значения углов.",
 	"id_stage_aria": "Тригонометрические тождества: {title}",
 	"id_point_aria": "Угол точки",
 	"id_step_intro_title": "Треугольник",

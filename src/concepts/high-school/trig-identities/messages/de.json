@@ -1,7 +1,7 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"id_title": "Identitäten & besondere Winkel",
-	"id_hook": "Quadrate, Spiegelungen und exakte Werte bei 30°, 45°, 60°.",
+	"id_hook": "Quadrate, Spiegel und exakte Werte bei 30°, 45°, 60°.",
 	"id_stage_aria": "Identitäten-Diagramm: {title}",
 	"id_point_aria": "Winkel des Punkts",
 	"id_step_intro_title": "Dreieck",

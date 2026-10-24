@@ -1,7 +1,7 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"li_title": "Grenzwerte & Unendlich",
-	"li_hook": "Kurven, die ins Unendliche schießen, und Kurven, die weit draußen zur Ruhe kommen.",
+	"li_hook": "Kurven, die davonschießen oder sich beruhigen.",
 	"li_stage_aria": "Graph von f mit Asymptoten: {title}",
 	"li_step_intro_title": "Eins durch x",
 	"li_step_intro_caption": "f(x) = 1/x. Was passiert, wenn x sich der 0 nähert?",

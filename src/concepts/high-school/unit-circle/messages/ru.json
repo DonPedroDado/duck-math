@@ -1,7 +1,7 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"uc_title": "Единичная окружность",
-	"uc_hook": "Двигай точку и смотри, как появляются угол, cos и sin.",
+	"uc_hook": "Двигай точку: появятся угол, cos и sin.",
 	"uc_drag_hint": "Тяни меня",
 	"uc_point_aria": "Угол точки",
 	"uc_stage_aria": "Единичная окружность: {title}",

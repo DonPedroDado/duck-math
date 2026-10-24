@@ -1,7 +1,7 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"la_title": "Приближение к значению",
-	"la_hook": "Смотри, как f(x) приближается, пока x подбирается к точке.",
+	"la_hook": "Следи за f(x), пока x подбирается к точке.",
 	"la_stage_aria": "График f возле точки приближения: {title}",
 	"la_step_intro_title": "Функция",
 	"la_step_intro_caption": "Это f. При x = 1 происходит что-то странное.",
