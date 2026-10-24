@@ -1,0 +1,5 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"id_title": "Identitäten & besondere Winkel",
+	"id_hook": "Quadrate, Spiegelungen und exakte Werte bei 30°, 45°, 60°."
+}

@@ -3,5 +3,12 @@
 	"baseLocale": "en",
 	"locales": ["en", "de"],
 	"modules": ["./node_modules/@inlang/plugin-message-format/dist/index.js"],
-	"plugin.inlang.messageFormat": { "pathPattern": "./messages/{locale}.json" }
+	"plugin.inlang.messageFormat": {
+		"pathPattern": [
+			"./messages/{locale}.json",
+			"./src/concepts/high-school/tangent/messages/{locale}.json",
+			"./src/concepts/high-school/sine-cosine-graphs/messages/{locale}.json",
+			"./src/concepts/high-school/trig-identities/messages/{locale}.json"
+		]
+	}
 }
