@@ -13,7 +13,9 @@ export interface Located {
 
 export const easeMath = easeCubicInOut;
 export const clamp01 = (x: number): number => (x < 0 ? 0 : x > 1 ? 1 : x);
-export const seg = (p: number, a: number, b: number): number => clamp01((p - a) / (b - a));
+/** Progress of p through the window [a, b]. A zero-length window is a step function (0 before a, 1 from a on), never NaN. */
+export const seg = (p: number, a: number, b: number): number =>
+	b === a ? (p >= a ? 1 : 0) : clamp01((p - a) / (b - a));
 
 export function totalDuration(steps: readonly StepDef[]): number {
 	return steps.reduce((s, d) => s + d.dur, 0);
@@ -35,7 +37,9 @@ export function locate(steps: readonly StepDef[], t: number): Located {
 	for (let i = 0; i < steps.length; i++) {
 		const end = start + steps[i].dur;
 		if (tc <= end || i === steps.length - 1) {
-			return { i, p: clamp01((tc - start) / steps[i].dur), start, end };
+			// A zero-duration step is complete as soon as it is reached (avoids 0/0 = NaN).
+			const p = steps[i].dur > 0 ? clamp01((tc - start) / steps[i].dur) : 1;
+			return { i, p, start, end };
 		}
 		start = end;
 	}

@@ -18,6 +18,19 @@ describe('timeline', () => {
 		expect(locate(STEPS, 99)).toMatchObject({ i: 5, p: 1 });
 		expect(locate(STEPS, -3)).toMatchObject({ i: 0, p: 0 });
 	});
+	it('zero-length windows and steps never produce NaN', () => {
+		expect(seg(0.4, 0.5, 0.5)).toBe(0);
+		expect(seg(0.5, 0.5, 0.5)).toBe(1);
+		expect(seg(0.6, 0.5, 0.5)).toBe(1);
+		const Z = [
+			{ id: 'a', dur: 1 },
+			{ id: 'b', dur: 0 },
+			{ id: 'c', dur: 1 }
+		];
+		expect(locate(Z, 1)).toMatchObject({ i: 0, p: 1 });
+		expect(locate([{ id: 'z', dur: 0 }], 0)).toMatchObject({ i: 0, p: 1 });
+		for (const t of [0, 0.5, 1, 1.5, 2]) expect(Number.isNaN(locate(Z, t).p)).toBe(false);
+	});
 	it('seg and ease', () => {
 		expect(seg(0.5, 0, 1)).toBe(0.5);
 		expect(seg(2, 0, 1)).toBe(1);
