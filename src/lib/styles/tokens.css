@@ -1,0 +1,67 @@
+:root {
+	color-scheme: dark;
+	--bg: #0f1117;
+	--surface: #171b24;
+	--surface-raised: #1f2531;
+	--border: #2a3140;
+	--grid: #1c2230;
+	--axis: #5b6578;
+	--text: #C9D1D9;
+	--text-strong: #F0F3F8;
+	--text-muted: #8B95A7;
+	--c-angle: #FFD54A;
+	--c-point: #E8ECF4;
+	--c-cos: #4FC3F7;
+	--c-sin: #FF8A65;
+	--c-radian: #B39DDB;
+	--accent: #5EE0B5;
+	--accent-ink: #0b1a14;
+
+	--glow-sm: drop-shadow(0 0 4px color-mix(in srgb, currentColor 55%, transparent));
+	--glow-md: drop-shadow(0 0 8px color-mix(in srgb, currentColor 60%, transparent));
+
+	--ease-out: cubic-bezier(0.33, 1, 0.68, 1);
+	--ease-math: cubic-bezier(0.65, 0, 0.35, 1);
+	--dur-ui: 150ms;
+	--dur-draw: 800ms;
+
+	--sp-xs: 4px;
+	--sp-sm: 8px;
+	--sp-md: 16px;
+	--sp-lg: 24px;
+	--sp-xl: 32px;
+	--sp-2xl: 48px;
+	--sp-3xl: 64px;
+
+	--fs-body: 16px;
+	--fs-label: 14px;
+	--fs-heading: 20px;
+	--fs-display: 28px;
+	--fw-regular: 400;
+	--fw-semibold: 600;
+	--lh-body: 1.5;
+	--lh-label: 1.4;
+	--lh-heading: 1.2;
+
+	--font-ui: 'Inter Variable', system-ui, sans-serif;
+	--header-h: 56px;
+	--bar-h: 72px;
+	--bar-h-phone: 64px;
+	--radius-card: 12px;
+	--target: 44px;
+}
+
+html,
+body {
+	margin: 0;
+	background: var(--bg);
+	color: var(--text);
+	font-family: var(--font-ui);
+	font-size: var(--fs-body);
+	line-height: var(--lh-body);
+}
+
+:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 2px;
+}
