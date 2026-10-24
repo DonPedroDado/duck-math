@@ -12,9 +12,9 @@ const STEP = 4;
 const MAX_STEPS = 20;
 
 /** Push labels along their own direction until each is >= min px from every higher-priority label. Pure, bounded. */
-export function separate(labels: readonly Lbl[], min = 16): Lbl[] {
+export function separate<T extends Lbl>(labels: readonly T[], min = 16): T[] {
 	const ordered = [...labels].sort((a, b) => PRIORITY.indexOf(a.id) - PRIORITY.indexOf(b.id));
-	const placed: Lbl[] = [];
+	const placed: T[] = [];
 	for (const l of ordered) {
 		let { x, y } = l;
 		for (let n = 0; n < MAX_STEPS; n++) {

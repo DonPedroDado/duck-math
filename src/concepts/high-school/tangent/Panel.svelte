@@ -15,11 +15,19 @@
 	const theta = $derived(user.theta);
 	const id = $derived(STEP_IDS[step]);
 	const lines = $derived(formulaLines(id, theta, locale));
-	const undefinedNow = $derived(ratio('tan', theta).kind === 'undefined');
+	/** Readout rows appear with the step that introduces each function. */
+	const FNS = (['tan', 'sec', 'csc', 'cot'] as const).map((fn) => ({
+		fn,
+		from: STEP_IDS.indexOf(fn)
+	}));
 
 	const CAPTIONS: Record<StepId, () => string> = {
 		intro: () => m.tn_step_intro_caption(),
-		tan: () => m.tn_step_tan_caption()
+		tan: () => m.tn_step_tan_caption(),
+		sec: () => m.tn_step_sec_caption(),
+		csc: () => m.tn_step_csc_caption(),
+		cot: () => m.tn_step_cot_caption(),
+		all: () => m.tn_step_all_caption()
 	};
 	const awaiting = $derived(id === 'tan' && predict?.phase === 'awaiting');
 	const answered = $derived(id === 'tan' && predict?.phase === 'after');
@@ -45,15 +53,20 @@
 		<span aria-hidden="true">θ =</span>
 		<span class="value" data-testid="theta-readout">{fmtDeg(theta, locale)}</span>
 	</div>
-	{#if id === 'tan'}
-		<div>
-			<span class="swatch" aria-hidden="true"></span>
-			<span aria-hidden="true">tan θ =</span>
-			<span class="value" data-testid="tan-readout" class:undef={undefinedNow}
-				>{fmtRatio('tan', theta, locale, m.undefined_readout())}</span
-			>
-		</div>
-	{/if}
+	{#each FNS as f (f.fn)}
+		{#if step >= f.from}
+			<div class="row">
+				<span class="swatch" style:background="var(--c-{f.fn})" aria-hidden="true"></span>
+				<span aria-hidden="true">{f.fn} θ =</span>
+				<span
+					class="value"
+					data-testid="{f.fn}-readout"
+					class:undef={ratio(f.fn, theta).kind === 'undefined'}
+					>{fmtRatio(f.fn, theta, locale, m.undefined_readout())}</span
+				>
+			</div>
+		{/if}
+	{/each}
 </div>
 <div data-testid="formula" class="formula" style="min-height: 168px">
 	{#key id}
@@ -95,11 +108,13 @@
 		color: var(--text-strong);
 		min-height: 3em;
 	}
+	.row {
+		min-height: 32px;
+	}
 	.swatch {
 		display: inline-block;
 		width: 4px;
 		height: 16px;
-		background: var(--c-tan);
 		vertical-align: middle;
 		margin-right: 6px;
 	}
