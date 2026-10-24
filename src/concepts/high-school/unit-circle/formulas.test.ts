@@ -21,6 +21,12 @@ describe('formulaLines', () => {
 		expect(de[2]).toContain('\\,;\\,');
 		expect(formulaLines('sine', P3, 'rad', 'en')[2]).toContain(',\\ ');
 	});
+	it('links cos/sin terms only on cosine/sine steps', () => {
+		const lines = formulaLines('sine', P3, 'rad', 'en').join('');
+		expect(lines).toContain('link-cos');
+		expect(lines).toContain('link-sin');
+		expect(formulaLines('angle', P3, 'rad', 'en').join('')).not.toContain('link-');
+	});
 	it('negative uses ASCII minus', () => {
 		expect(formulaLines('cosine', (2 * Math.PI) / 3, 'rad', 'en')[0]).toContain('-0.50');
 	});
