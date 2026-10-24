@@ -1,9 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { viewport } from './viewport.ts';
+import { viewport, frame, inside } from './viewport.ts';
+import { tickValues, decimalsFor, gridLevels, labelStep, axisAt } from './ticks.ts';
 import { BASES, monotoneCubic, inDomain } from './base.ts';
 import { apply, lookupSource, mapPoint, mix, IDENTITY, type Params } from './transform.ts';
 import { gridLines } from './grid.ts';
-import { sampleRuns, runsPath } from './sample.ts';
+import { sampleRuns, sampleDense, runsPath } from './sample.ts';
 import { formula, symbolic, num } from './tex.ts';
 
 const f = BASES.f;
@@ -165,5 +166,109 @@ describe('friendly', () => {
 		expect(friendly(1.63, -4, 4)).toBe(1.6);
 		expect(friendly(-9, -4, 4)).toBe(-4);
 		expect(Object.is(friendly(-0.04, -4, 4), 0)).toBe(true);
+	});
+});
+
+describe('frame (Phase 4)', () => {
+	it('viewport(S, half) is the square frame centred on 0', () => {
+		const a = viewport(600, 6);
+		const b = frame(600, { cx: 0, cy: 0, hx: 6, hy: 6 });
+		for (const u of [-6, -1.5, 0, 4]) {
+			expect(a.gx(u)).toBe(b.gx(u));
+			expect(a.gy(u)).toBe(b.gy(u));
+		}
+		expect([a.x0, a.x1, a.y0, a.y1, a.half]).toEqual([-6, 6, -6, 6, 6]);
+	});
+	it('centres on (cx, cy) with independent scales, and inverts', () => {
+		const v = frame(400, { cx: 1, cy: 2, hx: 0.5, hy: 2 });
+		expect(v.gx(1)).toBe(200);
+		expect(v.gy(2)).toBe(200);
+		expect(v.gx(1.5)).toBe(400);
+		expect(v.gy(4)).toBe(0);
+		expect(v.ux(v.gx(1.234))).toBeCloseTo(1.234, 12);
+		expect(v.uy(v.gy(-0.7))).toBeCloseTo(-0.7, 12);
+		expect(inside(v, 1.2, 3)).toBe(true);
+		expect(inside(v, 1.6, 3)).toBe(false);
+	});
+});
+
+describe('ticks (Phase 4)', () => {
+	it('tick values are clean multiples inside the range', () => {
+		expect(tickValues(-0.25, 0.25, 0.1)).toEqual([-0.2, -0.1, 0, 0.1, 0.2]);
+		expect(tickValues(0.97, 1.03, 0.01)).toEqual([0.97, 0.98, 0.99, 1, 1.01, 1.02, 1.03]);
+	});
+	it('decimals show the step exactly', () => {
+		expect(decimalsFor(1)).toBe(0);
+		expect(decimalsFor(200)).toBe(0);
+		expect(decimalsFor(0.5)).toBe(1);
+		expect(decimalsFor(0.02)).toBe(2);
+		expect(decimalsFor(0.001)).toBe(3);
+	});
+	it('a range of 12 keeps the Phase 3 look: lines at integers, labels every 2, no finer decade', () => {
+		const g = gridLevels(12);
+		expect(g.major).toBe(1);
+		expect(g.fade).toBeLessThan(0.03);
+		expect(labelStep(12, g.major)).toBe(2);
+	});
+	it('the finer decade fades in continuously as the window shrinks', () => {
+		let last = gridLevels(12);
+		for (let r = 12; r > 0.012; r *= 0.97) {
+			const g = gridLevels(r);
+			// Lines visible per unit change smoothly: a new major decade arrives fully faded in.
+			if (g.major !== last.major) expect(last.fade).toBeGreaterThan(0.9);
+			last = g;
+		}
+	});
+	it('labels never crowd: at most 7 per axis at any zoom', () => {
+		for (let r = 0.003; r < 5000; r *= 1.13) {
+			const { major } = gridLevels(r);
+			expect(r / labelStep(r, major)).toBeLessThanOrEqual(7);
+		}
+	});
+	it('axes sit at 0 when visible, else pin inside the edge', () => {
+		expect(axisAt(viewport(600, 6))).toEqual({ ax: 0, ay: 0 });
+		const z = frame(600, { cx: 1, cy: 2, hx: 0.05, hy: 0.05 });
+		const { ax, ay } = axisAt(z);
+		expect(ax).toBeGreaterThan(z.x0);
+		expect(ax).toBeLessThan(z.x0 + 0.01);
+		expect(ay).toBeGreaterThan(z.y0);
+		expect(ay).toBeLessThan(z.y0 + 0.01);
+	});
+});
+
+describe('sampling at breaks and oscillation (Phase 4)', () => {
+	const xsOf = (runs: [number, number][][]) => runs.map((r) => [r[0][0], r[r.length - 1][0]]);
+	it('1/x never connects across 0, even with a huge clip', () => {
+		const runs = sampleRuns((x) => 1 / x, () => true, -3, 3, 1e9, 360, [0]);
+		expect(runs).toHaveLength(2);
+		const [[, l1], [r0]] = xsOf(runs);
+		expect(l1).toBeLessThan(0);
+		expect(r0).toBeGreaterThan(0);
+	});
+	it('a jump splits into two runs at the break', () => {
+		const runs = sampleRuns((x) => (x < 1 ? x + 1 : x - 1), () => true, -2, 4, 6, 360, [1]);
+		expect(runs).toHaveLength(2);
+		expect(runs[0][runs[0].length - 1][1]).toBeCloseTo(2, 4);
+		expect(runs[1][0][1]).toBeCloseTo(0, 4);
+	});
+	it('re-entering runs start at the clip edge (no gap under an asymptote)', () => {
+		const runs = sampleRuns((x) => 1 / x, () => true, -3, 3, 5, 360, [0]);
+		expect(runs[1][0][1]).toBe(5);
+		expect(runs[0][runs[0].length - 1][1]).toBe(-5);
+	});
+	it('sampleDense resolves sin(1/x): no neighbours more than tol apart where it can still refine', () => {
+		const g = (x: number) => Math.sin(1 / x);
+		const [run] = sampleDense(g, () => true, 0.05, 0.5, 1.5, 0.05, 20000).filter((r) => r.length > 1);
+		let worst = 0;
+		for (let i = 1; i < run.length; i++) worst = Math.max(worst, Math.abs(run[i][1] - run[i - 1][1]));
+		expect(worst).toBeLessThanOrEqual(0.05 + 1e-9);
+		// Coarse sampling would miss oscillations; dense catches every sign change of the true curve.
+		const signs = (r: [number, number][]) => r.reduce((n, p, i) => n + (i && Math.sign(p[1]) !== Math.sign(r[i - 1][1]) ? 1 : 0), 0);
+		// sin(1/x) crosses zero at x = 1/(kπ): k from 1 to 6 inside [0.05, 0.5].
+		expect(signs(run)).toBe(6);
+	});
+	it('sampleDense respects its point cap near 0', () => {
+		const runs = sampleDense((x) => Math.sin(1 / x), (x) => x !== 0, -0.01, 0.01, 1.5, 0.001, 2400, [0]);
+		for (const r of runs) expect(r.length).toBeLessThanOrEqual(2400 * 2 + 400);
 	});
 });

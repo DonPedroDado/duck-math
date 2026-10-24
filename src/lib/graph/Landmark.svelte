@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Viewport } from './viewport.ts';
+	import { inside as within, type Viewport } from './viewport.ts';
 
 	/** A landmark of f and where it lands on g, with an arrow from old to new (F-09). */
 	let {
@@ -20,8 +20,7 @@
 		color?: string;
 	} = $props();
 
-	const H = $derived(vp.half);
-	const inside = (q: readonly [number, number] | null) => !!q && Math.abs(q[0]) <= H && Math.abs(q[1]) <= H;
+	const inside = (q: readonly [number, number] | null) => !!q && within(vp, q[0], q[1]);
 	const len = $derived(to ? Math.hypot(vp.gx(to[0]) - vp.gx(from[0]), vp.gy(to[1]) - vp.gy(from[1])) : 0);
 	/** Arrow stops short of both dots. */
 	const ends = $derived.by(() => {

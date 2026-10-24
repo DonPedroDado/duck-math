@@ -27,7 +27,7 @@
 	} = $props();
 
 	let start: { x: number; y: number } | null = $state(null);
-	const d = $derived(runsPath(sampleRuns(g, defined, -vp.half, vp.half, vp.half + 1), vp.gx, vp.gy));
+	const d = $derived(runsPath(sampleRuns(g, defined, vp.x0, vp.x1, [vp.y0 - 1, vp.y1 + 1]), vp.gx, vp.gy));
 
 	function at(e: PointerEvent) {
 		const ctm = (e.currentTarget as SVGGraphicsElement).getScreenCTM();

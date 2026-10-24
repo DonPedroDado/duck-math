@@ -23,5 +23,9 @@ export const ROLE_NAME: Record<LinkId, () => string> = {
 	c: m.link_role_c,
 	d: m.link_role_d,
 	f: m.link_role_f,
-	ghost: m.link_role_ghost
+	ghost: m.link_role_ghost,
+	left: m.link_role_left,
+	right: m.link_role_right,
+	lim: m.link_role_lim,
+	asym: m.link_role_asym
 };

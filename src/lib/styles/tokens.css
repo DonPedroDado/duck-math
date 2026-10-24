@@ -24,6 +24,10 @@
 	--c-pb: #EF8C73;
 	--c-pc: #C98CEB;
 	--c-pd: #B9F09A;
+	/* Limits (Phase 4): approach from the left, from the right, and the limit L. */
+	--c-left: #5FAEFF;
+	--c-right: #FF9F45;
+	--c-lim: #FFF6A8;
 	--accent: #5EE0B5;
 	--accent-ink: #0b1a14;
 

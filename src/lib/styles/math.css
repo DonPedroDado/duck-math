@@ -40,6 +40,15 @@
 .t-d {
 	color: var(--c-pd);
 }
+.t-left {
+	color: var(--c-left);
+}
+.t-right {
+	color: var(--c-right);
+}
+.t-lim {
+	color: var(--c-lim);
+}
 .tex .katex {
 	font-size: 20px;
 	color: var(--text-strong);

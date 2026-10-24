@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Viewport } from './viewport.ts';
+	import { inside, type Viewport } from './viewport.ts';
 
 	/**
 	 * A draggable point in plane coordinates (DragPoint's patterns, without the angle).
@@ -18,6 +18,8 @@
 		color = 'var(--c-point)',
 		testid,
 		axis = 'xy',
+		glyph = 'dot',
+		hitDx = 0,
 		live = true,
 		onpoint,
 		onkey,
@@ -34,6 +36,10 @@
 		color?: string;
 		testid?: string;
 		axis?: 'x' | 'y' | 'xy';
+		/** Dot, or a triangle pointing left/right (limit handles: the direction of approach). */
+		glyph?: 'dot' | 'left' | 'right';
+		/** Shifts the hit area sideways (px) so two handles can sit close without overlapping. */
+		hitDx?: number;
 		live?: boolean;
 		onpoint: (p: { x: number; y: number }) => void;
 		/** dir: −1 or 1 along the slider; big: Shift/PageUp/PageDown. */
@@ -77,11 +83,23 @@
 	}
 </script>
 
-{#if Math.abs(x) <= vp.half && Math.abs(y) <= vp.half}
+{#if inside(vp, x, y)}
 	<g data-testid={testid} data-x={x.toFixed(3)} data-y={y.toFixed(3)}>
 		<circle class="halo" class:lit cx={px} cy={py} r="18" fill={color} pointer-events="none" />
-		<circle cx={px} cy={py} r="8" fill={color} stroke="var(--bg)" stroke-width="2" pointer-events="none" />
-		{#if axis !== 'xy'}
+		{#if glyph === 'dot'}
+			<circle cx={px} cy={py} r="8" fill={color} stroke="var(--bg)" stroke-width="2" pointer-events="none" />
+		{:else}
+			{@const s = glyph === 'right' ? 1 : -1}
+			<path
+				d="M{px + s * 9},{py} L{px - s * 7},{py - 9} L{px - s * 7},{py + 9} Z"
+				fill={color}
+				stroke="var(--bg)"
+				stroke-width="2"
+				stroke-linejoin="round"
+				pointer-events="none"
+			/>
+		{/if}
+		{#if axis !== 'xy' && glyph === 'dot'}
 			<path
 				d={axis === 'y'
 					? `M${px - 5},${py - 13} L${px},${py - 18} L${px + 5},${py - 13} M${px - 5},${py + 13} L${px},${py + 18} L${px + 5},${py + 13}`
@@ -96,7 +114,7 @@
 		{/if}
 		<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 		<circle
-			cx={px}
+			cx={px + hitDx}
 			cy={py}
 			r="22"
 			fill="transparent"

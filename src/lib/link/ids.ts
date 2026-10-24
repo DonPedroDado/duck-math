@@ -20,7 +20,11 @@ export const LINK_IDS = [
 	'c',
 	'd',
 	'f',
-	'ghost'
+	'ghost',
+	'left',
+	'right',
+	'lim',
+	'asym'
 ] as const;
 
 export type LinkId = (typeof LINK_IDS)[number];

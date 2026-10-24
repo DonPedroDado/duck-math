@@ -7,7 +7,7 @@ const css = fs.readFileSync(path.join(__dirname, 'tokens.css'), 'utf8');
 
 const names = [
 	'bg', 'surface', 'surface-raised', 'border', 'grid', 'axis', 'text', 'text-strong', 'text-muted',
-	'c-angle', 'c-point', 'c-cos', 'c-sin', 'c-radian', 'c-tan', 'c-sec', 'c-csc', 'c-cot', 'c-guess', 'c-pa', 'c-pb', 'c-pc', 'c-pd',
+	'c-angle', 'c-point', 'c-cos', 'c-sin', 'c-radian', 'c-tan', 'c-sec', 'c-csc', 'c-cot', 'c-guess', 'c-pa', 'c-pb', 'c-pc', 'c-pd', 'c-left', 'c-right', 'c-lim',
 	'ghost-opacity', 'dim-opacity', 'trail-tail', 'trail-dim', 'dur-link', 'dur-snap', 'sq-fill', 'accent', 'accent-ink',
 	'glow-sm', 'glow-md', 'ease-out', 'ease-math', 'dur-ui', 'dur-draw',
 	'sp-xs', 'sp-sm', 'sp-md', 'sp-lg', 'sp-xl', 'sp-2xl', 'sp-3xl',
@@ -143,5 +143,23 @@ describe('transformation params (Phase 3)', () => {
 			.filter((m) => !params.includes(m[1]))
 			.map((m) => m[2].toUpperCase());
 		for (const p of params) expect(others).not.toContain(tokenHex(p).toUpperCase());
+	});
+});
+
+describe('limits (Phase 4)', () => {
+	// Shown together: left and right approach, the limit, the curve (point white), guess marker, accent.
+	const roles = ['c-left', 'c-right', 'c-lim'];
+	const company = ['c-point', 'c-guess', 'accent'];
+	it('left, right and limit stay >= 25 apart from each other and >= 15 from their company', () => {
+		for (const p of roles) {
+			for (const q of roles) if (p !== q) expect(minCvd(p, q), `${p}/${q}`).toBeGreaterThanOrEqual(25);
+			for (const q of company) expect(minCvd(p, q), `${p}/${q}`).toBeGreaterThanOrEqual(15);
+		}
+	});
+	it('are new hex values', () => {
+		const others = [...css.matchAll(/--(c-[\w-]+):\s*(#[0-9a-fA-F]{6})/g)]
+			.filter((m) => !roles.includes(m[1]))
+			.map((m) => m[2].toUpperCase());
+		for (const p of roles) expect(others).not.toContain(tokenHex(p).toUpperCase());
 	});
 });
