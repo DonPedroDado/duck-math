@@ -54,7 +54,7 @@ Plans:
 
 **Gap closure**
 - [x] 01-11-PLAN.md — Keyboard theta wrap (CR-01), keyboard pauses/dismisses hint (WR-03), toggle bound to real unit (WR-02), tick stale requirements
-- [ ] 01-12-PLAN.md — Upward keyboard wrap through 360° (CR-01): integer-degree key steps, norm() tolerance snap, aria-valuenow from degValue
+- [x] 01-12-PLAN.md — Upward keyboard wrap through 360° (CR-01): integer-degree key steps, norm() tolerance snap, aria-valuenow from degValue
 **UI hint**: yes
 
 ### Phase 2: Trigonometry Complete
