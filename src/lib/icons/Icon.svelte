@@ -3,7 +3,7 @@
 		name,
 		size = 24
 	}: {
-		name: 'reset' | 'prev' | 'play' | 'pause' | 'next' | 'chevron-left' | 'globe';
+		name: 'reset' | 'prev' | 'play' | 'pause' | 'next' | 'chevron-left' | 'globe' | 'arrow-right';
 		size?: number;
 	} = $props();
 </script>
@@ -35,6 +35,9 @@
 		<path d="M5 5l9 7-9 7z" fill="currentColor" />
 	{:else if name === 'chevron-left'}
 		<path d="M15 5l-7 7 7 7" />
+	{:else if name === 'arrow-right'}
+		<path d="M5 12h14" />
+		<path d="M13 6l6 6-6 6" />
 	{:else if name === 'globe'}
 		<circle cx="12" cy="12" r="9" />
 		<path d="M3 12h18" />

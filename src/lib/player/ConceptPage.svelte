@@ -6,9 +6,10 @@
 	import { baseLocale, getLocale, localizeHref, locales } from '#lib/paraglide/runtime.js';
 	import type { PlayerAction } from '#lib/engine/player.ts';
 	import { Player } from '#lib/engine/clock.svelte.ts';
-	import { restage } from '#lib/engine/player.ts';
+	import { restage, predictPhase } from '#lib/engine/player.ts';
 	import ConceptLayout from '#lib/player/ConceptLayout.svelte';
 	import PlayerBar from '#lib/player/PlayerBar.svelte';
+	import NextLink from '#lib/player/NextLink.svelte';
 	import type { ConceptManifest, ConceptRuntime } from '#concepts/types.ts';
 
 	let {
@@ -67,6 +68,8 @@
 		return () => clearTimeout(id);
 	});
 	const v = $derived(rt.view(player.state.t, user));
+	const phase = $derived(predictPhase(rt.steps, player.state));
+	const predict = $derived({ phase, onreveal: () => act({ type: 'reveal' }) });
 	onDestroy(() => player.destroy());
 
 	const locale = getLocale();
@@ -98,6 +101,7 @@
 	data-step={stepIds[player.state.step]}
 	data-t={player.state.t.toFixed(2)}
 	data-playing={player.state.playing}
+	data-predict={phase}
 >
 	<ConceptLayout variant={rt.layout ?? 'side'}>
 		{#snippet stage()}
@@ -111,6 +115,7 @@
 					{glowing}
 					{update}
 					{oninteract}
+					{predict}
 				/>
 				{#snippet failed()}
 					<div class="scene-error" role="alert">
@@ -128,7 +133,13 @@
 				stepId={stepIds[player.state.step]}
 				{locale}
 				{update}
+				{predict}
 			/>
+			<div class="next-row" data-testid="next-row" style="min-height: 44px; margin-top: var(--sp-md)">
+				{#if player.state.step === rt.steps.length - 1}
+					<NextLink conceptId={manifest.id} category={manifest.category} />
+				{/if}
+			</div>
 		{/snippet}
 		{#snippet bar()}
 			<PlayerBar state={player.state} steps={rt.steps} {stepTitle} dispatch={act} />
