@@ -42,11 +42,16 @@ export function checkMessages(catalogs) {
 				errors.push(`missing in ${l}: ${key}`);
 				continue;
 			}
-			if (String(v).trim() === '') {
+			if (typeof v !== 'string') {
+				// Only flat string messages are supported; String(obj) would be "[object Object]" and slip past the empty check.
+				errors.push(`not a string in ${l}: ${key} (${Array.isArray(v) ? 'array' : typeof v})`);
+				continue;
+			}
+			if (v.trim() === '') {
 				errors.push(`empty in ${l}: ${key}`);
 				continue;
 			}
-			if (l !== baseLocale && base[key] !== undefined) {
+			if (l !== baseLocale && typeof base[key] === 'string') {
 				const a = placeholders(base[key]);
 				const b = placeholders(v);
 				if (a !== b) {
@@ -67,6 +72,10 @@ export function checkMessages(catalogs) {
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
 	const i = process.argv.indexOf('--dir');
 	const dir = i > -1 ? process.argv[i + 1] : 'messages';
+	if (!dir || dir.startsWith('--')) {
+		console.error('usage: node scripts/check-i18n.mjs [--dir <messages-dir>]');
+		process.exit(2);
+	}
 	const settingsLocales = JSON.parse(fs.readFileSync('project.inlang/settings.json', 'utf8')).locales;
 	const catalogs = loadCatalogs(dir, settingsLocales);
 	const errors = checkMessages(catalogs);

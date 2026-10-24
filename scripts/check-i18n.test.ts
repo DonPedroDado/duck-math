@@ -25,6 +25,10 @@ describe('checkMessages', () => {
 	it('empty value', () => {
 		expect(checkMessages({ en: { a: '' }, de: { a: 'y' } })).toEqual(['empty in en: a']);
 	});
+	it('non-string values are errors', () => {
+		expect(checkMessages({ en: { a: { one: 'x' } }, de: { a: 'y' } })).toEqual(['not a string in en: a (object)']);
+		expect(checkMessages({ en: { a: 'x' }, de: { a: ['y'] } })).toEqual(['not a string in de: a (array)']);
+	});
 	it('ignores $schema', () => {
 		expect(checkMessages({ en: { $schema: 'a', k: 'x' }, de: { k: 'y' } })).toEqual([]);
 	});
@@ -54,6 +58,11 @@ describe('CLI', () => {
 		const r = cli();
 		expect(r.status).toBe(0);
 		expect(r.stdout).toContain('keys OK');
+	});
+	it('--dir without a value prints usage', () => {
+		const r = cli('--dir');
+		expect(r.status).toBe(2);
+		expect(r.stderr).toContain('usage:');
 	});
 	it('missing fixture fails', () => {
 		const r = cli('--dir', 'scripts/fixtures/i18n-missing');
