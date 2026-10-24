@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { angleFromPoint } from '#concepts/high-school/unit-circle/derive.ts';
+	import { angleFromPoint, norm } from '#concepts/high-school/unit-circle/derive.ts';
 
 	let {
 		cx,
@@ -62,10 +62,13 @@
 	}
 	function key(e: KeyboardEvent) {
 		const step = ((e.shiftKey ? 15 : 1) * Math.PI) / 180;
-		if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') onchange(theta - step);
-		else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') onchange(theta + step);
+		let next: number;
+		if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') next = norm(theta - step);
+		else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') next = norm(theta + step);
 		else return;
 		e.preventDefault();
+		ondragstart?.();
+		onchange(next);
 	}
 </script>
 

@@ -82,3 +82,41 @@ test('staged visuals: angle arc and label, intro hint', async ({ page }) => {
 	expect((await page.getByTestId('angle-arc').getAttribute('d')) ?? '').toBe('');
 	await expect(page.getByTestId('drag-hint')).toBeVisible();
 });
+
+const slider = (page: Page) => page.getByTestId('drag-point').locator('[tabindex]');
+const thetaAttr = async (page: Page) => Number(await page.getByTestId('drag-point').getAttribute('data-theta'));
+const arcCount = async (page: Page) => ((await page.getByTestId('angle-arc').getAttribute('d')) ?? '').split('A').length - 1;
+
+test('keyboard past 0 deg wraps and keeps the angle arc', async ({ page }) => {
+	await page.goto(U + 'angle/');
+	await slider(page).focus();
+	for (let i = 0; i < 61; i++) await page.keyboard.press('ArrowLeft');
+	await expect(readout(page)).toHaveText('359°');
+	await expect(page.getByTestId('angle-arc')).toHaveCount(1);
+	expect(await arcCount(page)).toBe(1);
+	await expect(page.getByTestId('theta-label')).toBeVisible();
+	const t1 = await thetaAttr(page);
+	expect(t1).toBeGreaterThan(6.26);
+	expect(t1).toBeLessThan(6.27);
+	for (let i = 0; i < 2; i++) await page.keyboard.press('ArrowRight');
+	await expect(readout(page)).toHaveText('1°');
+	expect(await arcCount(page)).toBe(1);
+	const t2 = await thetaAttr(page);
+	expect(t2).toBeGreaterThan(0.017);
+	expect(t2).toBeLessThan(0.018);
+});
+
+test('keyboard during playback pauses and hides the hint', async ({ page }) => {
+	await page.goto(U);
+	await slider(page).focus();
+	await page.keyboard.press('ArrowRight');
+	await expect
+		.poll(() => page.getByTestId('drag-hint').evaluate((el) => Number(getComputedStyle(el).opacity)))
+		.toBe(0);
+	await page.goto(U + 'angle/');
+	await page.getByTestId('player-play').click();
+	await expect(concept(page)).toHaveAttribute('data-playing', 'true');
+	await slider(page).focus();
+	await page.keyboard.press('ArrowRight');
+	await expect(concept(page)).toHaveAttribute('data-playing', 'false');
+});

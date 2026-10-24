@@ -53,3 +53,16 @@ describe('angleFromPoint', () => {
 		expect(a).toBeLessThan(TAU);
 	});
 });
+
+describe('norm keyboard wrap', () => {
+	const d = Math.PI / 180;
+	it('wraps below 0 and above 2pi', () => {
+		expect(norm(0 - d)).toBeCloseTo(359 * d, 12);
+		expect(norm(TAU - d / 2 + d)).toBeCloseTo(d / 2, 12);
+		expect(norm(-61 * d + Math.PI / 3)).toBeCloseTo(359 * d, 12);
+		for (const a of [-7, -0.001, 0, 3, TAU, 20]) {
+			expect(norm(a)).toBeGreaterThanOrEqual(0);
+			expect(norm(a)).toBeLessThan(TAU);
+		}
+	});
+});
