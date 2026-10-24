@@ -105,3 +105,13 @@ test('all requests same-origin', async ({ page }) => {
 	await page.waitForLoadState('networkidle');
 	expect(bad).toEqual([]);
 });
+
+for (const loc of ['en', 'de']) {
+	test(`no KaTeX fallback on any step (${loc})`, async ({ page }) => {
+		for (const step of ['intro', 'angle', 'radian', 'radians', 'cosine', 'sine']) {
+			await page.goto(U(loc, step));
+			await expect(page.getByTestId('concept')).toHaveAttribute('data-step', step);
+			await expect(page.getByTestId('tex-error')).toHaveCount(0);
+		}
+	});
+}
