@@ -29,7 +29,8 @@ export const UPCOMING: UpcomingDef[] = [
 		category: 'high-school',
 		title: m.catalog_soon_limits_title,
 		hook: m.catalog_soon_limits_hook,
-		thumbnail: LimitsThumb
+		thumbnail: LimitsThumb,
+		replacedBy: ['limit-approach']
 	},
 	{
 		id: 'derivatives',

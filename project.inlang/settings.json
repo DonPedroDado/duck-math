@@ -14,6 +14,7 @@
 			"./src/concepts/high-school/function-combine/messages/{locale}.json",
 			"./src/concepts/high-school/function-shifts/messages/{locale}.json",
 			"./src/concepts/high-school/function-stretches/messages/{locale}.json",
+			"./src/concepts/high-school/limit-approach/messages/{locale}.json",
 			"./src/concepts/high-school/sine-cosine-graphs/messages/{locale}.json",
 			"./src/concepts/high-school/tangent/messages/{locale}.json",
 			"./src/concepts/high-school/trig-identities/messages/{locale}.json",

@@ -15,9 +15,10 @@ export const minGap = (hx: number) => GAP_FRAC * hx;
 
 export type HandleSide = 'left' | 'right';
 
-/** Keeps a handle on its own side of a, never on it, and inside [lo, hi]. */
+/** Keeps a handle inside [lo, hi] and, above all, on its own side of a, never on it. */
 export function clampSide(x: number, a: number, side: HandleSide, gap: number, lo: number, hi: number): number {
-	return side === 'left' ? Math.max(lo, Math.min(x, a - gap)) : Math.min(hi, Math.max(x, a + gap));
+	const w = Math.min(hi, Math.max(lo, x));
+	return side === 'left' ? Math.min(w, a - gap) : Math.max(w, a + gap);
 }
 
 /** Below this distance from a, doubles can't be trusted near 0/0; the readout shows the declared limit. */

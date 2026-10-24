@@ -1,0 +1,23 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"la_title": "Annäherung an einen Wert",
+	"la_hook": "Sieh zu, wie f(x) sich annähert, während x auf eine Stelle zuläuft.",
+	"la_stage_aria": "Graph von f nahe der Annäherungsstelle: {title}",
+	"la_step_intro_title": "Eine Funktion",
+	"la_step_intro_caption": "Das ist f. Bei x = 1 passiert etwas Seltsames.",
+	"la_step_predict_title": "Einfach einsetzen?",
+	"la_step_predict_caption": "Setz einfach x = 1 ein.",
+	"la_step_predict_predict_caption": "Was ist f(1)? Zieh die Markierung auf deine Vermutung.",
+	"la_step_predict_answer_caption": "Einsetzen von 1 ergibt 0/0: f(1) ist nicht definiert. Trotzdem läuft der Graph klar auf 2 zu.",
+	"la_step_approach_title": "Immer näher",
+	"la_step_approach_caption": "Schieb x von beiden Seiten an 1 heran. f(x) nähert sich 2: dem Grenzwert.",
+	"la_step_zoom_title": "Hineinzoomen",
+	"la_step_zoom_caption": "Zoom so weit du willst: Der Graph wirkt gerade, nur ein Punkt fehlt.",
+	"la_step_value_title": "Grenzwert ≠ Funktionswert",
+	"la_step_value_caption": "Jetzt ist f(1) = 3. Der Grenzwert bleibt 2: Er schaut nur in die Nähe von 1, nie auf 1.",
+	"la_step_jump_title": "Ein Sprung",
+	"la_step_jump_caption": "Von links läuft f auf 2 zu, von rechts auf 0. Sie sind sich uneinig: kein Grenzwert.",
+	"la_step_oscillate_title": "Kommt nie zur Ruhe",
+	"la_step_oscillate_caption": "Nahe 0 schwingt sin(1/x) immer schneller. Zoom hinein: Es kommt nie zur Ruhe, also gibt es keinen Grenzwert.",
+	"la_guess_valuetext": "Vermutung: f(1) = {value}"
+}

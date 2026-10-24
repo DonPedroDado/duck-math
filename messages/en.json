@@ -77,5 +77,12 @@
 	"fn_param_d": "Vertical shift d",
 	"fn_handle_curve": "Graph",
 	"fn_landmark_peak": "Peak",
-	"fn_landmark_valley": "Valley"
+	"fn_landmark_valley": "Valley",
+	"zoom_label": "Zoom",
+	"zoom_in": "Zoom in",
+	"zoom_out": "Zoom out",
+	"lim_dne": "does not exist",
+	"lim_handle_left_aria": "x from the left",
+	"lim_handle_right_aria": "x from the right",
+	"lim_handle_valuetext": "x = {x}, f(x) = {y}"
 }

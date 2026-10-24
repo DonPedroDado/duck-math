@@ -11,8 +11,11 @@ const CHAIN = [
 	['sine-cosine-graphs', 'explore', 'trig-identities'],
 	['trig-identities', 'special', 'function-shifts'],
 	['function-shifts', 'both', 'function-stretches'],
-	['function-stretches', 'explore', 'function-combine']
+	['function-stretches', 'explore', 'function-combine'],
+	['function-combine', 'explore', 'limit-approach']
 ] as const;
+/** The last concept's last step: its Next link returns to the catalog. */
+const END = 'limit-approach/oscillate/';
 
 /** [concept, predict step, step before it]. */
 const PREDICT = [
@@ -21,7 +24,8 @@ const PREDICT = [
 	['trig-identities', 'supplement', 'negative'],
 	['function-shifts', 'opposite', 'vertical'],
 	['function-stretches', 'horizontal', 'vertical'],
-	['function-combine', 'order', 'build-d']
+	['function-combine', 'order', 'build-d'],
+	['limit-approach', 'predict', 'intro']
 ] as const;
 
 /** [url, hovered term, role that dims]. */
@@ -32,7 +36,8 @@ const LINKS = [
 	['trig-identities/pythagoras/', 'cos2', 'sin2'],
 	['function-shifts/horizontal/', 'c', 'ghost'],
 	['function-stretches/vertical/', 'a', 'ghost'],
-	['function-combine/build-d/', 'd', 'ghost']
+	['function-combine/build-d/', 'd', 'ghost'],
+	['limit-approach/zoom/', 'left', 'right']
 ] as const;
 
 for (const l of ['en', 'de'] as const) {
@@ -46,7 +51,7 @@ for (const l of ['en', 'de'] as const) {
 			await page.getByTestId('player-play').click();
 			await expect(concept(page)).toHaveAttribute('data-playing', 'true');
 		}
-		await page.goto(`/${l}${HS}function-combine/explore/`);
+		await page.goto(`/${l}${HS}${END}`);
 		const link = page.getByTestId('next-link');
 		await expect(link).toHaveAttribute('href', `/${l}/`);
 		await expect(link).toContainText(l === 'en' ? 'Back to catalog' : 'Zurück zum Katalog');

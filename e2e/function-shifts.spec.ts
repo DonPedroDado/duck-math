@@ -16,7 +16,7 @@ test('catalog lists shifts after the trig concepts, Functions soon card gone', a
 	const card = page.getByTestId('concept-card').nth(4);
 	await expect(card).toHaveAttribute('href', B);
 	await expect(card).toContainText('Shifting graphs');
-	await expect(page.getByTestId('soon-card')).toHaveCount(2);
+	await expect(page.getByTestId('soon-card')).toHaveCount(1);
 });
 
 test('vertical: d lifts the graph; slider and drag both write d', async ({ page }) => {

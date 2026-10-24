@@ -25,6 +25,13 @@ export interface Scenario {
 	hAsym: readonly number[];
 	/** Needs dense sampling (oscillation). */
 	dense?: boolean;
+	/**
+	 * For oscillation: the |x − at| below which a full swing is narrower than `px` math units
+	 * (a few pixels). The screen can't show swings there; draw them as a band instead.
+	 */
+	bandRadius?: (px: number) => number;
+	/** The band's height range. */
+	band?: readonly [number, number];
 	/** The formula as TeX (no words; shared by both locales). */
 	tex: string;
 }
@@ -40,7 +47,8 @@ export const SCENARIOS: Record<ScenarioId, Scenario> = {
 		at: 1,
 		left: 2,
 		right: 2,
-		breaks: [],
+		// Split at a: no sample lands on the hole, and the gap stays sub-pixel (the open dot shows it).
+		breaks: [1],
 		vAsym: [],
 		hAsym: [],
 		tex: 'f(x) = \\dfrac{x^2 - 1}{x - 1}'
@@ -53,7 +61,7 @@ export const SCENARIOS: Record<ScenarioId, Scenario> = {
 		left: 2,
 		right: 2,
 		value: 3,
-		breaks: [],
+		breaks: [1],
 		vAsym: [],
 		hAsym: [],
 		tex: 'f(x) = \\begin{cases} \\dfrac{x^2 - 1}{x - 1} & x \\ne 1 \\\\[4pt] 3 & x = 1 \\end{cases}'
@@ -80,6 +88,9 @@ export const SCENARIOS: Record<ScenarioId, Scenario> = {
 		vAsym: [],
 		hAsym: [],
 		dense: true,
+		// sin(1/x) near x swings with period ≈ 2πx²: narrower than px once |x| < √(px / 2π).
+		bandRadius: (px) => Math.sqrt(px / (2 * Math.PI)),
+		band: [-1, 1],
 		tex: 'f(x) = \\sin\\!\\left(\\dfrac{1}{x}\\right)'
 	},
 	recip: {
@@ -125,3 +136,12 @@ export function limitOf(s: Pick<Scenario, 'left' | 'right'>): Limit {
 
 /** Where f is plotted: everywhere except the approach point itself. */
 export const definedAt = (s: Scenario) => (x: number) => typeof s.at !== 'number' || x !== s.at;
+
+/** Dots at a (L-04): open where a one-sided limit is a finite height f never takes there, filled at f(a). */
+export function dotsOf(s: Scenario): { open: number[]; filled?: number } {
+	if (typeof s.at !== 'number') return { open: [] };
+	const open = [...new Set([s.left, s.right])].filter(
+		(y): y is number => typeof y === 'number' && Number.isFinite(y) && y !== s.value
+	);
+	return { open, filled: s.value };
+}
