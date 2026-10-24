@@ -6,24 +6,26 @@
 	import { formulaLines } from './formulas.ts';
 	import { SYM } from './notation.ts';
 	import { STEP_IDS, type StepId } from './step-ids.ts';
-	import { STEPS } from './steps.ts';
+	import { STEPS, type UCUser } from './steps.ts';
 	import type { UCView } from './view.ts';
 
 	let {
 		step,
 		v,
-		theta,
-		unit,
+		user,
 		locale,
-		onunitchange
+		update
 	}: {
 		step: number;
 		v: UCView;
-		theta: number;
-		unit: 'deg' | 'rad';
+		user: UCUser;
 		locale: string;
-		onunitchange: (u: 'deg' | 'rad') => void;
+		update: (patch: Partial<UCUser>) => void;
+		stepId?: string;
 	} = $props();
+
+	const theta = $derived(user.theta);
+	const unit = $derived(user.unit);
 
 	const CAPTIONS: Record<StepId, () => string> = {
 		intro: () => m.uc_step_intro_caption(),
@@ -84,7 +86,7 @@
 				{ value: 'rad', label: m.uc_unit_rad(), testid: 'unit-rad' }
 			]}
 			onchange={(u) => {
-				if (u === 'deg' || u === 'rad') onunitchange(u);
+				if (u === 'deg' || u === 'rad') update({ unit: u });
 			}}
 		/>
 	</div>

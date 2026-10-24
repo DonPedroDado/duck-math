@@ -1,10 +1,15 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 
-	let { stage, panel, bar }: { stage: Snippet; panel: Snippet; bar: Snippet } = $props();
+	let {
+		stage,
+		panel,
+		bar,
+		variant = 'side'
+	}: { stage: Snippet; panel: Snippet; bar: Snippet; variant?: 'side' | 'below' } = $props();
 </script>
 
-<div class="layout">
+<div class="layout" class:below={variant === 'below'}>
 	<div class="content">
 		<div class="stage">{@render stage()}</div>
 		<aside class="panel">{@render panel()}</aside>

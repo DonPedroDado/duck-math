@@ -1,5 +1,6 @@
 import { test, expect, type Page } from '@playwright/test';
 import fs from 'node:fs';
+import { conceptRoutes } from '../scripts/concept-routes.mjs';
 
 const IDS = ['intro', 'angle', 'radian', 'radians', 'cosine', 'sine'];
 const ENDS = ['2.00', '4.50', '8.50', '10.50', '13.00', '15.50'];
@@ -88,4 +89,26 @@ test('prerendered step pages carry canonical and hreflang links', async ({ reque
 	expect(h).toContain('rel="canonical" href="/de/high-school/unit-circle/sine/"');
 	expect(h).toContain('hreflang="en" href="/en/high-school/unit-circle/sine/"');
 	expect(h).toContain('hreflang="x-default" href="/en/high-school/unit-circle/sine/"');
+});
+
+for (const r of conceptRoutes()) {
+	for (const l of ['en', 'de']) {
+		test(`generic ${l} ${r.path} bare URL opens first step`, async ({ page }) => {
+			await page.goto(`/${l}${r.path}`);
+			await expect(concept(page)).toHaveAttribute('data-step', r.stepIds[0]);
+		});
+		for (const id of r.stepIds) {
+			test(`generic deep link ${l} ${r.path}${id}`, async ({ page }) => {
+				await page.goto(`/${l}${r.path}${id}/`);
+				await expect(concept(page)).toHaveAttribute('data-step', id);
+				await expect(concept(page)).toHaveAttribute('data-playing', 'false');
+				expect(fs.existsSync(`build/${l}${r.path}${id}/index.html`)).toBe(true);
+			});
+		}
+	}
+}
+
+test('unknown concept is 404', async ({ page }) => {
+	await page.goto('/en/high-school/no-such-concept/');
+	await expect(page.locator('h1')).toHaveText('Page not found');
 });

@@ -2,7 +2,7 @@
 declare global {
 	namespace App {
 		interface PageState {
-			ucStep?: string;
+			conceptStep?: string;
 		}
 	}
 }
