@@ -20,6 +20,12 @@ test.describe('root redirect', () => {
 			await page.waitForURL('**/de/');
 			expect(new URL(page.url()).pathname).toBe('/de/');
 		});
+		test('prototype-key stored value ignored', async ({ page }) => {
+			await page.addInitScript(() => localStorage.setItem('dm-locale', 'constructor'));
+			await page.goto('/');
+			await page.waitForURL('**/de/');
+			expect(new URL(page.url()).pathname).toBe('/de/');
+		});
 	});
 
 	test.describe('en browser', () => {
