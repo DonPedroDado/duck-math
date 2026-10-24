@@ -1,0 +1,18 @@
+import { describe, it, expect } from 'vitest';
+import { stepStart } from '#lib/engine/timeline.ts';
+import { STEPS, initialUser } from './steps.ts';
+import { view } from './view.ts';
+
+describe('__ID__ view', () => {
+	it('is continuous across step boundaries', () => {
+		for (let i = 1; i < STEPS.length; i++) {
+			const t = stepStart(STEPS, i);
+			const a = view(t - 1e-6, initialUser());
+			const b = view(t + 1e-6, initialUser());
+			for (const key of ['axes', 'line', 'k'] as const) expect(Math.abs(a[key] - b[key])).toBeLessThan(1e-3);
+		}
+	});
+	it('a dragged value wins over the schedule', () => {
+		expect(view(0, { k: 2 }).k).toBe(2);
+	});
+});

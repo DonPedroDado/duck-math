@@ -1,0 +1,23 @@
+import { m } from '#lib/paraglide/messages.js';
+import type { ConceptRuntime } from '../../types';
+import Panel from './Panel.svelte';
+import Scene from './Scene.svelte';
+import { STEP_IDS, type StepId } from './step-ids.ts';
+import { STEPS, POLICY, stepDefaults, initialUser, type __TYPE__User } from './steps.ts';
+import { view, type __TYPE__View } from './view.ts';
+
+const TITLES: Record<StepId, () => string> = {
+	intro: () => m.__PREFIX___step_intro_title(),
+	explore: () => m.__PREFIX___step_explore_title()
+};
+
+export default {
+	steps: STEPS,
+	policy: POLICY,
+	stepDefaults,
+	initialUser,
+	view,
+	stepTitle: (i: number) => TITLES[STEP_IDS[i]](),
+	Scene,
+	Panel
+} satisfies ConceptRuntime<__TYPE__User, __TYPE__View>;

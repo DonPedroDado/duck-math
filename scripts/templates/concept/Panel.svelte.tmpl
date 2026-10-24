@@ -1,0 +1,49 @@
+<script lang="ts">
+	import { m } from '#lib/paraglide/messages.js';
+	import Tex from '#lib/tex/Tex.svelte';
+	import { num } from '#lib/graph/tex.ts';
+	import type { PanelProps } from '#concepts/types.ts';
+	import { STEP_IDS, type StepId } from './step-ids.ts';
+	import { STEPS, type __TYPE__User } from './steps.ts';
+	import type { __TYPE__View } from './view.ts';
+
+	let { v, step, locale }: PanelProps<__TYPE__User, __TYPE__View> = $props();
+
+	const id = $derived(STEP_IDS[step]);
+	const CAPTIONS: Record<StepId, () => string> = {
+		intro: () => m.__PREFIX___step_intro_caption(),
+		explore: () => m.__PREFIX___step_explore_caption()
+	};
+</script>
+
+<p class="counter" data-testid="step-counter">
+	{m.player_step_counter({ n: step + 1, total: STEPS.length })}
+</p>
+<h1>{m.__PREFIX___title()}</h1>
+<div aria-live="polite">
+	{#key step}
+		<p class="caption" data-testid="caption">{CAPTIONS[id]()}</p>
+	{/key}
+</div>
+<div data-testid="formula" class="formula">
+	<Tex src={`y = ${num(v.k, locale)}\\,x`} />
+</div>
+
+<style>
+	.counter {
+		margin: 0;
+		font-size: var(--fs-label);
+		font-weight: var(--fw-semibold);
+		color: var(--text-muted);
+	}
+	h1 {
+		margin: 0;
+		font-size: var(--fs-heading);
+		font-weight: var(--fw-semibold);
+		color: var(--text-strong);
+	}
+	.caption {
+		margin: 0;
+		min-height: calc(4 * 1.5em);
+	}
+</style>

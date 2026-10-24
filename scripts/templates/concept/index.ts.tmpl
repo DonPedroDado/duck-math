@@ -1,0 +1,15 @@
+import { m } from '#lib/paraglide/messages.js';
+import type { ConceptManifest } from '../../types';
+import { STEP_IDS } from './step-ids';
+import Thumbnail from './Thumbnail.svelte';
+
+export default {
+	id: '__ID__',
+	category: '__CATEGORY__',
+	path: '/__CATEGORY__/__ID__/',
+	order: __ORDER__,
+	title: m.__PREFIX___title,
+	hook: m.__PREFIX___hook,
+	stepIds: STEP_IDS,
+	thumbnail: Thumbnail
+} satisfies ConceptManifest;

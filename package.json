@@ -14,7 +14,8 @@
 		"paraglide": "node scripts/i18n-paths.mjs --write && node scripts/paraglide-compile.mjs",
 		"check": "npm run paraglide && svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"test": "vitest run",
-		"test:e2e": "playwright test"
+		"test:e2e": "playwright test",
+		"new-concept": "node scripts/new-concept.mjs"
 	},
 	"devDependencies": {
 		"@inlang/paraglide-js": "^2.29.1",

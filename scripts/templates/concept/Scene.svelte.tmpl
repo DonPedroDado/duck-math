@@ -1,0 +1,50 @@
+<script lang="ts">
+	import Stage from '#lib/stage/Stage.svelte';
+	import { m } from '#lib/paraglide/messages.js';
+	import { getLocale } from '#lib/paraglide/runtime.js';
+	import { fmt } from '#lib/engine/format.ts';
+	import LinkReset from '#lib/link/LinkReset.svelte';
+	import { viewport } from '#lib/graph/viewport.ts';
+	import { friendly } from '#lib/graph/transform.ts';
+	import GraphAxes from '#lib/graph/GraphAxes.svelte';
+	import FunctionPlot from '#lib/graph/FunctionPlot.svelte';
+	import DragHandle from '#lib/graph/DragHandle.svelte';
+	import type { SceneProps } from '#concepts/types.ts';
+	import { RANGE, type __TYPE__User } from './steps.ts';
+	import type { __TYPE__View } from './view.ts';
+
+	let { v, title, glowing = false, step, update, oninteract }: SceneProps<__TYPE__User, __TYPE__View> = $props();
+
+	const locale = getLocale();
+	/** The handle sits on the line at x = 2, so its height is 2k. */
+	const X = 2;
+	const setK = (k: number) => update({ k: friendly(k, RANGE[0], RANGE[1]) });
+</script>
+
+<LinkReset />
+<Stage label={m.__PREFIX___stage_aria({ title })}>
+	{#snippet children({ S, glow })}
+		{@const vp = viewport(S)}
+		<GraphAxes {vp} axes={v.axes} {locale} />
+		<g data-testid="line" data-k={v.k.toFixed(2)}>
+			<FunctionPlot {vp} g={(x) => v.k * x} draw={v.line} filter={glowing ? glow.sm : undefined} />
+		</g>
+		{#if step > 0}
+			<DragHandle
+				{vp}
+				x={X}
+				y={v.k * X}
+				axis="y"
+				testid="handle"
+				label={m.__PREFIX___handle_aria()}
+				value={v.k}
+				min={RANGE[0]}
+				max={RANGE[1]}
+				valuetext={fmt(v.k, 1, locale)}
+				onpoint={(q) => setK(q.y / X)}
+				onkey={(dir, big) => setK(v.k + dir * (big ? 0.5 : 0.1))}
+				{oninteract}
+			/>
+		{/if}
+	{/snippet}
+</Stage>

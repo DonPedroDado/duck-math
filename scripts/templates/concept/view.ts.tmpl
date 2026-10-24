@@ -1,0 +1,26 @@
+import { locate, seg, easeMath as E } from '#lib/engine/timeline.ts';
+import { STEPS, type __TYPE__User } from './steps.ts';
+
+export interface __TYPE__View {
+	t: number;
+	step: number;
+	p: number;
+	axes: number;
+	line: number;
+	/** Effective slope: the dragged value, else the schedule. */
+	k: number;
+}
+
+/** Pure schedule: a function of time (and dragged values), never of frame history. */
+export function view(t: number, user: __TYPE__User): __TYPE__View {
+	const { i, p } = locate(STEPS, t);
+	const layer = (s: number, f: (q: number) => number) => (i > s ? 1 : i < s ? 0 : f(p));
+	return {
+		t,
+		step: i,
+		p,
+		axes: layer(0, (q) => E(seg(q, 0, 0.3))),
+		line: layer(0, (q) => E(seg(q, 0.3, 0.8))),
+		k: user.k ?? (i === 0 ? 0.5 : 0.5 + E(seg(p, 0.1, 0.7))),
+	};
+}

@@ -16,7 +16,8 @@
 			"./src/concepts/high-school/function-stretches/messages/{locale}.json",
 			"./src/concepts/high-school/sine-cosine-graphs/messages/{locale}.json",
 			"./src/concepts/high-school/tangent/messages/{locale}.json",
-			"./src/concepts/high-school/trig-identities/messages/{locale}.json"
+			"./src/concepts/high-school/trig-identities/messages/{locale}.json",
+			"./src/concepts/high-school/unit-circle/messages/{locale}.json"
 		]
 	}
 }

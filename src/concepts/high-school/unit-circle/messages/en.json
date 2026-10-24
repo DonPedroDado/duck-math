@@ -1,0 +1,23 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"uc_title": "Unit circle",
+	"uc_hook": "Drag a point and see angles, cos and sin appear.",
+	"uc_drag_hint": "Drag me",
+	"uc_point_aria": "Angle of the point",
+	"uc_stage_aria": "Unit circle diagram: {title}",
+	"uc_unit_toggle_label": "Angle unit",
+	"uc_unit_deg": "deg",
+	"uc_unit_rad": "rad",
+	"uc_step_intro_title": "Circle",
+	"uc_step_intro_caption": "A circle with radius 1. Drag the point around it.",
+	"uc_step_angle_title": "Angle",
+	"uc_step_angle_caption": "The angle θ measures how far the point has turned from the right.",
+	"uc_step_radian_title": "A radian",
+	"uc_step_radian_caption": "Lay the radius along the circle. That arc length is one radian.",
+	"uc_step_radians_title": "Radians",
+	"uc_step_radians_caption": "About {pi} radii fit on half a circle. That is π.",
+	"uc_step_cosine_title": "Cosine",
+	"uc_step_cosine_caption": "The shadow on the x-axis is cos θ.",
+	"uc_step_sine_title": "Sine",
+	"uc_step_sine_caption": "The shadow on the y-axis is sin θ. Drag and watch both."
+}

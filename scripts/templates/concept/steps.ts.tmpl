@@ -1,0 +1,16 @@
+import type { StepDef } from '#lib/engine/timeline.ts';
+import { STEP_IDS } from './step-ids.ts';
+
+// Seconds per step. Add `pause: s` to a step for a predict moment (see AUTHORING.md).
+const DURS = [2.0, 1.5];
+export const STEPS: readonly StepDef[] = STEP_IDS.map((id, k) => ({ id, dur: DURS[k] }));
+
+/** What the student drags. null = follow the animation in view.ts. */
+export interface __TYPE__User {
+	k: number | null;
+}
+export const POLICY = { k: 'restage' } as const;
+export const RANGE = [-3, 3] as const;
+
+export const stepDefaults = (): Partial<__TYPE__User> => ({ k: null });
+export const initialUser = (): __TYPE__User => ({ k: null });

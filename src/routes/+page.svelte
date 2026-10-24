@@ -25,9 +25,10 @@
 		</div>
 	{:else}
 		{#each CATEGORIES as cat (cat.id)}
-			<section aria-labelledby={`cat-${cat.id}`} class:later={cat.status === 'later'}>
+			{@const live = cat.status === 'live' || conceptsIn(cat.id).length > 0}
+			<section aria-labelledby={`cat-${cat.id}`} class:later={!live}>
 				<h2 id={`cat-${cat.id}`}>{cat.title()}</h2>
-				{#if cat.status === 'live'}
+				{#if live}
 					<div class="grid">
 						{#each conceptsIn(cat.id) as c (c.id)}
 							<ConceptCard concept={c} />
