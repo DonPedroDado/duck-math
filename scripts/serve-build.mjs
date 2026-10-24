@@ -37,6 +37,8 @@ http
 			res.writeHead(400).end();
 			return;
 		}
+		// A decoded path such as //en (from /%2Fen) would make the trailing-slash redirect protocol-relative.
+		if (pathname.startsWith('//') || url.pathname.startsWith('//')) return notFound(res);
 		let file = path.resolve(root, '.' + pathname);
 		if (file !== root && !file.startsWith(root + path.sep)) {
 			res.writeHead(403).end('Forbidden');
@@ -45,7 +47,8 @@ http
 		let stat = fs.statSync(file, { throwIfNoEntry: false });
 		if (stat?.isDirectory()) {
 			if (!pathname.endsWith('/')) {
-				res.writeHead(301, { location: pathname + '/' + url.search }).end();
+				// Build Location from the raw (still-encoded, single-leading-slash) pathname, never the decoded one.
+			res.writeHead(301, { location: url.pathname + '/' + url.search }).end();
 				return;
 			}
 			file = path.join(file, 'index.html');
@@ -55,6 +58,8 @@ http
 		res.writeHead(200, {
 			'content-type': types[path.extname(file)] ?? 'application/octet-stream'
 		});
-		fs.createReadStream(file).pipe(res);
+		fs.createReadStream(file)
+			.on('error', () => res.destroy())
+			.pipe(res);
 	})
 	.listen(port, 'localhost');
