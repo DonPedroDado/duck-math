@@ -34,9 +34,15 @@ describe('formulaLines', () => {
 	});
 	it('derivation steps and ghost toggles', () => {
 		expect(formulaLines('square45', rad(45), 'deg', 'en')[0]).toContain('x^2 + x^2 = 1');
-		expect(formulaLines('triangle3060', rad(60), 'deg', 'en').join('')).toContain('\\sin 30^\\circ');
-		const at30 = formulaLines('triangle3060', rad(30), 'deg', 'en').join('');
-		expect(at30.split('\\sin 30^\\circ').length - 1).toBe(1);
+		const tri = (deg: number) => formulaLines('triangle3060', rad(deg), 'deg', 'en');
+		expect(tri(60)[0]).toContain('y^2 = \\tfrac{3}{4}');
+		expect(tri(60).join('')).toContain('\\sin 60^\\circ');
+		expect(tri(30)[0]).toContain('x^2 = \\tfrac{3}{4}');
+		expect(tri(30).join('')).toContain('\\cos 30^\\circ');
+		expect(tri(45)[0]).toContain('x^2 = \\tfrac{1}{2}');
+		expect(tri(150)[0]).toContain('x^2 = \\tfrac{3}{4}');
+		expect(tri(50)[0]).toContain('{0.64^2}');
+		expect(tri(50).join('')).not.toContain('\\tfrac');
 		const g = { neg: true, supp: false, comp: false };
 		expect(formulaLines('special', rad(50), 'deg', 'en', g).join('')).toContain('link-ghost-neg');
 		expect(formulaLines('special', rad(50), 'deg', 'en').join('')).not.toContain('link-ghost-neg');

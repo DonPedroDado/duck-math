@@ -30,6 +30,24 @@ function trigLines(theta: number, unit: 'deg' | 'rad', N: (x: number) => string)
 	];
 }
 
+const HALF_SQ = '\\left(\\tfrac{1}{2}\\right)^2';
+const IMPLIES = '\\;\\Rightarrow\\;';
+
+/**
+ * x^2 + y^2 = 1 solved for the current angle: the special triangles by their reference angle
+ * (squares hide the quadrant's signs), any other angle with live numbers.
+ */
+function pythagorasFor(theta: number, N: (x: number) => string): string {
+	const x = (b: string) => term('cos', 'cos', b);
+	const y = (b: string) => term('sin', 'sin', b);
+	const e = exactFor(theta);
+	const ref = e ? Math.min(e.deg % 180, 180 - (e.deg % 180)) : null;
+	if (ref === 60) return `${x(HALF_SQ)} + ${y('y^2')} = 1 ${IMPLIES} ${y('y^2 = \\tfrac{3}{4}')}`;
+	if (ref === 30) return `${x('x^2')} + ${y(HALF_SQ)} = 1 ${IMPLIES} ${x('x^2 = \\tfrac{3}{4}')}`;
+	if (ref === 45) return `${x('x^2')} + ${y('x^2')} = 1 ${IMPLIES} ${x('x^2 = \\tfrac{1}{2}')}`;
+	return `${x(`${N(Math.cos(theta))}^2`)} + ${y(`${N(Math.sin(theta))}^2`)} = 1`;
+}
+
 /** Per-step TeX lines with live locale numbers. Formulas carry no language. */
 export function formulaLines(
 	step: StepId,
@@ -74,20 +92,8 @@ export function formulaLines(
 				`${term('cos', 'cos', 'x = \\tfrac{\\sqrt{2}}{2}')}`,
 				...trigLines(theta, unit, N)
 			];
-		case 'triangle3060': {
-			const lines = [
-				`\\left(\\tfrac{1}{2}\\right)^2 + y^2 = 1`,
-				`${term('sin', 'sin', 'y = \\tfrac{\\sqrt{3}}{2}')}`,
-				...trigLines(theta, unit, N)
-			];
-			// At exactly 30° the live lines already say this; don't print it twice.
-			if (exactFor(theta)?.deg !== 30)
-				lines.push(
-					`${term('sin', 'sin', '\\sin 30^\\circ = \\tfrac{1}{2}')}`,
-					`${term('cos', 'cos', '\\cos 30^\\circ = \\tfrac{\\sqrt{3}}{2}')}`
-				);
-			return lines;
-		}
+		case 'triangle3060':
+			return [pythagorasFor(theta, N), ...trigLines(theta, unit, N)];
 		case 'special': {
 			const lines = trigLines(theta, unit, N);
 			if (ghosts.neg) lines.push(...formulaLines('negative', theta, unit, locale));

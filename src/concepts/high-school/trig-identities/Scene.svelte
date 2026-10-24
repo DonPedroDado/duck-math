@@ -53,6 +53,8 @@
 	const mirD = $derived(inSpecial ? (user.ghosts.comp ? 1 : 0) : v.mirrorD);
 	const sqOp = $derived(inSpecial ? (user.squares ? 1 : 0) : v.squares);
 	const ex = $derived(exactFor(theta));
+	// Step 7 draws the triangle that proves the current special angle (first quadrant only).
+	const q1 = $derived(ex && ex.deg < 90 ? ex.deg : null);
 	const interact = () => {
 		cancelJump();
 		oninteract();
@@ -148,9 +150,9 @@
 		</g>
 
 		<!-- 45 degrees: half a unit square (x^2 + x^2 = 1) -->
-		{#if v.sq45 > 0}
+		{#if v.sq45 > 0 || (v.eqTri > 0 && q1 === 45)}
 			{@const half = 1 - v.halfFade}
-			<g data-testid="sq45" opacity={v.sq45} pointer-events="none">
+			<g data-testid="sq45" opacity={Math.max(v.sq45, q1 === 45 ? v.eqTri : 0)} pointer-events="none">
 				<polygon
 					points="{x(0)},{y(0)} {x(0)},{y(S2)} {x(S2)},{y(S2)}"
 					fill="var(--c-point)"
@@ -205,83 +207,104 @@
 			</g>
 		{/if}
 
-		<!-- 30 and 60 degrees: half an equilateral triangle of side 1 -->
-		{#if v.eqTri > 0}
-			{@const rest = 1 - v.halfFade60}
-			<g opacity={v.eqTri} pointer-events="none">
-				<polygon
-					data-testid="eq-tri"
-					points="{x(0)},{y(0)} {x(0.5)},{y(0)} {x(0.5)},{y(S3)}"
-					fill="var(--c-point)"
-					fill-opacity="0.06"
-					stroke="var(--c-point)"
-					stroke-width="1.5"
-					stroke-linejoin="round"
-				/>
-				<polygon
-					points="{x(0.5)},{y(0)} {x(1)},{y(0)} {x(0.5)},{y(S3)}"
-					fill="var(--c-point)"
-					fill-opacity={0.12 * rest}
-					stroke="var(--c-point)"
-					stroke-width="1.5"
-					stroke-opacity={rest}
-					stroke-linejoin="round"
-				/>
-				<g data-testid="alt-60" opacity={v.alt}>
-					<line
-						x1={x(0.5)}
-						y1={y(0)}
-						x2={x(0.5)}
-						y2={y(S3)}
-						stroke="var(--c-sin)"
-						stroke-width="2"
-						stroke-dasharray="6 4"
-					/>
-					<rect x={x(0.5) - 6} y={y(S3)} width="12" height={y(0) - y(S3)} fill="transparent" />
+		<!-- 30 and 60 degrees: half an equilateral triangle of side 1 (mirrored for 30) -->
+		{#if v.eqTri > 0 || v.mirror30 > 0}
+			{@const at30 = q1 === 30}
+			<!-- Reflection across y = x maps the 60 degree drawing onto the 30 degree one. -->
+			{@const swapXY = `matrix(0 -1 -1 0 ${cx + cy} ${cx + cy})`}
+			{@const fit = q1 === 30 || q1 === 60 ? 1 : 0}
+			<g
+				data-testid="tri3060"
+				data-fit={fit}
+				style:opacity={fit}
+				style="transition: opacity var(--dur-ui)"
+				pointer-events="none"
+			>
+				<g transform={at30 ? swapXY : undefined}>
+					{#if v.eqTri > 0}
+						{@const rest = 1 - v.halfFade60}
+						<g opacity={v.eqTri} pointer-events="none">
+							<polygon
+								data-testid="eq-tri"
+								points="{x(0)},{y(0)} {x(0.5)},{y(0)} {x(0.5)},{y(S3)}"
+								fill="var(--c-point)"
+								fill-opacity="0.06"
+								stroke="var(--c-point)"
+								stroke-width="1.5"
+								stroke-linejoin="round"
+							/>
+							<polygon
+								points="{x(0.5)},{y(0)} {x(1)},{y(0)} {x(0.5)},{y(S3)}"
+								fill="var(--c-point)"
+								fill-opacity={0.12 * rest}
+								stroke="var(--c-point)"
+								stroke-width="1.5"
+								stroke-opacity={rest}
+								stroke-linejoin="round"
+							/>
+							<g data-testid="alt-60" opacity={v.alt}>
+								<line
+									x1={x(0.5)}
+									y1={y(0)}
+									x2={x(0.5)}
+									y2={y(S3)}
+									stroke={at30 ? 'var(--c-cos)' : 'var(--c-sin)'}
+									stroke-width="2"
+									stroke-dasharray="6 4"
+								/>
+								<rect x={x(0.5) - 6} y={y(S3)} width="12" height={y(0) - y(S3)} fill="transparent" />
+							</g>
+						</g>
+					{/if}
+					{#if v.mirror30 > 0}
+						<g data-testid="pt-30" opacity={v.mirror30} pointer-events="none">
+							<line
+								x1={x(-0.2)}
+								y1={y(-0.2)}
+								x2={x(1.2)}
+								y2={y(1.2)}
+								stroke="var(--axis)"
+								stroke-width="1.5"
+								stroke-dasharray="6 4"
+							/>
+							<line
+								x1={x(S3)}
+								y1={y(0)}
+								x2={x(S3)}
+								y2={y(0.5)}
+								stroke={at30 ? 'var(--c-cos)' : 'var(--c-sin)'}
+								stroke-width="2"
+								style="opacity: calc(var(--ghost-opacity) * 0.6)"
+							/>
+							<circle cx={x(S3)} cy={y(0.5)} r="10" fill="var(--c-point)" style="fill-opacity: var(--ghost-opacity)" />
+							<circle
+								cx={x(S3)}
+								cy={y(0.5)}
+								r="10"
+								fill="none"
+								stroke="var(--c-point)"
+								stroke-width="2"
+								stroke-dasharray="4 3"
+							/>
+						</g>
+					{/if}
 				</g>
-				<text
-					x={x(0.25)}
-					y={y(0) + 16}
-					text-anchor="middle"
-					fill="var(--text)"
-					font-size="14"
-					font-weight="600"
-					paint-order="stroke"
-					stroke="var(--bg)"
-					stroke-width="3">½</text
-				>
-			</g>
-		{/if}
-		{#if v.mirror30 > 0}
-			<g data-testid="pt-30" opacity={v.mirror30} pointer-events="none">
-				<line
-					x1={x(-0.2)}
-					y1={y(-0.2)}
-					x2={x(1.2)}
-					y2={y(1.2)}
-					stroke="var(--axis)"
-					stroke-width="1.5"
-					stroke-dasharray="6 4"
-				/>
-				<line
-					x1={x(S3)}
-					y1={y(0)}
-					x2={x(S3)}
-					y2={y(0.5)}
-					stroke="var(--c-sin)"
-					stroke-width="2"
-					style="opacity: calc(var(--ghost-opacity) * 0.6)"
-				/>
-				<circle cx={x(S3)} cy={y(0.5)} r="10" fill="var(--c-point)" style="fill-opacity: var(--ghost-opacity)" />
-				<circle
-					cx={x(S3)}
-					cy={y(0.5)}
-					r="10"
-					fill="none"
-					stroke="var(--c-point)"
-					stroke-width="2"
-					stroke-dasharray="4 3"
-				/>
+				<!-- Text stays upright: placed outside the reflection. -->
+				{#if v.eqTri > 0}
+					<text
+						x={at30 ? x(0) - 14 : x(0.25)}
+						y={at30 ? y(0.25) : y(0) + 16}
+						text-anchor="middle"
+						dominant-baseline={at30 ? 'middle' : 'auto'}
+						fill="var(--text)"
+						font-size="14"
+						font-weight="600"
+						opacity={v.eqTri}
+						paint-order="stroke"
+						stroke="var(--bg)"
+						stroke-width="3">½</text
+					>
+				{/if}
 			</g>
 		{/if}
 

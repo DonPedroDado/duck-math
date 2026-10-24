@@ -159,8 +159,21 @@ test('triangle3060 derivation', async ({ page }) => {
 	await expect(page.getByTestId('eq-tri')).toBeVisible();
 	await expect(page.getByTestId('alt-60')).toBeVisible();
 	await expect(page.getByTestId('pt-30')).toBeVisible();
-	// Jump chips belong to the explore step: the 30/60 drawing is fixed here.
-	await expect(page.getByRole('group', { name: 'Special angles' })).toHaveCount(0);
+});
+
+test('triangle3060 follows the angle chips', async ({ page }) => {
+	await page.goto(B + 'triangle3060/');
+	const first = page.getByTestId('formula').locator('.formula-line').first();
+	await expect(first).toContainText('y2=34');
+	await page.getByTestId('chip-30').click();
+	await expect(readout(page)).toHaveText('30°');
+	await expect(first).toContainText('x2=34');
+	await expect(page.getByTestId('tri3060')).toHaveAttribute('data-fit', '1');
+	await page.getByTestId('chip-45').click();
+	await expect(readout(page)).toHaveText('45°');
+	await expect(first).toContainText('x2=12');
+	await expect(page.getByTestId('tri3060')).toHaveAttribute('data-fit', '0');
+	await expect(page.getByTestId('sq45')).toBeVisible();
 });
 
 test('german chip group labels', async ({ page }) => {
