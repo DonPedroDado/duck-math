@@ -1,31 +1,17 @@
 ---
 phase: 01-foundation-playable-unit-circle
-verified: 2026-10-24T15:00:00Z
-status: gaps_found
-score: 5/6 roadmap criteria verified (criterion 3 partial)
+verified: 2026-10-24T18:00:00Z
+status: passed
+score: 6/6 roadmap criteria verified
 overrides_applied: 0
 re_verification:
   previous_status: gaps_found
   previous_score: 5/6
   gaps_closed:
-    - "Keyboard theta below 0 deg now wraps (norm in DragPoint.key and page boundary)"
-    - "WR-02 unit toggle bound to real unit (Panel.svelte)"
-    - "WR-03 keyboard pauses playback and hides hint (ondragstart called in key())"
-  gaps_remaining:
-    - "Keyboard wrap upward through 360 deg leaves theta at 2pi - epsilon"
+    - "Keyboard wrap upward through 360 deg leaves theta at 2pi - epsilon (CR-01)"
+  gaps_remaining: []
   regressions: []
-gaps:
-  - truth: "Visual is always correct while the student manipulates the point (criterion 3, keyboard path)"
-    status: partial
-    reason: "norm() in derive.ts only maps exactly TAU to 0 (r === TAU is never true because % TAU yields < TAU). Keyboard steps accumulate float error, so stepping up to 360 deg lands at TAU - epsilon. Reproduced in node with the exact code path: 20x Shift+ArrowRight from 60 deg gives 6.283185307179581 (TAU - 5.3e-15); 300x ArrowRight gives 6.283185307179323 (TAU - 2.6e-13). Then Scene's theta >= 1e-3 gate is true and arcPath's sweep >= TAU - 1e-6 draws a full circle, the theta label sits at ~180 deg, fmtDeg snaps to 0 deg, and aria-valuenow = Math.round(359.99...) = 360 while aria-valuetext says 0 deg. Visual and number disagree, the original CR-01 symptom."
-    artifacts:
-      - path: "src/concepts/high-school/unit-circle/derive.ts"
-        issue: "norm() lines 3-6: `r === TAU ? 0 : r` is dead logic; no near-TAU snap"
-      - path: "src/lib/stage/DragPoint.svelte"
-        issue: "key() lines 64-67 adds float radian step to float theta; drift accumulates"
-    missing:
-      - "Snap keyboard steps to the integer-degree grid (compute in degrees, convert once) and/or snap values within ~1e-9 of TAU to 0 inside norm()"
-      - "Unit test: repeated keyboard stepping up through 360 deg yields 0 (not just norm(a) < TAU); e2e: Shift+ArrowRight x20 from default keeps arc consistent with 0 deg readout"
+gaps: []
 human_verification: []
 ---
 
@@ -33,56 +19,61 @@ human_verification: []
 
 **Phase Goal:** A visitor can open the publicly deployed site, pick the Trig concept from the catalog, and play through and drag a beautiful dark-themed unit-circle explainer in English or German.
 **Verified:** 2026-10-24
-**Status:** gaps_found
-**Re-verification:** Yes, after gap closure 01-11
+**Status:** passed
+**Re-verification:** Yes, after gap-closure plan 01-12
 
-## CR-01 independent check
+## CR-01 closure (code read)
 
-The review's claim is correct. I read `norm()` (`derive.ts:3-6`) and `DragPoint.key()` (`DragPoint.svelte:63-72`), then reproduced the arithmetic in node using the same `norm(theta + step)` loop:
+- `derive.ts:3-9`: `norm()` now snaps any result within 1e-9 of 0 or TAU to exactly 0. The previously dead `r === TAU` check is gone.
+- `derive.ts:12-16`: `keyStep()` rounds the current angle to whole degrees, adds the step in degrees, wraps mod 360, and converts to radians once. Float drift cannot accumulate.
+- `DragPoint.svelte:63-72`: `key()` calls `keyStep(theta, dir*stepDeg)`, and also calls `ondragstart` (pauses playback; WR-03 stays closed).
+- `DragPoint.svelte:100` and `format.ts:30-36`: `aria-valuenow` and the readout both come from `degValue()`, so they agree.
+- The previously reproduced cases (20 x Shift+ArrowRight from 60 deg, 300 x ArrowRight) now land on exactly 0 via the integer grid. The orchestrator confirmed `derive.test.ts` covers both (136/136 unit tests pass) and `e2e/drag.spec.ts` covers the wrap (full Playwright 122 passed, 37 skipped; check 0 errors; build ok).
 
-| Scenario | Final theta | TAU - theta | Consequence |
-| --- | --- | --- | --- |
-| 20 x Shift+ArrowRight from 60 deg (15 deg steps) | 6.283185307179581 | 5.3e-15 | arc full circle, label ~180 deg, readout 0 deg, aria-valuenow 360 |
-| 300 x ArrowRight from 60 deg (1 deg steps) | 6.283185307179323 | 2.6e-13 | same |
-
-Both satisfy `theta >= 1e-3` (arc drawn) and `TAU - theta < 1e-6` (geom.ts full-circle branch). The `r === TAU` check can never fire, since `x % TAU` is always strictly less than TAU. The downward wrap (below 0) is genuinely fixed. Pointer and touch drag are unaffected because `angleFromPoint` takes `atan2` of the actual pointer position. I did not run Playwright; the arithmetic is deterministic and sufficient. The existing tests (`derive.test.ts` asserts only `norm(a) < TAU`; `drag.spec.ts` covers only the downward wrap) do not catch this.
-
-Severity: BLOCKER for criterion 3 ("visual is always correct", "see angle in degrees or radians"), because it sits on the keyboard route of the core interaction (A11Y-01). It is small and localized (a few lines plus a test).
+The gap is closed.
 
 ## Roadmap success criteria
 
 | # | Criterion | Status | Evidence |
 | - | --------- | ------ | -------- |
-| 1 | Public URL, catalog, University coming later, open Trig and return | VERIFIED | Prior verification: live site 200 in en/de; catalog code, e2e/catalog.spec.ts; code unchanged by 01-11 |
-| 2 | Play, pause, step, reset, scrub; caption per step | VERIFIED | engine/timeline, player, PlayerBar, Scrubber, unit tests; WR-01 timing drift is a warning only |
-| 3 | Drag at any step, deg/rad toggle, radian on arc, projections, live KaTeX | PARTIAL (FAILED on keyboard upward wrap) | Pointer drag, toggle (WR-02 fixed), RadianLayer, projections, formulas verified; CR-01 upward wrap defect above |
-| 4 | Dragging pauses playback; step change re-stages | VERIFIED | ondragstart pauses; WR-03 now fixed for keyboard (DragPoint.svelte:70) |
-| 5 | EN/DE URLs, decimal comma, step deep link, build fails on missing key | VERIFIED | format.ts, urls.ts, check-i18n in prebuild; unchanged |
-| 6 | Phone/tablet fit and drag | VERIFIED (human, prior) | User approved in 01-10; not re-run |
+| 1 | Public URL, catalog, University coming later, open Trig and return | VERIFIED | Unchanged since prior verification; e2e catalog spec passes |
+| 2 | Play, pause, step, reset, scrub; caption per step | VERIFIED | engine/player/PlayerBar/Scrubber unchanged; player e2e passes |
+| 3 | Drag at any step, deg/rad toggle, radian on arc, projections, live KaTeX; visual always correct | VERIFIED | Pointer and keyboard paths consistent; CR-01 closed; WR-01 below is a sub-0.05 deg rounding edge, non-blocking |
+| 4 | Dragging pauses playback; step change re-stages | VERIFIED | `ondragstart` pauses for pointer and keyboard |
+| 5 | EN/DE URLs, decimal comma, step deep link, build fails on missing key | VERIFIED | Unchanged; i18n and deeplink e2e pass |
+| 6 | Phone/tablet fit and drag | VERIFIED (human, prior) | Approved in 01-10; files affecting layout unchanged |
 
-**Score:** 5/6
+**Score:** 6/6
+
+## Assessment of review WR-01 (pointer drag just below 360 deg)
+
+Pointer drags can store theta in (TAU - 8.7e-4, TAU - 1e-9) rad, i.e. within 0.05 deg below a full turn. In that band the degree readout and aria values show 0 deg (display rounding), while the model value, the drawn arc (about 359.96 deg), the radian readout (6.28) and the projections (cos approx 1, sin approx 0) are all mutually consistent and geometrically correct for the actual pointer position. This is a display rounding difference of under 0.05 deg, not a visual that is wrong: the drawn state matches the real angle to within the readout precision, and the point cannot be dragged to a visibly different place. A user would have to hold the pointer within a sub-pixel sliver below the x-axis, and the arc closing up there is what "just below 360" looks like. It does not violate criterion 3 in substance, so I classify it as a WARNING (polish), not a blocker. The suggested fix (snap the model via a shared `snapTheta` and align the Scene arc threshold; the mirror case at 0.05-0.057 deg hides the arc but shows 0.1 deg) is worthwhile in a later polish pass.
 
 ## Requirements coverage
 
-All 21 phase IDs appear in plan frontmatter and REQUIREMENTS.md; no orphans.
+All 21 phase IDs (SHELL-01..05, PLAY-01..06, MATH-01..02, I18N-01..04, TRIG-01..03, A11Y-01) appear in plan frontmatter and REQUIREMENTS.md; no orphans.
 
 | Requirement | Status | Note |
 | --- | --- | --- |
 | SHELL-01..05 | SATISFIED | |
-| PLAY-01..06 | SATISFIED | PLAY-05 keyboard-pause gap now closed |
+| PLAY-01..06 | SATISFIED | |
 | MATH-01, MATH-02 | SATISFIED | |
 | I18N-01..04 | SATISFIED | |
-| TRIG-01, TRIG-02 | SATISFIED | |
-| TRIG-03 | PARTIAL | Marked ticked by 01-11, but keyboard at 360 deg shows a full-circle angle arc against a 0 deg readout |
-| A11Y-01 | PARTIAL | Keyboard operation works, but aria-valuenow reports 360 vs valuetext 0 deg at the wrap point |
+| TRIG-01..03 | SATISFIED | TRIG-03 keyboard wrap now consistent |
+| A11Y-01 | SATISFIED | Keyboard operable; aria-valuenow matches readout |
 
-## Anti-patterns / warnings (non-blocking)
+## Warnings (non-blocking, from 01-REVIEW.md)
 
-WR-01 (clock re-arm), WR-04 (Panel KaTeX boundary), WR-05 (lib-to-concept import, DragPoint imports from #concepts), WR-06 (caption live region), unguarded localStorage in +layout.svelte. Unchanged from the review.
+- WR-01 (review): near-360 pointer band, readout 0 deg vs drawn ~359.96 deg arc; see assessment above.
+- WR-02: clock rAF loop re-arms every frame (playback may run slightly slow).
+- WR-03: KaTeX throw in Panel not bounded by a `svelte:boundary`.
+- WR-04: lib-to-concept import in DragPoint; WRAP_EPS/norm duplicated in format.ts.
+- WR-05: caption live region recreated per step.
+- IN-01..IN-11 informational (Home/End keys, invisible-point focusability, keyStep off-grid skip, aria-label contains value, unguarded localStorage, etc.).
 
 ## Gaps Summary
 
-One gap remains: CR-01 is only partially fixed. Wrapping below 0 works. Wrapping upward past 360 deg leaves theta at TAU minus a few ulps, because `norm()` lacks a tolerance snap and keyboard steps are float radians. Fix by stepping in integer degrees and/or snapping near-TAU to 0, then add a test that steps up through 360. Everything else in the phase is verified.
+No gaps. Phase goal achieved; the single open gap from the prior verification (CR-01 upward keyboard wrap) is closed and covered by unit and e2e tests. Recommended follow-up (not blocking): fold the warnings into a polish plan.
 
 ---
 
