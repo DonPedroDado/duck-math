@@ -75,9 +75,9 @@ Plans:
 - [x] 02-02-PLAN.md — Phase 2 tokens (contrast + color-blind check), multi-file i18n, shared strings
 
 **Wave 2** *(blocked on Wave 1 completion)*
-- [ ] 02-03-PLAN.md — Formula-to-visual hover linking (MATH-03) on the Unit circle
-- [ ] 02-04-PLAN.md — Predict pause/reveal in the player, guess marker, Next-concept link
-- [ ] 02-06-PLAN.md — Stage infrastructure: two-panel geometry, PanelPair, CircleBase, 'below' layout, unroll/display math
+- [x] 02-03-PLAN.md — Formula-to-visual hover linking (MATH-03) on the Unit circle
+- [x] 02-04-PLAN.md — Predict pause/reveal in the player, guess marker, Next-concept link
+- [x] 02-06-PLAN.md — Stage infrastructure: two-panel geometry, PanelPair, CircleBase, 'below' layout, unroll/display math
 
 **Wave 3** *(blocked on Wave 2 completion)*
 - [ ] 02-05-PLAN.md — Tangent & friends: intro + tan step with predict, clipping, undefined
