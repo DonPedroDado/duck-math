@@ -7,18 +7,18 @@
 
 ### Shell & Navigation
 
-- [ ] **SHELL-01**: Visitor can browse a catalog of concepts grouped by category (High School; University shown as reserved/coming later)
-- [ ] **SHELL-02**: Visitor can open a concept from the catalog and return to the catalog
-- [ ] **SHELL-03**: Visitor can share/open a link that lands on a specific step of a concept (stable step IDs)
+- [x] **SHELL-01**: Visitor can browse a catalog of concepts grouped by category (High School; University shown as reserved/coming later)
+- [x] **SHELL-02**: Visitor can open a concept from the catalog and return to the catalog
+- [x] **SHELL-03**: Visitor can share/open a link that lands on a specific step of a concept (stable step IDs)
 - [ ] **SHELL-04**: Site is publicly reachable at a URL with no account or login
-- [ ] **SHELL-05**: Site uses a 3Blue1Brown-inspired dark theme with a consistent semantic color palette (same color = same meaning across concepts)
+- [x] **SHELL-05**: Site uses a 3Blue1Brown-inspired dark theme with a consistent semantic color palette (same color = same meaning across concepts)
 
 ### Guided Player
 
 - [ ] **PLAY-01**: Student can play, pause, step forward/back, and reset a concept's guided explanation
 - [ ] **PLAY-02**: Student can scrub the timeline forward and backward and the visual is always correct for that position
 - [ ] **PLAY-03**: Each step shows a short caption (minimal text, within a word budget) next to the visual
-- [ ] **PLAY-04**: At every step, the student can drag the step's interactive elements and the visual responds instantly
+- [x] **PLAY-04**: At every step, the student can drag the step's interactive elements and the visual responds instantly
 - [ ] **PLAY-05**: Dragging during playback pauses the animation and gives control to the student without jumps or glitches
 - [ ] **PLAY-06**: Moving to another step re-stages the scene predictably (dragged values reset unless the step keeps them)
 - [ ] **PLAY-07**: Some steps pause with an ungraded "predict, then reveal" prompt before the animation shows the answer
@@ -26,7 +26,7 @@
 ### Math Display
 
 - [ ] **MATH-01**: Formulas are typeset properly (KaTeX) with terms colored to match their geometric counterparts
-- [ ] **MATH-02**: Live numeric readouts update as the student drags (locale-aware number formatting)
+- [x] **MATH-02**: Live numeric readouts update as the student drags (locale-aware number formatting)
 - [ ] **MATH-03**: Hovering/focusing a formula term highlights the matching visual element, and vice versa
 - [ ] **MATH-04**: Moving points can leave a fading trace trail (e.g. tracing a wave or derivative graph)
 - [ ] **MATH-05**: Concepts can show two synced panels side by side (e.g. circle + graph, function + derivative)
@@ -34,9 +34,9 @@
 
 ### Internationalization
 
-- [ ] **I18N-01**: Visitor can switch between English and German; all UI and concept text changes language
-- [ ] **I18N-02**: Each language has its own URL (e.g. /en/..., /de/...)
-- [ ] **I18N-03**: Numbers use the locale's format (decimal comma in German); function names sin/cos/tan in both
+- [x] **I18N-01**: Visitor can switch between English and German; all UI and concept text changes language
+- [x] **I18N-02**: Each language has its own URL (e.g. /en/..., /de/...)
+- [x] **I18N-03**: Numbers use the locale's format (decimal comma in German); function names sin/cos/tan in both
 - [ ] **I18N-04**: A check fails the build when a text key is missing in any language
 
 ### Accessibility & Devices
@@ -54,7 +54,7 @@
 
 ### Concept: Trigonometry & the Unit Circle
 
-- [ ] **TRIG-01**: Student can drag a point around the unit circle and see the angle in degrees and radians (with toggle)
+- [x] **TRIG-01**: Student can drag a point around the unit circle and see the angle in degrees and radians (with toggle)
 - [ ] **TRIG-02**: Student sees what a radian is (radius laid along the arc)
 - [ ] **TRIG-03**: Student sees cos and sin as the x and y projections of the point, with live values
 - [ ] **TRIG-04**: Student sees tan as a segment on the tangent line (similar triangles), undefined at 90°/270°
@@ -125,24 +125,24 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SHELL-01 | Phase 1 | Pending |
-| SHELL-02 | Phase 1 | Pending |
-| SHELL-03 | Phase 1 | Pending |
+| SHELL-01 | Phase 1 | Complete |
+| SHELL-02 | Phase 1 | Complete |
+| SHELL-03 | Phase 1 | Complete |
 | SHELL-04 | Phase 1 | Pending |
-| SHELL-05 | Phase 1 | Pending |
+| SHELL-05 | Phase 1 | Complete |
 | PLAY-01 | Phase 1 | Pending |
 | PLAY-02 | Phase 1 | Pending |
 | PLAY-03 | Phase 1 | Pending |
-| PLAY-04 | Phase 1 | Pending |
+| PLAY-04 | Phase 1 | Complete |
 | PLAY-05 | Phase 1 | Pending |
 | PLAY-06 | Phase 1 | Pending |
 | MATH-01 | Phase 1 | Pending |
-| MATH-02 | Phase 1 | Pending |
-| I18N-01 | Phase 1 | Pending |
-| I18N-02 | Phase 1 | Pending |
-| I18N-03 | Phase 1 | Pending |
+| MATH-02 | Phase 1 | Complete |
+| I18N-01 | Phase 1 | Complete |
+| I18N-02 | Phase 1 | Complete |
+| I18N-03 | Phase 1 | Complete |
 | I18N-04 | Phase 1 | Pending |
-| TRIG-01 | Phase 1 | Pending |
+| TRIG-01 | Phase 1 | Complete |
 | TRIG-02 | Phase 1 | Pending |
 | TRIG-03 | Phase 1 | Pending |
 | TRIG-04 | Phase 2 | Pending |

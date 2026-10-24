@@ -31,7 +31,7 @@ Duck Math ships as a static, public SvelteKit site where every phase ends with s
 
 Plans:
 **Wave 1**
-- [ ] 01-01-PLAN.md — Walking skeleton: Kit 3 + Paraglide scaffold, tokens theme, registry catalog, concept page with draggable point and live locale readout
+- [x] 01-01-PLAN.md — Walking skeleton: Kit 3 + Paraglide scaffold, tokens theme, registry catalog, concept page with draggable point and live locale readout
 
 **Wave 2** *(blocked on Wave 1 completion)*
 - [ ] 01-02-PLAN.md — Deploy to GitHub Pages at dm.ducksoft.ai (workflow, CNAME, checklist, user setup checkpoint)
