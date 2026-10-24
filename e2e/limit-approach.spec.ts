@@ -84,8 +84,8 @@ test('oscillate: sin(1/x) never settles, zoomed in x only', async ({ page }) => 
 	await expect(page.getByTestId('curve')).toHaveAttribute('data-sc', 'osc');
 	await expect(page.getByTestId('band')).toBeAttached();
 	await expect(page.locator('[data-role="left"]')).toContainText('does not exist');
-	await expect(page.locator('[data-layer="grid"]')).toHaveAttribute('data-ystep', '1');
-	await expect(page.locator('[data-layer="grid"]')).toHaveAttribute('data-xstep', '0.01');
+	await expect(page.locator('[data-layer="grid"]')).toHaveAttribute('data-ystep', '0.5');
+	await expect(page.locator('[data-layer="grid"]')).toHaveAttribute('data-xstep', '0.005');
 });
 
 test('every step deep-links', async ({ page }) => {

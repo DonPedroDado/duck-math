@@ -23,6 +23,7 @@
 		live = true,
 		onpoint,
 		onkey,
+		ongrab,
 		oninteract
 	}: {
 		vp: Viewport;
@@ -44,6 +45,8 @@
 		onpoint: (p: { x: number; y: number }) => void;
 		/** dir: −1 or 1 along the slider; big: Shift/PageUp/PageDown. */
 		onkey: (dir: -1 | 1, big: boolean) => void;
+		/** Pointer went down, before the first onpoint: for drags relative to the start. */
+		ongrab?: () => void;
 		oninteract?: () => void;
 	} = $props();
 
@@ -67,6 +70,7 @@
 		(e.currentTarget as Element).setPointerCapture(e.pointerId);
 		dragging = true;
 		oninteract?.();
+		ongrab?.();
 		update(e);
 	}
 	const move = (e: PointerEvent) => dragging && update(e);

@@ -25,6 +25,7 @@
 		opacity = 1,
 		onpoint,
 		onkey,
+		ongrab,
 		oninteract
 	}: {
 		vp: Viewport;
@@ -44,6 +45,7 @@
 		opacity?: number;
 		onpoint: (p: { x: number; y: number }) => void;
 		onkey: (dir: -1 | 1, big: boolean) => void;
+		ongrab?: () => void;
 		oninteract?: () => void;
 	} = $props();
 
@@ -86,6 +88,7 @@
 			{live}
 			{onpoint}
 			{onkey}
+			{ongrab}
 			{oninteract}
 		/>
 	</g>

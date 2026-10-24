@@ -12,10 +12,11 @@ const CHAIN = [
 	['trig-identities', 'special', 'function-shifts'],
 	['function-shifts', 'both', 'function-stretches'],
 	['function-stretches', 'explore', 'function-combine'],
-	['function-combine', 'explore', 'limit-approach']
+	['function-combine', 'explore', 'limit-approach'],
+	['limit-approach', 'oscillate', 'limit-infinity']
 ] as const;
 /** The last concept's last step: its Next link returns to the catalog. */
-const END = 'limit-approach/oscillate/';
+const END = 'limit-infinity/continuity/';
 
 /** [concept, predict step, step before it]. */
 const PREDICT = [
@@ -25,7 +26,8 @@ const PREDICT = [
 	['function-shifts', 'opposite', 'vertical'],
 	['function-stretches', 'horizontal', 'vertical'],
 	['function-combine', 'order', 'build-d'],
-	['limit-approach', 'predict', 'intro']
+	['limit-approach', 'predict', 'intro'],
+	['limit-infinity', 'predict', 'intro']
 ] as const;
 
 /** [url, hovered term, role that dims]. */
@@ -37,7 +39,8 @@ const LINKS = [
 	['function-shifts/horizontal/', 'c', 'ghost'],
 	['function-stretches/vertical/', 'a', 'ghost'],
 	['function-combine/build-d/', 'd', 'ghost'],
-	['limit-approach/zoom/', 'left', 'right']
+	['limit-approach/zoom/', 'left', 'right'],
+	['limit-infinity/at-infinity/', 'right', 'left']
 ] as const;
 
 for (const l of ['en', 'de'] as const) {

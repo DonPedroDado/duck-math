@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { SCENARIOS, limitOf, definedAt, type Scenario } from './scenario.ts';
-import { clampSide, digitsFor, minGap, readout, zoomFrame, Z_MAX } from './approach.ts';
+import { clampSide, digitsFor, exitX, minGap, readout, zoomFrame, Z_MAX } from './approach.ts';
 import { EDGE_U, outwardDrag, outwardHalf, outwardU, outwardX, U_MAX } from './outward.ts';
 import { sampleRuns } from '#lib/graph/sample.ts';
 
@@ -118,5 +118,16 @@ describe('outward zoom for x → ±∞ (L-09)', () => {
 	it('relative drag never jumps on grab', () => {
 		expect(outwardDrag(-40, 0.3, 0.3, H)).toBeCloseTo(-40, 9);
 		expect(outwardDrag(50, -0.5, -0.45, H)).toBeGreaterThan(50);
+	});
+});
+
+describe('exitX: where the curve leaves the window toward ±∞', () => {
+	it('1/x leaves the top at x = 1/y1 on the right, the bottom at −1/|y0| on the left', () => {
+		const f = SCENARIOS.recip.f;
+		expect(exitX(f, 0, 'right', -4, 4, 4)).toBeCloseTo(0.25, 9);
+		expect(exitX(f, 0, 'left', -4, 4, 4)).toBeCloseTo(-0.25, 9);
+	});
+	it('null where the curve stays inside', () => {
+		expect(exitX(SCENARIOS.hole.f, 1, 'left', 0, 4, 3)).toBeNull();
 	});
 });

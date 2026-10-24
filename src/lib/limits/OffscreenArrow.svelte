@@ -6,10 +6,20 @@
 		vp,
 		x,
 		dir,
+		labelSide = 1,
 		color = 'var(--c-point)',
 		opacity = 1,
 		testid
-	}: { vp: Viewport; x: number; dir: 1 | -1; color?: string; opacity?: number; testid?: string } = $props();
+	}: {
+		vp: Viewport;
+		x: number;
+		dir: 1 | -1;
+		/** Label right (1) or left (−1) of the arrow: away from a neighbouring asymptote. */
+		labelSide?: 1 | -1;
+		color?: string;
+		opacity?: number;
+		testid?: string;
+	} = $props();
 
 	const px = $derived(vp.gx(x));
 	/** Tip just inside the edge; the label sits beside it. */
@@ -20,8 +30,9 @@
 	<g data-testid={testid} data-dir={dir} {opacity} pointer-events="none">
 		<path d="M{px},{tip} L{px - 7},{tip + dir * 12} L{px + 7},{tip + dir * 12} Z" fill={color} />
 		<text
-			x={px + 12}
+			x={px + labelSide * 12}
 			y={tip + dir * 10}
+			text-anchor={labelSide > 0 ? 'start' : 'end'}
 			dominant-baseline="middle"
 			fill={color}
 			font-size="15"

@@ -35,3 +35,31 @@ export function readout(s: Scenario, x: number, side: HandleSide): number {
 export function digitsFor(hx: number): number {
 	return Math.min(7, Math.max(2, Math.ceil(-Math.log10(minGap(hx)))));
 }
+
+/**
+ * Where the curve leaves the window [y0, y1] closest to a on one side, heading to ±∞ (L-09):
+ * bisects between a point inside the window and one just next to a. null if it never leaves.
+ */
+export function exitX(
+	f: (x: number) => number,
+	a: number,
+	side: HandleSide,
+	y0: number,
+	y1: number,
+	hx: number
+): number | null {
+	const s = side === 'left' ? -1 : 1;
+	const inside = (x: number) => {
+		const y = f(x);
+		return Number.isFinite(y) && y >= y0 && y <= y1;
+	};
+	let near = a + s * hx * 1e-6;
+	let far = a + s * hx;
+	if (inside(near) || !inside(far)) return null;
+	for (let k = 0; k < 60; k++) {
+		const mid = (near + far) / 2;
+		if (inside(mid)) far = mid;
+		else near = mid;
+	}
+	return far;
+}

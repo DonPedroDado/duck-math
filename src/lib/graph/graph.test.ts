@@ -219,10 +219,12 @@ describe('ticks (Phase 4)', () => {
 			last = g;
 		}
 	});
-	it('labels never crowd: at most 7 per axis at any zoom', () => {
+	it('labels never crowd and never vanish: 3 to 7 intervals per axis at any zoom', () => {
 		for (let r = 0.003; r < 5000; r *= 1.13) {
 			const { major } = gridLevels(r);
-			expect(r / labelStep(r, major)).toBeLessThanOrEqual(7);
+			const n = r / labelStep(r, major);
+			expect(n).toBeLessThanOrEqual(7);
+			expect(n).toBeGreaterThanOrEqual(2.8);
 		}
 	});
 	it('axes sit at 0 when visible, else pin inside the edge', () => {

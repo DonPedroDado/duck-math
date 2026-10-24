@@ -27,9 +27,9 @@ export function gridLevels(range: number): { major: number; minor: number; fade:
 	return { major, minor: clean(major / 10), fade: Math.max(0, 1 - frac) ** 2 };
 }
 
-/** Labels on major lines: every line, or every 2nd/5th when they would crowd. */
+/** The finest 1/2/5 step (from the decade below the major lines up) that keeps labels from crowding. */
 export function labelStep(range: number, major: number, max = 7): number {
-	for (const m of [1, 2, 5, 10]) if (range / (major * m) <= max) return clean(major * m);
+	for (const m of [0.1, 0.2, 0.5, 1, 2, 5, 10]) if (range / (major * m) <= max) return clean(major * m);
 	return clean(major * 10);
 }
 
