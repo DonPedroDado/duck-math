@@ -66,7 +66,7 @@ export function monotoneCubic(xs: readonly number[], ys: readonly number[]): (x:
  * one zero crossing between peak and valley. Asymmetric, so every reflection shows.
  */
 const KX = [-12, -9, -6.5, -4.5, -2.5, -1, 0, 1.2, 3, 5, 7.5, 12];
-const KY = [0.3, 0.5, 0.9, 1.8, 3, 2.3, 1.5, 0, -1.6, -0.9, -0.5, -0.2];
+const KY = [0.3, 0.5, 0.9, 1.6, 2.5, 2.0, 1.5, 0, -1.6, -0.9, -0.5, -0.2];
 const fCurve = monotoneCubic(KX, KY);
 
 export const BASES: Record<BaseId, Base> = {
@@ -75,7 +75,7 @@ export const BASES: Record<BaseId, Base> = {
 		f: fCurve,
 		domain: [-Infinity, Infinity],
 		landmarks: [
-			{ id: 'peak', x: -2.5, y: 3 },
+			{ id: 'peak', x: -2.5, y: 2.5 },
 			{ id: 'yInt', x: 0, y: 1.5 },
 			{ id: 'zero', x: 1.2, y: 0 },
 			{ id: 'valley', x: 3, y: -1.6 }

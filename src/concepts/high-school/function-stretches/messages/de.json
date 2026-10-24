@@ -1,0 +1,22 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"sr_title": "Strecken & Spiegeln",
+	"sr_hook": "Strecke einen Graphen und spiegle ihn an einer Achse.",
+	"sr_stage_aria": "Graph von f, gestreckt und gespiegelt: {title}",
+	"sr_step_intro_title": "Das Gitter",
+	"sr_step_intro_caption": "Wieder f. Diesmal kann sich das ganze Gitter mitdehnen.",
+	"sr_step_vertical_title": "Höher",
+	"sr_step_vertical_caption": "a·f(x) streckt jede Höhe mit dem Faktor a. Punkte auf der x-Achse bleiben stehen.",
+	"sr_step_horizontal_title": "Schmaler",
+	"sr_step_horizontal_caption": "Jetzt steht der Faktor in der Klammer: f(2x).",
+	"sr_step_horizontal_predict_caption": "Wo landet der Hochpunkt von f(2x)? Zieh die Markierung dorthin.",
+	"sr_step_horizontal_answer_caption": "Schmaler! f(2x) erreicht jede Höhe schon beim halben x. Die y-Achse bleibt stehen.",
+	"sr_step_reflect_x_title": "An der x-Achse spiegeln",
+	"sr_step_reflect_x_caption": "Zieh a über 0 bis −1: Der Graph wird flach und klappt dann um. Das ist −f(x).",
+	"sr_step_reflect_y_title": "An der y-Achse spiegeln",
+	"sr_step_reflect_y_caption": "Jetzt b über 0 bis −1: gespiegelt an der y-Achse. Das ist f(−x).",
+	"sr_step_explore_title": "Ausprobieren",
+	"sr_step_explore_caption": "Zieh den Hochpunkt beliebig: hoch und runter ist a, seitwärts ist b.",
+	"sr_guess_valuetext": "Tipp: Hochpunkt bei x = {value}",
+	"sr_handle_valuetext": "{param} = {value}"
+}

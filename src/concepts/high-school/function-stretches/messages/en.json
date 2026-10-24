@@ -1,0 +1,22 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"sr_title": "Stretching & reflecting",
+	"sr_hook": "Stretch a graph, then flip it over an axis.",
+	"sr_stage_aria": "Graph of f, stretched and reflected: {title}",
+	"sr_step_intro_title": "The grid",
+	"sr_step_intro_caption": "Same f. This time the whole grid can stretch with it.",
+	"sr_step_vertical_title": "Taller",
+	"sr_step_vertical_caption": "a·f(x) stretches every height by a. Points on the x-axis stay put.",
+	"sr_step_horizontal_title": "Narrower",
+	"sr_step_horizontal_caption": "Now the factor goes inside the brackets: f(2x).",
+	"sr_step_horizontal_predict_caption": "Where does the peak of f(2x) land? Drag the marker there.",
+	"sr_step_horizontal_answer_caption": "Narrower! f(2x) reaches each height at half the x. The y-axis stays put.",
+	"sr_step_reflect_x_title": "Flip vertically",
+	"sr_step_reflect_x_caption": "Take a through 0 to −1: the graph flattens, then flips. That is −f(x).",
+	"sr_step_reflect_y_title": "Flip sideways",
+	"sr_step_reflect_y_caption": "Now b through 0 to −1: mirrored in the y-axis. That is f(−x).",
+	"sr_step_explore_title": "Play",
+	"sr_step_explore_caption": "Drag the peak anywhere: up and down is a, sideways is b.",
+	"sr_guess_valuetext": "Guess: peak at x = {value}",
+	"sr_handle_valuetext": "{param} = {value}"
+}

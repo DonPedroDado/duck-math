@@ -22,13 +22,13 @@ test('catalog lists shifts after the trig concepts, Functions soon card gone', a
 test('vertical: d lifts the graph; slider and drag both write d', async ({ page }) => {
 	await page.goto(B + 'vertical/');
 	await expect(curve(page)).toHaveAttribute('data-d', '2.00');
-	await expect(page.getByTestId('landmark-peak')).toHaveAttribute('data-y', '5.000');
+	await expect(page.getByTestId('landmark-peak')).toHaveAttribute('data-y', '4.500');
 	const slider = page.getByRole('slider', { name: 'Vertical shift d' });
 	await slider.focus();
 	await page.keyboard.press('ArrowLeft');
 	await expect(curve(page)).toHaveAttribute('data-d', '1.90');
-	const a = await at(page, -2.5, 5);
-	const b = await at(page, -2.5, 3);
+	const a = await at(page, -2.5, 4.5);
+	const b = await at(page, -2.5, 2.5);
 	await page.mouse.move(a.x, a.y);
 	await page.mouse.down();
 	await page.mouse.move(b.x, b.y, { steps: 6 });
@@ -69,8 +69,8 @@ test('deep link to lookup never blocks and shows where f is read', async ({ page
 
 test('horizontal: dragging sideways changes only c', async ({ page }) => {
 	await page.goto(B + 'horizontal/');
-	const a = await at(page, -4.5, 3);
-	const b = await at(page, -1.5, 4);
+	const a = await at(page, -4.5, 2.5);
+	const b = await at(page, -1.5, 3.5);
 	await page.mouse.move(a.x, a.y);
 	await page.mouse.down();
 	await page.mouse.move(b.x, b.y, { steps: 8 });

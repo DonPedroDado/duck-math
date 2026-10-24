@@ -9,7 +9,8 @@ const CHAIN = [
 	['unit-circle', 'sine', 'tangent'],
 	['tangent', 'all', 'sine-cosine-graphs'],
 	['sine-cosine-graphs', 'explore', 'trig-identities'],
-	['trig-identities', 'special', 'function-shifts']
+	['trig-identities', 'special', 'function-shifts'],
+	['function-shifts', 'both', 'function-stretches']
 ] as const;
 
 /** [concept, predict step, step before it]. */
@@ -38,7 +39,7 @@ for (const l of ['en', 'de'] as const) {
 			await page.getByTestId('player-play').click();
 			await expect(concept(page)).toHaveAttribute('data-playing', 'true');
 		}
-		await page.goto(`/${l}${HS}function-shifts/both/`);
+		await page.goto(`/${l}${HS}function-stretches/explore/`);
 		const link = page.getByTestId('next-link');
 		await expect(link).toHaveAttribute('href', `/${l}/`);
 		await expect(link).toContainText(l === 'en' ? 'Back to catalog' : 'Zurück zum Katalog');
