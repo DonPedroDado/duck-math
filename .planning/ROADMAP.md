@@ -43,8 +43,8 @@ Plans:
 - [x] 01-05-PLAN.md — Guided player UI: player bar + scrubber, captions, responsive layout, intro/angle visuals, drag pauses playback
 
 **Wave 4** *(blocked on Wave 3 completion)*
-- [ ] 01-07-PLAN.md — Shareable step URLs: shallow-routing sync, Back/Forward, deep-link e2e
-- [ ] 01-08-PLAN.md — Cos/sin projections with color-matched KaTeX formulas and live locale readouts
+- [x] 01-07-PLAN.md — Shareable step URLs: shallow-routing sync, Back/Forward, deep-link e2e
+- [x] 01-08-PLAN.md — Cos/sin projections with color-matched KaTeX formulas and live locale readouts
 
 **Wave 5** *(blocked on Wave 4 completion)*
 - [ ] 01-09-PLAN.md — Radian moment (peel, bend, repeat to π) and deg/rad toggle
