@@ -14,7 +14,13 @@ export const LINK_IDS = [
 	'ghost-neg',
 	'ghost-supp',
 	'ghost-comp',
-	'radian'
+	'radian',
+	'a',
+	'b',
+	'c',
+	'd',
+	'f',
+	'ghost'
 ] as const;
 
 export type LinkId = (typeof LINK_IDS)[number];

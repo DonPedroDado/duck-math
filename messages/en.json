@@ -80,5 +80,18 @@
 	"link_role_ghost_neg": "the mirror point of −θ",
 	"link_role_ghost_supp": "the mirror point of 180° − θ",
 	"link_role_ghost_comp": "the mirror point of 90° − θ",
-	"link_role_radian": "the radian arc"
+	"link_role_radian": "the radian arc",
+	"link_role_a": "the vertical stretch a",
+	"link_role_b": "the horizontal stretch b",
+	"link_role_c": "the horizontal shift c",
+	"link_role_d": "the vertical shift d",
+	"link_role_f": "the graph",
+	"link_role_ghost": "the original graph f",
+	"fn_param_a": "Vertical stretch a",
+	"fn_param_b": "Horizontal stretch b",
+	"fn_param_c": "Horizontal shift c",
+	"fn_param_d": "Vertical shift d",
+	"fn_handle_curve": "Graph",
+	"fn_landmark_peak": "Peak",
+	"fn_landmark_valley": "Valley"
 }

@@ -19,6 +19,11 @@
 	--c-csc: #8F9EFF;
 	--c-cot: #E9A23B;
 	--c-guess: #F0F3F8;
+	/* Transformation params a·f(b(x−c))+d (Phase 3). */
+	--c-pa: #93CFEF;
+	--c-pb: #EF8C73;
+	--c-pc: #C98CEB;
+	--c-pd: #B9F09A;
 	--accent: #5EE0B5;
 	--accent-ink: #0b1a14;
 

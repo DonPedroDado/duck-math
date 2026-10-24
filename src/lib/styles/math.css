@@ -28,6 +28,18 @@
 .t-guess {
 	color: var(--c-guess);
 }
+.t-a {
+	color: var(--c-pa);
+}
+.t-b {
+	color: var(--c-pb);
+}
+.t-c {
+	color: var(--c-pc);
+}
+.t-d {
+	color: var(--c-pd);
+}
 .tex .katex {
 	font-size: 20px;
 	color: var(--text-strong);

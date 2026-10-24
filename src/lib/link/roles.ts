@@ -17,5 +17,11 @@ export const ROLE_NAME: Record<LinkId, () => string> = {
 	'ghost-neg': m.link_role_ghost_neg,
 	'ghost-supp': m.link_role_ghost_supp,
 	'ghost-comp': m.link_role_ghost_comp,
-	radian: m.link_role_radian
+	radian: m.link_role_radian,
+	a: m.link_role_a,
+	b: m.link_role_b,
+	c: m.link_role_c,
+	d: m.link_role_d,
+	f: m.link_role_f,
+	ghost: m.link_role_ghost
 };

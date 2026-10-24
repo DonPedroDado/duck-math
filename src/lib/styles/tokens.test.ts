@@ -7,7 +7,7 @@ const css = fs.readFileSync(path.join(__dirname, 'tokens.css'), 'utf8');
 
 const names = [
 	'bg', 'surface', 'surface-raised', 'border', 'grid', 'axis', 'text', 'text-strong', 'text-muted',
-	'c-angle', 'c-point', 'c-cos', 'c-sin', 'c-radian', 'c-tan', 'c-sec', 'c-csc', 'c-cot', 'c-guess',
+	'c-angle', 'c-point', 'c-cos', 'c-sin', 'c-radian', 'c-tan', 'c-sec', 'c-csc', 'c-cot', 'c-guess', 'c-pa', 'c-pb', 'c-pc', 'c-pd',
 	'ghost-opacity', 'dim-opacity', 'trail-tail', 'trail-dim', 'dur-link', 'dur-snap', 'sq-fill', 'accent', 'accent-ink',
 	'glow-sm', 'glow-md', 'ease-out', 'ease-math', 'dur-ui', 'dur-draw',
 	'sp-xs', 'sp-sm', 'sp-md', 'sp-lg', 'sp-xl', 'sp-2xl', 'sp-3xl',
@@ -126,5 +126,22 @@ describe('color-blind risk pairs (D-18)', () => {
 		const key = (p: string) => p.split('/').sort().join('/');
 		expect(low.map(key).sort()).toEqual(['cos/csc', 'sec/cot', 'sin/sec'].map(key).sort());
 		for (const p of low) expect(/sec|csc/.test(p)).toBe(true);
+	});
+});
+
+describe('transformation params (Phase 3)', () => {
+	// Shown together on one graph: the four params, the curve (point white), guess marker, accent.
+	const params = ['c-pa', 'c-pb', 'c-pc', 'c-pd'];
+	const company = ['c-point', 'c-guess', 'accent'];
+	it('each param stays >= 15 apart from the others and its company under deuteranopia and protanopia', () => {
+		for (const p of params)
+			for (const q of [...params, ...company])
+				if (p !== q) expect(minCvd(p, q), `${p}/${q}`).toBeGreaterThanOrEqual(15);
+	});
+	it('params are new hex values', () => {
+		const others = [...css.matchAll(/--(c-[\w-]+):\s*(#[0-9a-fA-F]{6})/g)]
+			.filter((m) => !params.includes(m[1]))
+			.map((m) => m[2].toUpperCase());
+		for (const p of params) expect(others).not.toContain(tokenHex(p).toUpperCase());
 	});
 });
