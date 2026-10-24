@@ -10,6 +10,14 @@
 	"tn_step_tan_caption": "Verlängere den Radius bis zur Linie. Diese Höhe ist tan θ.",
 	"tn_step_tan_predict_caption": "Wo endet die tan-Strecke bei etwa 80°?",
 	"tn_step_tan_answer_caption": "Das ist tan θ. Nahe 90° wächst es rasant.",
+	"tn_step_sec_title": "Sekans",
+	"tn_step_sec_caption": "Die schräge Linie zum selben Punkt ist sec θ.",
+	"tn_step_csc_title": "Kosekans",
+	"tn_step_csc_caption": "Jetzt die Linie y = 1. Die schräge Linie dorthin ist csc θ.",
+	"tn_step_cot_title": "Kotangens",
+	"tn_step_cot_caption": "Entlang y = 1 liest du cot θ ab, den Partner von tan θ.",
+	"tn_step_all_title": "Alle sechs",
+	"tn_step_all_caption": "Zieh den Punkt. Achte auf die Vorzeichen und darauf, wo bei 90° Schluss ist.",
 	"tn_guess_valuetext": "Vermutung bei Höhe {value}",
 	"tn_readout_label": "Werte"
 }

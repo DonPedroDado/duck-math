@@ -1,7 +1,7 @@
 import type { StepDef } from '#lib/engine/timeline.ts';
 import { STEP_IDS } from './step-ids.ts';
 
-const DURS = [1.6, 4.0];
+const DURS = [1.6, 4.0, 2.0, 2.5, 2.0, 1.5];
 
 export const STEPS: readonly StepDef[] = STEP_IDS.map((id, k) => ({
 	id,
