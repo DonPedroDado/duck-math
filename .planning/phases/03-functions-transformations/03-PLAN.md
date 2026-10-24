@@ -144,3 +144,16 @@ Pure modules first (unit-tested), then thin SVG components.
 - **Dragging the curve vs dragging a handle** on touch: handles take priority, and the curve drag uses a wide invisible stroke. Check on a phone in slice 3 before copying the pattern.
 - **b → 0** gets visually extreme (grid lines fly off). The animation passes through 0 quickly, b is clamped to ±0.1 while dragging, and the slider jumps across 0 without resting there.
 - **Message budget:** captions stay within the existing word limits (EN 18, DE 25), which `check-i18n` enforces.
+
+---
+
+## Status (2026-10-24)
+
+All seven slices are built. The type check is clean, 392 unit tests and 385 e2e tests pass. Only the visual review is left.
+
+Changes from the plan:
+- The base f's peak is 2.5, not 3, so a = 2 stays on stage. The spline has zero slope at its end knots and is flat beyond them, so wide stretches never add zeros or kinks.
+- The concept route is `[category]/[concept]/[[step]]`, and a "later" catalog category goes live once it has a concept, so a university concept needs no shell edit either.
+- The unit circle's messages moved into its own folder, so every concept follows the same contract.
+- `PanelProps` gained an optional `oninteract`, so panel sliders pause playback.
+- `e2e/trig-journey.spec.ts` was renamed `e2e/journey.spec.ts` and now covers all seven concepts.

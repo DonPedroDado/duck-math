@@ -18,7 +18,10 @@ const CHAIN = [
 const PREDICT = [
 	['tangent', 'tan', 'intro'],
 	['sine-cosine-graphs', 'sine', 'unroll'],
-	['trig-identities', 'supplement', 'negative']
+	['trig-identities', 'supplement', 'negative'],
+	['function-shifts', 'opposite', 'vertical'],
+	['function-stretches', 'horizontal', 'vertical'],
+	['function-combine', 'order', 'build-d']
 ] as const;
 
 /** [url, hovered term, role that dims]. */
@@ -26,7 +29,10 @@ const LINKS = [
 	['unit-circle/sine/', 'cos', 'sin'],
 	['tangent/tan/', 'tan', 'cos'],
 	['sine-cosine-graphs/cosine/', 'cos', 'sin'],
-	['trig-identities/pythagoras/', 'cos2', 'sin2']
+	['trig-identities/pythagoras/', 'cos2', 'sin2'],
+	['function-shifts/horizontal/', 'c', 'ghost'],
+	['function-stretches/vertical/', 'a', 'ghost'],
+	['function-combine/build-d/', 'd', 'ghost']
 ] as const;
 
 for (const l of ['en', 'de'] as const) {
