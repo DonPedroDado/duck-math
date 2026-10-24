@@ -10,6 +10,7 @@
 		label,
 		valuetext,
 		onchange,
+		oninteract,
 		ondragstart,
 		ondragend,
 		scale = 1,
@@ -22,6 +23,9 @@
 		label: string;
 		valuetext: string;
 		onchange: (theta: number) => void;
+		/** Any user manipulation (pointer drag start or keyboard step). Fires once per pointerdown and on every key step. */
+		oninteract?: () => void;
+		/** Pointer drags only; always paired with ondragend. */
 		ondragstart?: () => void;
 		ondragend?: () => void;
 		scale?: number;
@@ -48,6 +52,7 @@
 		e.preventDefault();
 		(e.currentTarget as Element).setPointerCapture(e.pointerId);
 		dragging = true;
+		oninteract?.();
 		ondragstart?.();
 		update(e);
 	}
@@ -67,7 +72,7 @@
 		else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') dir = 1;
 		else return;
 		e.preventDefault();
-		ondragstart?.();
+		oninteract?.();
 		onchange(keyStep(theta, dir * stepDeg));
 	}
 </script>

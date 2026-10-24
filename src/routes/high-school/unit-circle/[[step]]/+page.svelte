@@ -102,7 +102,7 @@
 				theta={user.theta}
 				moved={user.moved}
 				onthetachange={(t) => (user.theta = snapTheta(t))}
-				ondragstart={() => {
+				oninteract={() => {
 					player.dispatch({ type: 'pause' });
 					user.moved = true;
 				}}

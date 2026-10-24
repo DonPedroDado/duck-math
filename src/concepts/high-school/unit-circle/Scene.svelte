@@ -19,7 +19,7 @@
 		glowing = false,
 		stepId = 'intro',
 		onthetachange,
-		ondragstart
+		oninteract
 	}: {
 		v: UCView;
 		title: string;
@@ -28,7 +28,7 @@
 		glowing?: boolean;
 		stepId?: string;
 		onthetachange: (t: number) => void;
-		ondragstart?: () => void;
+		oninteract?: () => void;
 	} = $props();
 
 	const locale = getLocale();
@@ -254,7 +254,7 @@
 				label={m.uc_point_aria({ value: val })}
 				valuetext={val}
 				onchange={onthetachange}
-				{ondragstart}
+				{oninteract}
 				glow={glow.md}
 			/>
 		</g>
