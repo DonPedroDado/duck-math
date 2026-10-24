@@ -43,6 +43,7 @@
 		sine: 'projection'
 	};
 	const glowOn = (g: string) => glowing && GLOW_GROUP[stepId] === g;
+	const gf = (g: string, f: string) => (glowOn(g) ? { filter: f } : {});
 	const GRID = [-1.5, -1, -0.5, 0.5, 1, 1.5];
 </script>
 
@@ -80,7 +81,7 @@
 				font-weight="600">{fmt(-1, 0, locale)}</text
 			>
 		</g>
-		<g data-layer="circle" filter={glowOn('circle') ? glow.sm : undefined}>
+		<g data-layer="circle" {...gf('circle', glow.sm)}>
 			<path
 				d={arcPath(cx, cy, R, 0, TAU * v.circle)}
 				fill="none"
@@ -90,7 +91,7 @@
 			/>
 		</g>
 		{#if theta >= 1e-3}
-			<g data-layer="angle" filter={glowOn('angle') ? glow.sm : undefined}>
+			<g data-layer="angle" {...gf('angle', glow.sm)}>
 				<path
 					data-testid="angle-arc"
 					d={arcPath(cx, cy, 0.25 * R, 0, theta * v.arc)}
@@ -120,8 +121,8 @@
 				{/if}
 			</g>
 		{/if}
-		<g data-layer="radian" filter={glowOn('radian') ? glow.sm : undefined}><RadianLayer {v} {cx} {cy} {R} {locale} {theta} /></g>
-		<g data-layer="projection" filter={glowOn('projection') ? glow.sm : undefined}>
+		<g data-layer="radian" {...gf('radian', glow.sm)}><RadianLayer {v} {cx} {cy} {R} {locale} {theta} /></g>
+		<g data-layer="projection" {...gf('projection', glow.sm)}>
 			{#if P.showCos}
 				<line
 					data-testid="cos-drop"
