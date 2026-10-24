@@ -15,12 +15,12 @@
 
 ### Guided Player
 
-- [ ] **PLAY-01**: Student can play, pause, step forward/back, and reset a concept's guided explanation
-- [ ] **PLAY-02**: Student can scrub the timeline forward and backward and the visual is always correct for that position
-- [ ] **PLAY-03**: Each step shows a short caption (minimal text, within a word budget) next to the visual
+- [x] **PLAY-01**: Student can play, pause, step forward/back, and reset a concept's guided explanation
+- [x] **PLAY-02**: Student can scrub the timeline forward and backward and the visual is always correct for that position
+- [x] **PLAY-03**: Each step shows a short caption (minimal text, within a word budget) next to the visual
 - [x] **PLAY-04**: At every step, the student can drag the step's interactive elements and the visual responds instantly
-- [ ] **PLAY-05**: Dragging during playback pauses the animation and gives control to the student without jumps or glitches
-- [ ] **PLAY-06**: Moving to another step re-stages the scene predictably (dragged values reset unless the step keeps them)
+- [x] **PLAY-05**: Dragging during playback pauses the animation and gives control to the student without jumps or glitches
+- [x] **PLAY-06**: Moving to another step re-stages the scene predictably (dragged values reset unless the step keeps them)
 - [ ] **PLAY-07**: Some steps pause with an ungraded "predict, then reveal" prompt before the animation shows the answer
 
 ### Math Display
@@ -41,7 +41,7 @@
 
 ### Accessibility & Devices
 
-- [ ] **A11Y-01**: Concepts work with touch on phones/tablets (drag, player controls, layout fits small screens)
+- [x] **A11Y-01**: Concepts work with touch on phones/tablets (drag, player controls, layout fits small screens)
 - [ ] **A11Y-02**: Draggable elements and player controls are keyboard-operable
 - [ ] **A11Y-03**: Animations respect the reduced-motion preference
 - [ ] **A11Y-04**: Color-coded meaning also has a non-color cue (labels/patterns) for color-blind students
@@ -130,12 +130,12 @@
 | SHELL-03 | Phase 1 | Complete |
 | SHELL-04 | Phase 1 | Pending |
 | SHELL-05 | Phase 1 | Complete |
-| PLAY-01 | Phase 1 | Pending |
-| PLAY-02 | Phase 1 | Pending |
-| PLAY-03 | Phase 1 | Pending |
+| PLAY-01 | Phase 1 | Complete |
+| PLAY-02 | Phase 1 | Complete |
+| PLAY-03 | Phase 1 | Complete |
 | PLAY-04 | Phase 1 | Complete |
-| PLAY-05 | Phase 1 | Pending |
-| PLAY-06 | Phase 1 | Pending |
+| PLAY-05 | Phase 1 | Complete |
+| PLAY-06 | Phase 1 | Complete |
 | MATH-01 | Phase 1 | Pending |
 | MATH-02 | Phase 1 | Complete |
 | I18N-01 | Phase 1 | Complete |
@@ -176,7 +176,7 @@
 | DER-04 | Phase 5 | Pending |
 | DER-05 | Phase 5 | Pending |
 | DER-06 | Phase 5 | Pending |
-| A11Y-01 | Phase 1 | Pending |
+| A11Y-01 | Phase 1 | Complete |
 | A11Y-02 | Phase 6 | Pending |
 | A11Y-03 | Phase 6 | Pending |
 | A11Y-04 | Phase 6 | Pending |

@@ -4,14 +4,14 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Phase 1 UI-SPEC approved
-last_updated: "2026-10-24T08:55:18.621Z"
+last_updated: "2026-10-24T09:03:27.543Z"
 last_activity: 2026-10-24
 progress:
   total_phases: 6
   completed_phases: 0
   total_plans: 10
-  completed_plans: 1
-  percent: 10
+  completed_plans: 5
+  percent: 50
 ---
 
 # Project State
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-10-24)
 ## Current Position
 
 Phase: 01 (foundation-playable-unit-circle) — EXECUTING
-Plan: 2 of 10
+Plan: 3 of 10
 Status: Ready to execute
 Last activity: 2026-10-24
 
-Progress: [█░░░░░░░░░] 10%
+Progress: [█████░░░░░] 50%
 
 ## Performance Metrics
 
@@ -49,6 +49,7 @@ Progress: [█░░░░░░░░░] 10%
 ## Accumulated Context
 
 | Phase 01 P01 | 15min | 3 tasks | 45 files |
+| Phase 01 P05 | 25min | 2 tasks | 9 files |
 
 ### Decisions
 
@@ -57,6 +58,7 @@ Progress: [█░░░░░░░░░] 10%
 - Mode: MVP vertical slices; every phase is browser-testable; visual polish matters
 - Module contract extracted after concept #2 (Phase 3), not before
 - [Phase 01]: Stage SVG role=group; #concepts imports need explicit .ts extensions; Kit 3 Handle/Reroute from @sveltejs/kit/hooks
+- [Phase 01]: 01-05: ConceptLayout breaks out of shell main padding via negative margins
 
 ### Pending Todos
 
@@ -69,6 +71,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-10-24T08:55:14.136Z
+Last session: 2026-10-24T09:03:23.238Z
 Stopped at: Phase 1 UI-SPEC approved
 Resume file: None

@@ -40,7 +40,7 @@ Plans:
 - [x] 01-06-PLAN.md — Catalog visual cards (live + soon + University) and localized 404
 
 **Wave 3** *(blocked on Wave 2 completion)*
-- [ ] 01-05-PLAN.md — Guided player UI: player bar + scrubber, captions, responsive layout, intro/angle visuals, drag pauses playback
+- [x] 01-05-PLAN.md — Guided player UI: player bar + scrubber, captions, responsive layout, intro/angle visuals, drag pauses playback
 
 **Wave 4** *(blocked on Wave 3 completion)*
 - [ ] 01-07-PLAN.md — Shareable step URLs: shallow-routing sync, Back/Forward, deep-link e2e
