@@ -1,4 +1,5 @@
-import { test, expect, type Page } from '@playwright/test';
+import type { Page } from '@playwright/test';
+import { test, expect } from './helpers/test';
 
 async function drag(page: Page, fromDeg: number, toDeg: number) {
 	const b = (await page.locator('[data-testid="stage"]').boundingBox())!;

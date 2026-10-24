@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './helpers/test';
 
 test('de unknown step is a localized 404', async ({ page }) => {
 	const res = await page.goto('/de/high-school/unit-circle/foo/');

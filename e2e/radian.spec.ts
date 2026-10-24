@@ -1,4 +1,5 @@
-import { test, expect, type Page } from '@playwright/test';
+import type { Page } from '@playwright/test';
+import { test, expect } from './helpers/test';
 
 const U = '/en/high-school/unit-circle/';
 const copies = (p: Page) => p.getByTestId('radian-copy');

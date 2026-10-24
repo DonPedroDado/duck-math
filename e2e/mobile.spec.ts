@@ -1,5 +1,6 @@
 import { conceptRoutes } from '../scripts/concept-routes.mjs';
-import { test, expect, type Page } from '@playwright/test';
+import type { Page } from '@playwright/test';
+import { test, expect } from './helpers/test';
 import { touchDrag } from './helpers/touch';
 
 const VIEWPORTS = [

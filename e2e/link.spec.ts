@@ -1,4 +1,5 @@
-import { test, expect, type Page } from '@playwright/test';
+import type { Page } from '@playwright/test';
+import { test, expect } from './helpers/test';
 
 const U = (loc: string, step: string) => `/${loc}/high-school/unit-circle/${step}/`;
 const formula = (page: Page) => page.getByTestId('formula');

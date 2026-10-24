@@ -2,6 +2,7 @@
 	import '@fontsource-variable/inter';
 	import '#lib/styles/tokens.css';
 	import favicon from '#lib/assets/favicon.svg';
+	import { onMount } from 'svelte';
 	import { page } from '$app/state';
 	import { m } from '#lib/paraglide/messages.js';
 	import { deLocalizeUrl, getLocale, localizeHref, locales } from '#lib/paraglide/runtime.js';
@@ -10,6 +11,11 @@
 	import type { LayoutProps } from './$types';
 
 	let { children }: LayoutProps = $props();
+
+	// e2e waits for this before sending input (see e2e/helpers/test.ts).
+	onMount(() => {
+		document.documentElement.dataset.hydrated = '';
+	});
 
 	const concept = $derived(
 		concepts.find((c) => deLocalizeUrl(page.url).pathname.startsWith(c.path))

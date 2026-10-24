@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './helpers/test';
 import { conceptRoutes } from '../scripts/concept-routes.mjs';
 
 test('en catalog shows live and soon cards', async ({ page }) => {
