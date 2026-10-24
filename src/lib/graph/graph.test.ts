@@ -157,3 +157,13 @@ describe('formula', () => {
 		expect(symbolic(['d'])).toBe('g(x) = f(x) + \\htmlClass{t-d link-d}{d}');
 	});
 });
+
+describe('friendly', () => {
+	it('snaps near whole numbers, else tenths, and clamps', async () => {
+		const { friendly } = await import('./transform.ts');
+		expect(friendly(1.87, -4, 4)).toBe(2);
+		expect(friendly(1.63, -4, 4)).toBe(1.6);
+		expect(friendly(-9, -4, 4)).toBe(-4);
+		expect(Object.is(friendly(-0.04, -4, 4), 0)).toBe(true);
+	});
+});

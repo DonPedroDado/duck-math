@@ -133,6 +133,7 @@
 				stepId={stepIds[player.state.step]}
 				{locale}
 				{update}
+				{oninteract}
 				{predict}
 			/>
 			<div class="next-row" data-testid="next-row" style="min-height: 44px; margin-top: var(--sp-md)">

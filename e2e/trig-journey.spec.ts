@@ -8,7 +8,8 @@ const concept = (page: Page) => page.getByTestId('concept');
 const CHAIN = [
 	['unit-circle', 'sine', 'tangent'],
 	['tangent', 'all', 'sine-cosine-graphs'],
-	['sine-cosine-graphs', 'explore', 'trig-identities']
+	['sine-cosine-graphs', 'explore', 'trig-identities'],
+	['trig-identities', 'special', 'function-shifts']
 ] as const;
 
 /** [concept, predict step, step before it]. */
@@ -37,7 +38,7 @@ for (const l of ['en', 'de'] as const) {
 			await page.getByTestId('player-play').click();
 			await expect(concept(page)).toHaveAttribute('data-playing', 'true');
 		}
-		await page.goto(`/${l}${HS}trig-identities/special/`);
+		await page.goto(`/${l}${HS}function-shifts/both/`);
 		const link = page.getByTestId('next-link');
 		await expect(link).toHaveAttribute('href', `/${l}/`);
 		await expect(link).toContainText(l === 'en' ? 'Back to catalog' : 'Zurück zum Katalog');

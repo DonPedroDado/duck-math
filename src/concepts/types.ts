@@ -47,6 +47,8 @@ export interface PanelProps<U, V> {
 	/** Current locale, for number formatting. */
 	locale: string;
 	update: (patch: Partial<U>) => void;
+	/** Call when a panel control (slider, chip) is used: pauses playback like a stage drag. */
+	oninteract?: () => void;
 	predict?: PredictCtx;
 }
 

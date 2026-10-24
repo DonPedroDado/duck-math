@@ -1,0 +1,21 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"sh_title": "Graphen verschieben",
+	"sh_hook": "Verschiebe einen Graphen nach oben, unten und zur Seite.",
+	"sh_stage_aria": "Graph von f und seine Verschiebung: {title}",
+	"sh_step_intro_title": "Ein Graph",
+	"sh_step_intro_caption": "Das ist f. Achte auf Hochpunkt, Tiefpunkt und Nullstelle.",
+	"sh_step_vertical_title": "Nach oben und unten",
+	"sh_step_vertical_caption": "+ d hebt jeden Punkt um d an. Zieh am Graphen.",
+	"sh_step_opposite_title": "In der Klammer",
+	"sh_step_opposite_caption": "Jetzt steht die 2 in der Klammer: f(x + 2).",
+	"sh_step_opposite_predict_caption": "In welche Richtung wandert f(x + 2)? Zieh die Markierung dorthin, wo der Hochpunkt landet.",
+	"sh_step_opposite_answer_caption": "Nach links! Der Graph wandert entgegen dem Vorzeichen.",
+	"sh_step_lookup_title": "Warum links?",
+	"sh_step_lookup_caption": "Für g an der Stelle x wird f bei x + 2 gelesen. Jede Höhe kommt 2 Einheiten früher.",
+	"sh_step_horizontal_title": "Verschieben um c",
+	"sh_step_horizontal_caption": "f(x − c) wandert um c nach rechts, ein negatives c nach links. Zieh seitwärts.",
+	"sh_step_both_title": "Beides zusammen",
+	"sh_step_both_caption": "f(x − c) + d: verschiebe den Graphen beliebig.",
+	"sh_guess_valuetext": "Tipp: Hochpunkt bei x = {value}"
+}

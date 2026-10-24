@@ -12,8 +12,8 @@ test('en catalog shows live and soon cards', async ({ page }) => {
 	await expect(card.first()).toContainText('Unit circle');
 	await expect(card.first().locator('svg').first()).toBeVisible();
 	const soon = page.locator('[data-testid="soon-card"]');
-	await expect(soon).toHaveCount(3);
-	for (const [i, name] of ['Functions', 'Limits', 'Derivatives'].entries()) {
+	await expect(soon).toHaveCount(2);
+	for (const [i, name] of ['Limits', 'Derivatives'].entries()) {
 		const s = soon.nth(i);
 		await expect(s).toContainText(name);
 		await expect(s).toContainText('Soon');
@@ -59,24 +59,24 @@ test('grid layout adapts', async ({ page }) => {
 	}
 });
 
-const ORDER = ['unit-circle', 'tangent', 'sine-cosine-graphs', 'trig-identities'];
+const ORDER = ['unit-circle', 'tangent', 'sine-cosine-graphs', 'trig-identities', 'function-shifts'];
 const TITLES = {
-	en: ['Unit circle', 'Tangent & friends', 'Sine & cosine graphs', 'Identities & special angles'],
-	de: ['Einheitskreis', 'Tangens & Co.', 'Sinus- und Kosinuskurve', 'Identitäten & besondere Winkel']
+	en: ['Unit circle', 'Tangent & friends', 'Sine & cosine graphs', 'Identities & special angles', 'Shifting graphs'],
+	de: ['Einheitskreis', 'Tangens & Co.', 'Sinus- und Kosinuskurve', 'Identitäten & besondere Winkel', 'Graphen verschieben']
 };
 
 for (const l of ['en', 'de'] as const) {
 	test(`high school order (${l})`, async ({ page }) => {
 		await page.goto(`/${l}/`);
 		const items = page.locator('.grid').first().locator(':scope > *');
-		await expect(items).toHaveCount(ORDER.length + 3);
+		await expect(items).toHaveCount(ORDER.length + 2);
 		for (const [i, id] of ORDER.entries()) {
 			const card = items.nth(i);
 			await expect(card).toHaveAttribute('data-testid', 'concept-card');
 			await expect(card).toHaveAttribute('href', `/${l}/high-school/${id}/`);
 			await expect(card).toContainText(TITLES[l][i]);
 		}
-		for (let i = ORDER.length; i < ORDER.length + 3; i++) {
+		for (let i = ORDER.length; i < ORDER.length + 2; i++) {
 			await expect(items.nth(i)).toHaveAttribute('data-testid', 'soon-card');
 		}
 	});

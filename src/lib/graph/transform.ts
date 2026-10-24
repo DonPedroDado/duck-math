@@ -29,3 +29,10 @@ export function mix(p: Params, q: Params, t: number): Params {
 		d: p.d + (q.d - p.d) * t
 	};
 }
+
+/** Dragged param values: 0.1 steps, pulled onto whole numbers within `tol`, clamped. */
+export function friendly(v: number, lo: number, hi: number, tol = 0.15): number {
+	const r = Math.round(v);
+	const s = Math.abs(v - r) <= tol ? r : Math.round(v * 10) / 10;
+	return Math.min(hi, Math.max(lo, s)) + 0;
+}

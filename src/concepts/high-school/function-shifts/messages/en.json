@@ -1,0 +1,21 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"sh_title": "Shifting graphs",
+	"sh_hook": "Move a graph up, down and sideways.",
+	"sh_stage_aria": "Graph of f and its shift: {title}",
+	"sh_step_intro_title": "A graph",
+	"sh_step_intro_caption": "This is f. Watch its peak, its valley and where it crosses zero.",
+	"sh_step_vertical_title": "Up and down",
+	"sh_step_vertical_caption": "Adding d lifts every point by d. Drag the graph.",
+	"sh_step_opposite_title": "Inside the brackets",
+	"sh_step_opposite_caption": "Now the 2 goes inside the brackets: f(x + 2).",
+	"sh_step_opposite_predict_caption": "Which way does f(x + 2) move? Drag the marker to where the peak lands.",
+	"sh_step_opposite_answer_caption": "Left! The graph moves the opposite way to the sign.",
+	"sh_step_lookup_title": "Why left?",
+	"sh_step_lookup_caption": "To get g at x, f is read at x + 2. Every height arrives 2 units early.",
+	"sh_step_horizontal_title": "Shift by c",
+	"sh_step_horizontal_caption": "f(x − c) moves right by c, a negative c moves it left. Drag sideways.",
+	"sh_step_both_title": "Both at once",
+	"sh_step_both_caption": "f(x − c) + d: move the graph anywhere.",
+	"sh_guess_valuetext": "Guess: peak at x = {value}"
+}
