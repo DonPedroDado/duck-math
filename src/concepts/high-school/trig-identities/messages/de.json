@@ -1,5 +1,21 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"id_title": "Identitäten & besondere Winkel",
-	"id_hook": "Quadrate, Spiegelungen und exakte Werte bei 30°, 45°, 60°."
+	"id_hook": "Quadrate, Spiegelungen und exakte Werte bei 30°, 45°, 60°.",
+	"id_stage_aria": "Identitäten-Diagramm: {title}",
+	"id_point_aria": "Winkel des Punkts",
+	"id_step_intro_title": "Dreieck",
+	"id_step_intro_caption": "Der Punkt bildet ein rechtwinkliges Dreieck. Seine Hypotenuse ist 1.",
+	"id_step_pythagoras_title": "sin² + cos² = 1",
+	"id_step_pythagoras_caption": "Die beiden kleinen Quadrate füllen immer das große.",
+	"id_step_negative_title": "Negativer Winkel",
+	"id_step_negative_caption": "−θ spiegelt an der x-Achse. Der Kosinus bleibt, der Sinus kippt.",
+	"id_step_supplement_title": "Ergänzungswinkel",
+	"id_step_supplement_caption": "180° − θ spiegelt an der y-Achse. Der Sinus bleibt, der Kosinus kippt.",
+	"id_step_supplement_predict_caption": "Wo landet der Spiegelpunkt von 180° − θ?",
+	"id_step_supplement_answer_caption": "An der y-Achse gespiegelt. Die Höhe bleibt gleich.",
+	"id_step_complement_title": "Komplementwinkel",
+	"id_step_complement_caption": "90° − θ spiegelt an der Diagonalen. Sinus und Kosinus tauschen.",
+	"id_guess_valuetext": "Vermutung bei {value}",
+	"id_ghost_title": "Spiegelpunkt {label}"
 }
