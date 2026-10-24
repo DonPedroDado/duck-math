@@ -1,5 +1,18 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"sg_title": "Sine & cosine graphs",
-	"sg_hook": "Watch the circle unroll into a wave."
+	"sg_hook": "Watch the circle unroll into a wave.",
+	"sg_stage_aria": "Circle and graph: {title}",
+	"sg_circle_aria": "Unit circle",
+	"sg_graph_aria": "Graph of sine and cosine",
+	"sg_point_aria": "Angle of the point",
+	"sg_step_intro_title": "Circle and graph",
+	"sg_step_intro_caption": "The circle on the left, an empty graph on the right.",
+	"sg_step_unroll_title": "Unroll",
+	"sg_step_unroll_caption": "The arc rolls out flat. Its length becomes x.",
+	"sg_step_sine_title": "Sine wave",
+	"sg_step_sine_caption": "The height of the point draws the wave sin θ.",
+	"sg_step_sine_predict_caption": "Where does the sine wave reach its peak?",
+	"sg_step_sine_answer_caption": "The peak is at π/2, where the point is highest.",
+	"sg_guess_valuetext": "Guess at x = {value}"
 }

@@ -1,5 +1,18 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"sg_title": "Sinus- und Kosinuskurve",
-	"sg_hook": "Sieh zu, wie sich der Kreis zur Welle abrollt."
+	"sg_hook": "Sieh zu, wie sich der Kreis zur Welle abrollt.",
+	"sg_stage_aria": "Kreis und Graph: {title}",
+	"sg_circle_aria": "Einheitskreis",
+	"sg_graph_aria": "Graph von Sinus und Kosinus",
+	"sg_point_aria": "Winkel des Punkts",
+	"sg_step_intro_title": "Kreis und Graph",
+	"sg_step_intro_caption": "Links der Kreis, rechts ein leerer Graph.",
+	"sg_step_unroll_title": "Abrollen",
+	"sg_step_unroll_caption": "Der Bogen rollt sich gerade aus. Seine Länge wird zu x.",
+	"sg_step_sine_title": "Sinuskurve",
+	"sg_step_sine_caption": "Die Höhe des Punkts zeichnet die Welle sin θ.",
+	"sg_step_sine_predict_caption": "Wo erreicht die Sinuskurve ihren Höchstwert?",
+	"sg_step_sine_answer_caption": "Der Höchstwert liegt bei π/2, wo der Punkt am höchsten ist.",
+	"sg_guess_valuetext": "Vermutung bei x = {value}"
 }
