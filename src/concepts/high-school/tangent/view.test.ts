@@ -22,13 +22,44 @@ describe('steps', () => {
 
 describe('view', () => {
 	it('has no theta', () => expect('theta' in view(1)).toBe(false));
-	it('continuous across the step boundary', () => {
-		const a = nums(view(1.6 - 1e-7));
-		const c = nums(view(1.6 + 1e-7));
-		a.forEach(([k, v], j) => expect(Math.abs(v - c[j][1]), k).toBeLessThan(1e-3));
+	it('continuous across every step boundary', () => {
+		for (let s = 0; s < STEPS.length - 1; s++) {
+			const e = stepEnd(STEPS, s);
+			const a = nums(view(e - 1e-7));
+			const c = nums(view(e + 1e-7));
+			a.forEach(([k, v], j) => expect(Math.abs(v - c[j][1]), `${s}:${k}`).toBeLessThan(1e-3));
+		}
+	});
+	const DIMS = ['dimTan', 'dimSec', 'dimCsc'];
+	const NEW = [
+		'secSeg', 'secLabel', 'yLine', 'yTick', 'cscExt', 'cscSeg', 'cscLabel', 'cotSeg', 'cotLabel', ...DIMS
+	];
+	it('sec, csc, cot and all stage one segment each', () => {
+		const at = (i: number) => view(stepEnd(STEPS, i)) as unknown as Record<string, number>;
+		const sec = at(2);
+		expect(sec.secSeg).toBeCloseTo(1, 9);
+		expect(sec.dimTan).toBeCloseTo(1, 9);
+		expect(sec.dimSec).toBe(0);
+		expect(sec.cscSeg).toBe(0);
+		const csc = at(3);
+		expect(csc.cscSeg).toBeCloseTo(1, 9);
+		expect(csc.yLine).toBeCloseTo(1, 9);
+		expect(csc.dimSec).toBeCloseTo(1, 9);
+		expect(csc.cotSeg).toBe(0);
+		const cot = at(4);
+		expect(cot.cotSeg).toBeCloseTo(1, 9);
+		expect(cot.dimCsc).toBeCloseTo(1, 9);
+		for (const [k, x] of nums(view(stepEnd(STEPS, 5)))) {
+			if (DIMS.includes(k) || k === 'hint') expect(x, k).toBeCloseTo(0, 9);
+			else expect(x, k).toBeCloseTo(1, 9);
+		}
+		for (const i of [2, 3, 4, 5]) expect('theta' in stepDefaults(i, i - 1)).toBe(false);
 	});
 	it('staged values', () => {
-		for (const [k, x] of nums(view(stepEnd(STEPS, 1)))) expect(x, k).toBeCloseTo(k === 'hint' ? 0 : 1, 9);
+		for (const [k, x] of nums(view(stepEnd(STEPS, 1)))) {
+			if (NEW.includes(k)) expect(x, k).toBe(0);
+			else expect(x, k).toBeCloseTo(k === 'hint' ? 0 : 1, 9);
+		}
 		const i0 = view(stepEnd(STEPS, 0)) as unknown as Record<string, number>;
 		for (const k of ['axes', 'circle', 'point', 'hint']) expect(i0[k], k).toBeCloseTo(1, 9);
 		for (const k of ['xLine', 'tanSeg', 'triangles']) expect(i0[k], k).toBe(0);

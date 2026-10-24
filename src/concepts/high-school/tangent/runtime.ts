@@ -8,7 +8,11 @@ import { view, type TNView } from './view.ts';
 
 const TITLES: Record<StepId, () => string> = {
 	intro: () => m.tn_step_intro_title(),
-	tan: () => m.tn_step_tan_title()
+	tan: () => m.tn_step_tan_title(),
+	sec: () => m.tn_step_sec_title(),
+	csc: () => m.tn_step_csc_title(),
+	cot: () => m.tn_step_cot_title(),
+	all: () => m.tn_step_all_title()
 };
 const stepTitle = (i: number) => TITLES[STEP_IDS[i]]();
 
