@@ -72,6 +72,10 @@
 	{@render children()}
 </main>
 
+<footer>
+	<a class="credit" href="https://ducksoft.ai" data-testid="ducksoft-link">{m.shell_footer_credit()}</a>
+</footer>
+
 <style>
 	header {
 		position: sticky;
@@ -162,5 +166,31 @@
 	}
 	main {
 		padding: var(--sp-lg) var(--sp-md);
+	}
+	footer {
+		display: flex;
+		justify-content: center;
+		padding: var(--sp-xl) var(--sp-md) var(--sp-2xl);
+		border-top: 1px solid var(--border);
+	}
+	.credit {
+		display: inline-flex;
+		align-items: center;
+		min-height: var(--target);
+		padding: 0 var(--sp-lg);
+		border-radius: 999px;
+		background: var(--surface-raised);
+		color: var(--text);
+		font-size: var(--fs-label);
+		font-weight: var(--fw-semibold);
+		text-decoration: none;
+		transition:
+			background var(--dur-ui) var(--ease-out),
+			color var(--dur-ui) var(--ease-out);
+	}
+	.credit:hover,
+	.credit:focus-visible {
+		background: var(--border);
+		color: var(--text-strong);
 	}
 </style>

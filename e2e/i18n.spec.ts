@@ -62,3 +62,14 @@ test('Russian numbers use a decimal comma', async ({ page }) => {
 	await page.goto('/ru/high-school/limit-approach/approach/');
 	await expect(page.getByTestId('readout-left')).toContainText(/x = 0,\d/);
 });
+
+test('footer links to DuckSoft in every language', async ({ page }) => {
+	for (const [l, text] of [['en', 'Produced by DuckSoft'], ['de', 'Produziert von DuckSoft'], ['ru', 'Сделано в DuckSoft']]) {
+		for (const path of ['', 'high-school/unit-circle/']) {
+			await page.goto(`/${l}/${path}`);
+			const link = page.getByTestId('ducksoft-link');
+			await expect(link).toHaveAttribute('href', 'https://ducksoft.ai');
+			await expect(link).toHaveText(text);
+		}
+	}
+});
